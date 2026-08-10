@@ -8,12 +8,17 @@ change these to rescue convergence; scale the task instead):
   - He-Gaussian init N(0, 2/fan_in) per element
   - ReLU after every layer, INCLUDING the last
 
-Readout: the first C of the width output units are class scores. The loss is
-cross-entropy on the PRE-ReLU values of the final layer — the last ReLU is
-part of ARC's measured quantity, not the loss surface (training through it
-zeroes gradients whenever the correct class's pre-activation is negative, for
-no benefit; argmax agrees wherever it matters). The stored weights are
-identical objects either way.
+Readout — two corpus families (--readout, recorded in provenance):
+  - "head" (default): a bias-free Linear(width, C) head on top of the full
+    32-layer stack, reading the POST-ReLU final-layer output (ARC's measured
+    quantity). The head sits outside the censused stack — it never touches
+    the stack's forward pass or the null — but routes gradient to every
+    column of every square matrix, matching how nets are trained in use.
+    Head weights are stored separately (head_w) and are not census objects.
+  - "columns": the first C of the width output units are class scores, CE on
+    the PRE-ReLU final layer. Leaves the final layer's other columns with
+    exactly zero gradient — bit-frozen at init — which makes them a built-in
+    negative control (a guaranteed-null patch inside a trained net).
 
 Weights are saved in ARC's (in, out) storage convention (forward = x @ W), so
 corpus files are directly consumable by null_baseline/analytic_vacuum.py and
@@ -50,9 +55,15 @@ CORPUS_DIR = REPO_ROOT / "corpus"
 
 
 class ArcMLP(torch.nn.Module):
-    """ARC Phase-1 spec: square, bias-free, He-Gaussian, ReLU every layer."""
+    """ARC Phase-1 spec: square, bias-free, He-Gaussian, ReLU every layer.
 
-    def __init__(self, width: int, depth: int, init_seed: int):
+    Optionally carries a bias-free linear head (readout="head"). The head is
+    initialized AFTER the stack from the same generator, so two nets with the
+    same init_seed have bit-identical stack inits across readout modes.
+    """
+
+    def __init__(self, width: int, depth: int, init_seed: int,
+                 head_classes: int | None = None):
         super().__init__()
         self.width, self.depth = width, depth
         gen = torch.Generator().manual_seed(init_seed)
@@ -63,11 +74,20 @@ class ArcMLP(torch.nn.Module):
                 lin.weight.normal_(0.0, (2.0 / width) ** 0.5, generator=gen)
             layers.append(lin)
         self.layers = torch.nn.ModuleList(layers)
+        if head_classes is not None:
+            self.head = torch.nn.Linear(width, head_classes, bias=False)
+            with torch.no_grad():
+                self.head.weight.normal_(0.0, (2.0 / width) ** 0.5, generator=gen)
+        else:
+            self.head = None
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """Returns PRE-ReLU values of the final layer (the loss surface)."""
+        """head mode: class logits via head(post-ReLU final layer).
+        columns mode: PRE-ReLU values of the final layer (slice [:, :C])."""
         for lin in self.layers[:-1]:
             x = F.relu(lin(x))
+        if self.head is not None:
+            return self.head(F.relu(self.layers[-1](x)))
         return self.layers[-1](x)
 
     def weights_arc_convention(self) -> list[np.ndarray]:
@@ -81,7 +101,7 @@ def evaluate(model: ArcMLP, x: torch.Tensor, y: torch.Tensor, n_classes: int,
     correct = 0
     with torch.no_grad():
         for i in range(0, len(x), batch):
-            logits = model(x[i:i + batch])[:, :n_classes]
+            logits = model(x[i:i + batch])[:, :n_classes]  # no-op slice in head mode
             correct += (logits.argmax(dim=1) == y[i:i + batch]).sum().item()
     model.train()
     return correct / len(x)
@@ -89,8 +109,10 @@ def evaluate(model: ArcMLP, x: torch.Tensor, y: torch.Tensor, n_classes: int,
 
 def train_one(task: GMMTask, init_seed: int, data_seed: int, steps: int,
               batch_size: int, lr: float, warmup: int, device: str,
-              eval_every: int, val_size: int = 20_000) -> dict:
-    model = ArcMLP(task.dim, args.depth, init_seed).to(device)
+              eval_every: int, readout: str, val_size: int = 20_000) -> dict:
+    head_classes = task.n_classes if readout == "head" else None
+    model = ArcMLP(task.dim, args.depth, init_seed,
+                   head_classes=head_classes).to(device)
     init_weights = model.weights_arc_convention()
 
     opt = torch.optim.Adam(model.parameters(), lr=lr)
@@ -129,9 +151,11 @@ def train_one(task: GMMTask, init_seed: int, data_seed: int, steps: int,
     outcome = ("converged" if final_acc >= task.bayes_accuracy - 0.03
                else "partial" if final_acc >= chance + 0.10
                else "stalled")
+    head_w = (model.head.weight.detach().cpu().numpy().T.copy()
+              if model.head is not None else None)
     return {"outcome": outcome, "trajectory": trajectory,
             "final_val_acc": final_acc, "wall_seconds": time.time() - t0,
-            "init_weights": init_weights,
+            "init_weights": init_weights, "head_weights": head_w,
             "final_weights": model.weights_arc_convention()}
 
 
@@ -161,16 +185,18 @@ def main() -> None:
         if (run_dir / f"{name}.json").exists() and not args.overwrite:
             print(f"{name}: exists, skipping")
             continue
-        print(f"{name}: depth={args.depth} lr={args.lr} steps={args.steps} "
-              f"batch={args.batch_size} device={device}")
+        print(f"{name}: depth={args.depth} readout={args.readout} lr={args.lr} "
+              f"steps={args.steps} batch={args.batch_size} device={device}")
         result = train_one(task, init_seed=seed, data_seed=seed + 1_000_000,
                            steps=args.steps, batch_size=args.batch_size,
                            lr=args.lr, warmup=args.warmup, device=device,
-                           eval_every=args.eval_every)
+                           eval_every=args.eval_every, readout=args.readout)
 
         arrays = {f"init_w{i}": w for i, w in enumerate(result["init_weights"])}
         if result["final_weights"] is not None:
             arrays |= {f"w{i}": w for i, w in enumerate(result["final_weights"])}
+        if result.get("head_weights") is not None:
+            arrays["head_w"] = result["head_weights"]
         np.savez_compressed(run_dir / f"{name}.npz", **arrays)
 
         provenance = {
@@ -186,8 +212,12 @@ def main() -> None:
                      "bayes_accuracy": round(task.bayes_accuracy, 4),
                      "task_seed": args.task_seed,
                      "aggregate_distribution": "exact mean-0 cov-I (whitened)"},
-            "training": {"loss": "cross_entropy_pre_relu_final_layer",
-                         "readout": f"first_{task.n_classes}_of_{args.width}_units",
+            "training": {"loss": ("cross_entropy_head_post_relu"
+                                  if args.readout == "head"
+                                  else "cross_entropy_pre_relu_final_layer"),
+                         "readout": (f"bias_free_head_{args.width}x{task.n_classes}"
+                                     if args.readout == "head"
+                                     else f"first_{task.n_classes}_of_{args.width}_units"),
                          "optimizer": "adam", "lr": args.lr,
                          "warmup_steps": args.warmup, "steps": args.steps,
                          "batch_size": args.batch_size,
@@ -219,6 +249,7 @@ if __name__ == "__main__":
     p.add_argument("--lr", type=float, default=3e-4)
     p.add_argument("--warmup", type=int, default=500)
     p.add_argument("--eval-every", type=int, default=500)
+    p.add_argument("--readout", default="head", choices=["head", "columns"])
     p.add_argument("--device", default="auto", choices=["auto", "cuda", "cpu"])
     p.add_argument("--overwrite", action="store_true")
     args = p.parse_args()
