@@ -21,16 +21,21 @@ All source repos are authored by jamesrahenry, so there is no license friction;
 | `null_baseline/chain_port_refit.py` | `arc-whitebox-replication/moment_chain/` | `a4112f1` | Same math + the sequential per-layer coefficient fitting loop. Needed to RE-FIT stabilizer coefficients for new populations — the frozen coefficients are only valid for random He-Gaussian 256×32 nets (WRITEUP §8). Side effect: writes `port_coefs.b64.txt` at import. |
 | `null_baseline/port_coefs.b64.txt` | `arc-whitebox-replication/moment_chain/` | `a4112f1` | Frozen stabilizer coefficients (512 float64, base64), fitted on 40 random atlas nets at 256×32. Random-ensemble null ONLY. |
 
-## Known adaptations pending (tracked, not yet applied — files are verbatim)
+## Adaptations applied in MZC (files no longer verbatim)
 
-1. `manifold_detector.py`: plumb an explicit noise variance through to
-   `_mp_upper_edge` (it accepts `variance` but `_layer_census` never passes it;
-   currently self-calibrates σ² from the observed mean eigenvalue — not
-   comparable across corpus members). For He-init weights the analytic null is
-   `σ² = 2/fan_in`.
-2. `manifold_detector.py`: make column mean-centering optional (baked in at the
-   spectrum step; for trained weight matrices the mean-row direction may itself
-   be learned signature).
+*Updated: 2026-08-10 13:35 UTC*
+
+- `manifold_detector.py`: added `noise_variance` (explicit null σ² for the MP
+  threshold, plumbed through to `_mp_upper_edge`; for He-init weights pass
+  `2/fan_in`) and `center` (column mean-centering now optional; the uncentered
+  path uses the raw second-moment matrix since `np.cov` re-centers) to
+  `_layer_census` and `layer_manifold_census`. Defaults preserve original
+  behavior exactly (regression-checked). Motivating check: a uniformly ×2
+  weight matrix shows 0 significant dims under self-calibrated MP but 26 under
+  the analytic null.
+
+## Known adaptations pending (files still verbatim)
+
 3. `chain_port_refit*.py`: drop the HF parquet atlas dependency (hardcoded
    `~/.cache/huggingface/...` globs) in favor of local `build_mlp` /
    corpus-loaded nets; parameterize the hardcoded `256` / `range(32)`.

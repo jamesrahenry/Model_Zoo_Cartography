@@ -171,6 +171,8 @@ def _layer_census(
     concept_directions: dict[str, NDArray],
     n_top_eigenvalues: int = 50,
     store_directions: bool = False,
+    noise_variance: float | None = None,
+    center: bool = True,
 ) -> LayerManifoldResult:
     """Compute manifold census for one layer.
 
@@ -188,12 +190,22 @@ def _layer_census(
         If True, store the top principal component directions (eigenvectors)
         in the result.  Required for cross-layer feature tracking.
         Costs ~n_top × hidden_dim × 8 bytes per layer.
+    noise_variance:
+        Per-feature variance σ² assumed under the null for the
+        Marchenko-Pastur threshold.  If None (default, original behavior),
+        σ² is self-calibrated as the observed mean eigenvalue — fine within
+        one matrix, but NOT comparable across matrices of different scale.
+        For He-Gaussian weight matrices pass the analytic null 2/fan_in.
+    center:
+        If True (default, original behavior), subtract the per-column mean
+        before the spectrum.  For weight matrices the mean-row direction may
+        itself be learned structure; pass False to census raw second moments.
     """
     acts = np.asarray(activations, dtype=np.float64)
     n_samples, hidden_dim = acts.shape
 
-    # Center the activations
-    acts_centered = acts - acts.mean(axis=0)
+    # Center the activations (optional for weight-matrix censuses)
+    acts_centered = acts - acts.mean(axis=0) if center else acts
 
     # ── Eigenvalue spectrum via SVD (more numerically stable than eigh) ──
     # For n_samples < hidden_dim, it's faster to compute the Gram matrix.
@@ -205,8 +217,12 @@ def _layer_census(
         # Vt rows are eigenvectors (principal components)
         pc_directions = Vt  # shape [min(n,d), hidden_dim]
     else:
-        # Full covariance
-        cov = np.cov(acts_centered, rowvar=False)
+        # Full covariance (np.cov re-centers; use the raw second-moment
+        # matrix when centering is disabled)
+        if center:
+            cov = np.cov(acts_centered, rowvar=False)
+        else:
+            cov = (acts_centered.T @ acts_centered) / (n_samples - 1)
         eigenvalues_raw, eigvecs = np.linalg.eigh(cov)
         # eigh returns ascending order — reverse
         idx = np.argsort(eigenvalues_raw)[::-1]
@@ -220,9 +236,13 @@ def _layer_census(
     effective_dim = _participation_ratio(eigenvalues)
 
     # ── Significant dimensions (above Marchenko-Pastur noise floor) ──
-    # Estimate per-feature variance as mean eigenvalue (null assumption)
-    mean_eig = float(np.mean(eigenvalues)) if len(eigenvalues) > 0 else 1.0
-    mp_edge = _mp_upper_edge(n_samples, hidden_dim, variance=mean_eig)
+    # Null σ²: explicit if provided (comparable across matrices), else
+    # self-calibrated as the observed mean eigenvalue (original behavior)
+    if noise_variance is not None:
+        mp_var = float(noise_variance)
+    else:
+        mp_var = float(np.mean(eigenvalues)) if len(eigenvalues) > 0 else 1.0
+    mp_edge = _mp_upper_edge(n_samples, hidden_dim, variance=mp_var)
     significant_dims = int(np.sum(eigenvalues > mp_edge))
 
     # ── Known concept coverage ──
@@ -266,8 +286,11 @@ def _layer_census(
         residual_variance = float(np.sum(res_eigenvalues))
 
         # Significant dims in residual
-        mean_res_eig = float(np.mean(res_eigenvalues)) if len(res_eigenvalues) > 0 else 1.0
-        mp_edge_res = _mp_upper_edge(n_samples, hidden_dim - concept_rank, variance=mean_res_eig)
+        if noise_variance is not None:
+            res_var = float(noise_variance)
+        else:
+            res_var = float(np.mean(res_eigenvalues)) if len(res_eigenvalues) > 0 else 1.0
+        mp_edge_res = _mp_upper_edge(n_samples, hidden_dim - concept_rank, variance=res_var)
         residual_significant = int(np.sum(res_eigenvalues > mp_edge_res))
 
     else:
@@ -318,6 +341,8 @@ def layer_manifold_census(
     concept_directions: dict[str, NDArray] | None = None,
     n_top_eigenvalues: int = 50,
     store_directions: bool = False,
+    noise_variance: float | None = None,
+    center: bool = True,
 ) -> ManifoldCensus:
     """Compute manifold census across all layers.
 
@@ -332,6 +357,11 @@ def layer_manifold_census(
         If provided, computes concept coverage and residual structure.
     n_top_eigenvalues:
         Number of top eigenvalues to store per layer.
+    noise_variance:
+        Explicit null σ² for the Marchenko-Pastur threshold (see
+        ``_layer_census``).  For He-Gaussian weight matrices: 2/fan_in.
+    center:
+        Subtract per-column means before the spectrum (see ``_layer_census``).
 
     Returns
     -------
@@ -347,7 +377,8 @@ def layer_manifold_census(
 
     results = []
     for i, acts in enumerate(layer_activations):
-        results.append(_layer_census(acts, i, concept_dirs, n_top_eigenvalues, store_directions))
+        results.append(_layer_census(acts, i, concept_dirs, n_top_eigenvalues,
+                                     store_directions, noise_variance, center))
 
     return ManifoldCensus(
         n_layers=n_layers,
