@@ -1,0 +1,225 @@
+"""
+train_mlp.py — Train MLP classifiers at ARC's exact Phase-1 architecture.
+
+Architecture (must stay analytically comparable to the null baseline — never
+change these to rescue convergence; scale the task instead):
+  - depth x width square MLP, no input embedding, no output head
+  - bias-free Linear everywhere
+  - He-Gaussian init N(0, 2/fan_in) per element
+  - ReLU after every layer, INCLUDING the last
+
+Readout: the first C of the width output units are class scores. The loss is
+cross-entropy on the PRE-ReLU values of the final layer — the last ReLU is
+part of ARC's measured quantity, not the loss surface (training through it
+zeroes gradients whenever the correct class's pre-activation is negative, for
+no benefit; argmax agrees wherever it matters). The stored weights are
+identical objects either way.
+
+Weights are saved in ARC's (in, out) storage convention (forward = x @ W), so
+corpus files are directly consumable by null_baseline/analytic_vacuum.py and
+census/manifold_detector.py. Both init and final weights are stored: deviation
+from own-init and deviation from the analytic null are separate quantities.
+
+Each net gets a provenance JSON next to its .npz: task, hyperparameters,
+seeds, convergence outcome, accuracy trajectory, git commit, timestamp.
+
+Usage:
+  python train/train_mlp.py --run-id probe_d32 --depth 32 --classes 10 \
+      --separation 3.0 --seeds 0 1 2 --steps 20000 --lr 3e-4
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+
+sys.path.insert(0, str(Path(__file__).parent))
+from gmm_task import GMMTask, make_gmm_task
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+CORPUS_DIR = REPO_ROOT / "corpus"
+
+
+class ArcMLP(torch.nn.Module):
+    """ARC Phase-1 spec: square, bias-free, He-Gaussian, ReLU every layer."""
+
+    def __init__(self, width: int, depth: int, init_seed: int):
+        super().__init__()
+        self.width, self.depth = width, depth
+        gen = torch.Generator().manual_seed(init_seed)
+        layers = []
+        for _ in range(depth):
+            lin = torch.nn.Linear(width, width, bias=False)
+            with torch.no_grad():
+                lin.weight.normal_(0.0, (2.0 / width) ** 0.5, generator=gen)
+            layers.append(lin)
+        self.layers = torch.nn.ModuleList(layers)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Returns PRE-ReLU values of the final layer (the loss surface)."""
+        for lin in self.layers[:-1]:
+            x = F.relu(lin(x))
+        return self.layers[-1](x)
+
+    def weights_arc_convention(self) -> list[np.ndarray]:
+        """(in, out) storage, float32 — matches build_mlp / analytic_vacuum."""
+        return [lin.weight.detach().cpu().numpy().T.copy() for lin in self.layers]
+
+
+def evaluate(model: ArcMLP, x: torch.Tensor, y: torch.Tensor, n_classes: int,
+             batch: int = 4096) -> float:
+    model.eval()
+    correct = 0
+    with torch.no_grad():
+        for i in range(0, len(x), batch):
+            logits = model(x[i:i + batch])[:, :n_classes]
+            correct += (logits.argmax(dim=1) == y[i:i + batch]).sum().item()
+    model.train()
+    return correct / len(x)
+
+
+def train_one(task: GMMTask, init_seed: int, data_seed: int, steps: int,
+              batch_size: int, lr: float, warmup: int, device: str,
+              eval_every: int, val_size: int = 20_000) -> dict:
+    model = ArcMLP(task.dim, args.depth, init_seed).to(device)
+    init_weights = model.weights_arc_convention()
+
+    opt = torch.optim.Adam(model.parameters(), lr=lr)
+    sched = torch.optim.lr_scheduler.LambdaLR(
+        opt, lambda s: min(1.0, (s + 1) / max(1, warmup)))
+
+    rng = np.random.default_rng(data_seed)
+    xv, yv = task.sample(val_size, np.random.default_rng(data_seed + 500_000))
+    xv = torch.from_numpy(xv).to(device)
+    yv = torch.from_numpy(yv).to(device)
+
+    trajectory = []  # (step, val_acc)
+    t0 = time.time()
+    for step in range(steps):
+        x, y = task.sample(batch_size, rng)
+        x = torch.from_numpy(x).to(device)
+        y = torch.from_numpy(y).to(device)
+        logits = model(x)[:, :task.n_classes]
+        loss = F.cross_entropy(logits, y)
+        opt.zero_grad(set_to_none=True)
+        loss.backward()
+        opt.step()
+        sched.step()
+        if step % eval_every == 0 or step == steps - 1:
+            acc = evaluate(model, xv, yv, task.n_classes)
+            trajectory.append((step, round(acc, 4)))
+            print(f"  step {step:6d}  loss {loss.item():.4f}  val_acc {acc:.4f}",
+                  flush=True)
+            if not np.isfinite(loss.item()):
+                return {"outcome": "diverged", "trajectory": trajectory,
+                        "final_val_acc": acc, "wall_seconds": time.time() - t0,
+                        "init_weights": init_weights, "final_weights": None}
+
+    final_acc = trajectory[-1][1]
+    chance = 1.0 / task.n_classes
+    outcome = ("converged" if final_acc >= task.bayes_accuracy - 0.03
+               else "partial" if final_acc >= chance + 0.10
+               else "stalled")
+    return {"outcome": outcome, "trajectory": trajectory,
+            "final_val_acc": final_acc, "wall_seconds": time.time() - t0,
+            "init_weights": init_weights,
+            "final_weights": model.weights_arc_convention()}
+
+
+def git_commit() -> str:
+    try:
+        return subprocess.run(["git", "rev-parse", "--short", "HEAD"],
+                              cwd=REPO_ROOT, capture_output=True,
+                              text=True).stdout.strip()
+    except OSError:
+        return "unknown"
+
+
+def main() -> None:
+    run_dir = CORPUS_DIR / args.run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    device = args.device if args.device != "auto" else (
+        "cuda" if torch.cuda.is_available() else "cpu")
+
+    task = make_gmm_task(dim=args.width, n_classes=args.classes,
+                         separation=args.separation, seed=args.task_seed)
+    print(f"task: gmm C={task.n_classes} sep={task.separation} "
+          f"(effective {task.effective_separation:.3f}) dim={task.dim} "
+          f"bayes={task.bayes_accuracy:.4f}")
+
+    for seed in args.seeds:
+        name = f"net_{seed:04d}"
+        if (run_dir / f"{name}.json").exists() and not args.overwrite:
+            print(f"{name}: exists, skipping")
+            continue
+        print(f"{name}: depth={args.depth} lr={args.lr} steps={args.steps} "
+              f"batch={args.batch_size} device={device}")
+        result = train_one(task, init_seed=seed, data_seed=seed + 1_000_000,
+                           steps=args.steps, batch_size=args.batch_size,
+                           lr=args.lr, warmup=args.warmup, device=device,
+                           eval_every=args.eval_every)
+
+        arrays = {f"init_w{i}": w for i, w in enumerate(result["init_weights"])}
+        if result["final_weights"] is not None:
+            arrays |= {f"w{i}": w for i, w in enumerate(result["final_weights"])}
+        np.savez_compressed(run_dir / f"{name}.npz", **arrays)
+
+        provenance = {
+            "run_id": args.run_id,
+            "net": name,
+            "architecture": {"width": args.width, "depth": args.depth,
+                             "bias": False, "activation": "relu_all_layers",
+                             "init": "he_gaussian_2_over_fanin",
+                             "weight_convention": "(in, out); forward = x @ W"},
+            "task": {"family": "gmm", "n_classes": task.n_classes,
+                     "separation": task.separation,
+                     "effective_separation": round(task.effective_separation, 4),
+                     "bayes_accuracy": round(task.bayes_accuracy, 4),
+                     "task_seed": args.task_seed,
+                     "aggregate_distribution": "exact mean-0 cov-I (whitened)"},
+            "training": {"loss": "cross_entropy_pre_relu_final_layer",
+                         "readout": f"first_{task.n_classes}_of_{args.width}_units",
+                         "optimizer": "adam", "lr": args.lr,
+                         "warmup_steps": args.warmup, "steps": args.steps,
+                         "batch_size": args.batch_size,
+                         "init_seed": seed, "data_seed": seed + 1_000_000,
+                         "device": device},
+            "outcome": result["outcome"],
+            "final_val_acc": result["final_val_acc"],
+            "val_acc_trajectory": result["trajectory"],
+            "wall_seconds": round(result["wall_seconds"], 1),
+            "git_commit": git_commit(),
+            "written_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+        }
+        (run_dir / f"{name}.json").write_text(json.dumps(provenance, indent=2))
+        print(f"{name}: {result['outcome']} val_acc={result['final_val_acc']:.4f} "
+              f"({result['wall_seconds']:.0f}s)")
+
+
+if __name__ == "__main__":
+    p = argparse.ArgumentParser(description=__doc__.split("\n")[1])
+    p.add_argument("--run-id", required=True)
+    p.add_argument("--width", type=int, default=256)
+    p.add_argument("--depth", type=int, default=32)
+    p.add_argument("--classes", type=int, default=10)
+    p.add_argument("--separation", type=float, default=3.0)
+    p.add_argument("--task-seed", type=int, default=0)
+    p.add_argument("--seeds", type=int, nargs="+", default=[0])
+    p.add_argument("--steps", type=int, default=20_000)
+    p.add_argument("--batch-size", type=int, default=512)
+    p.add_argument("--lr", type=float, default=3e-4)
+    p.add_argument("--warmup", type=int, default=500)
+    p.add_argument("--eval-every", type=int, default=500)
+    p.add_argument("--device", default="auto", choices=["auto", "cuda", "cpu"])
+    p.add_argument("--overwrite", action="store_true")
+    args = p.parse_args()
+    main()
