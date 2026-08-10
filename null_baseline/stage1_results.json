@@ -1,0 +1,674 @@
+{
+  "configs": [
+    {
+      "width": 64,
+      "depth": 8,
+      "n_samples": 20000,
+      "rows": [
+        {
+          "seed": 0,
+          "layer": 0,
+          "eig_relerr": 0.008347811153827555,
+          "effdim_relerr": 0.0035636835825317435,
+          "trace_relerr": 0.0016203584572256613,
+          "pred_effdim": 40.52075415628773,
+          "mc_effdim": 40.376863789686304
+        },
+        {
+          "seed": 0,
+          "layer": 1,
+          "eig_relerr": 0.04820650112495564,
+          "effdim_relerr": 0.04243562997634079,
+          "trace_relerr": 0.018552531007814396,
+          "pred_effdim": 25.798061671478678,
+          "mc_effdim": 24.747870208603857
+        },
+        {
+          "seed": 0,
+          "layer": 2,
+          "eig_relerr": 0.11306553520622961,
+          "effdim_relerr": 0.07594714540035519,
+          "trace_relerr": 0.035188934707848035,
+          "pred_effdim": 18.284407222356204,
+          "mc_effdim": 16.993778272958433
+        },
+        {
+          "seed": 0,
+          "layer": 3,
+          "eig_relerr": 0.13791508407471043,
+          "effdim_relerr": 0.16279963164489622,
+          "trace_relerr": 0.04749373967863177,
+          "pred_effdim": 13.351557723191961,
+          "mc_effdim": 11.482251421343202
+        },
+        {
+          "seed": 0,
+          "layer": 4,
+          "eig_relerr": 0.14558786647632543,
+          "effdim_relerr": 0.17080533901974063,
+          "trace_relerr": 0.04487029112323564,
+          "pred_effdim": 12.367910445369057,
+          "mc_effdim": 10.563592454851733
+        },
+        {
+          "seed": 0,
+          "layer": 5,
+          "eig_relerr": 0.2386339416926796,
+          "effdim_relerr": 0.3194509251798619,
+          "trace_relerr": 0.0870764217183448,
+          "pred_effdim": 9.328395295558302,
+          "mc_effdim": 7.069906972316303
+        },
+        {
+          "seed": 0,
+          "layer": 6,
+          "eig_relerr": 0.25479692790108976,
+          "effdim_relerr": 0.32874494494565426,
+          "trace_relerr": 0.10752478242308251,
+          "pred_effdim": 9.18064133106736,
+          "mc_effdim": 6.909257766879293
+        },
+        {
+          "seed": 0,
+          "layer": 7,
+          "eig_relerr": 0.4469245685613014,
+          "effdim_relerr": 0.7463541205136172,
+          "trace_relerr": 0.15921321247889217,
+          "pred_effdim": 11.88356397184566,
+          "mc_effdim": 6.804784798372169
+        },
+        {
+          "seed": 1,
+          "layer": 0,
+          "eig_relerr": 0.01003662079793068,
+          "effdim_relerr": 0.00032651472894091254,
+          "trace_relerr": 0.004732692207048323,
+          "pred_effdim": 40.96436892465755,
+          "mc_effdim": 40.97774876318757
+        },
+        {
+          "seed": 1,
+          "layer": 1,
+          "eig_relerr": 0.029149834721983986,
+          "effdim_relerr": 0.0326799376931933,
+          "trace_relerr": 0.0028815996254772966,
+          "pred_effdim": 27.50175309300928,
+          "mc_effdim": 26.631439315498724
+        },
+        {
+          "seed": 1,
+          "layer": 2,
+          "eig_relerr": 0.0832692029892857,
+          "effdim_relerr": 0.10348146207705783,
+          "trace_relerr": 0.00827363441129486,
+          "pred_effdim": 19.8398497971477,
+          "mc_effdim": 17.9793231503895
+        },
+        {
+          "seed": 1,
+          "layer": 3,
+          "eig_relerr": 0.15454247873052232,
+          "effdim_relerr": 0.19657165398972606,
+          "trace_relerr": 0.0485207343840489,
+          "pred_effdim": 13.581006622424946,
+          "mc_effdim": 11.349931763084832
+        },
+        {
+          "seed": 1,
+          "layer": 4,
+          "eig_relerr": 0.18092323480045525,
+          "effdim_relerr": 0.23828872539684662,
+          "trace_relerr": 0.06630106093189189,
+          "pred_effdim": 10.750490222196374,
+          "mc_effdim": 8.681731490974416
+        },
+        {
+          "seed": 1,
+          "layer": 5,
+          "eig_relerr": 0.25926991596637217,
+          "effdim_relerr": 0.3658807750889569,
+          "trace_relerr": 0.10482000722965917,
+          "pred_effdim": 8.290871218964396,
+          "mc_effdim": 6.069981633956616
+        },
+        {
+          "seed": 1,
+          "layer": 6,
+          "eig_relerr": 0.3308262148604478,
+          "effdim_relerr": 0.513303348166399,
+          "trace_relerr": 0.12004432885631412,
+          "pred_effdim": 8.020004534332466,
+          "mc_effdim": 5.299667475162823
+        },
+        {
+          "seed": 1,
+          "layer": 7,
+          "eig_relerr": 0.3396649335020913,
+          "effdim_relerr": 0.46149279654280945,
+          "trace_relerr": 0.1616719955688324,
+          "pred_effdim": 5.7969512009883095,
+          "mc_effdim": 3.9664589621660222
+        },
+        {
+          "seed": 2,
+          "layer": 0,
+          "eig_relerr": 0.00807309455393522,
+          "effdim_relerr": 5.114797796894258e-05,
+          "trace_relerr": 0.0006463378094564094,
+          "pred_effdim": 41.06380777763874,
+          "mc_effdim": 41.06170755432539
+        },
+        {
+          "seed": 2,
+          "layer": 1,
+          "eig_relerr": 0.04013532736793409,
+          "effdim_relerr": 0.02904264564517061,
+          "trace_relerr": 0.016824242247434784,
+          "pred_effdim": 25.598131068376766,
+          "mc_effdim": 24.875675635704788
+        },
+        {
+          "seed": 2,
+          "layer": 2,
+          "eig_relerr": 0.12000762514000858,
+          "effdim_relerr": 0.10026798885942981,
+          "trace_relerr": 0.035839085163709886,
+          "pred_effdim": 19.569190515117356,
+          "mc_effdim": 17.78584009828674
+        },
+        {
+          "seed": 2,
+          "layer": 3,
+          "eig_relerr": 0.2163367832653959,
+          "effdim_relerr": 0.24006953422794872,
+          "trace_relerr": 0.0728460808265594,
+          "pred_effdim": 12.95067981237886,
+          "mc_effdim": 10.443510992665251
+        },
+        {
+          "seed": 2,
+          "layer": 4,
+          "eig_relerr": 0.23976372538123297,
+          "effdim_relerr": 0.27236035027468714,
+          "trace_relerr": 0.08520701504715254,
+          "pred_effdim": 10.555751417661742,
+          "mc_effdim": 8.296196447321613
+        },
+        {
+          "seed": 2,
+          "layer": 5,
+          "eig_relerr": 0.24422444051873204,
+          "effdim_relerr": 0.2766719328421643,
+          "trace_relerr": 0.10723377824048863,
+          "pred_effdim": 7.872747534230444,
+          "mc_effdim": 6.166617540266515
+        },
+        {
+          "seed": 2,
+          "layer": 6,
+          "eig_relerr": 0.287765172431048,
+          "effdim_relerr": 0.3245531341844441,
+          "trace_relerr": 0.1559909818536917,
+          "pred_effdim": 5.339835500455098,
+          "mc_effdim": 4.031424155545825
+        },
+        {
+          "seed": 2,
+          "layer": 7,
+          "eig_relerr": 0.2670176900644651,
+          "effdim_relerr": 0.28247688365009666,
+          "trace_relerr": 0.13953902133301185,
+          "pred_effdim": 6.232394749085529,
+          "mc_effdim": 4.8596546483920395
+        }
+      ]
+    },
+    {
+      "width": 128,
+      "depth": 8,
+      "n_samples": 20000,
+      "rows": [
+        {
+          "seed": 0,
+          "layer": 0,
+          "eig_relerr": 0.008783295307490007,
+          "effdim_relerr": 0.0032551119669920925,
+          "trace_relerr": 0.0009126876386648549,
+          "pred_effdim": 82.09731123949376,
+          "mc_effdim": 81.8309423597483
+        },
+        {
+          "seed": 0,
+          "layer": 1,
+          "eig_relerr": 0.02187881580930329,
+          "effdim_relerr": 0.018844452848555324,
+          "trace_relerr": 0.004208338913671245,
+          "pred_effdim": 51.14398266961899,
+          "mc_effdim": 50.198028292372925
+        },
+        {
+          "seed": 0,
+          "layer": 2,
+          "eig_relerr": 0.04750284224222387,
+          "effdim_relerr": 0.046498786966328476,
+          "trace_relerr": 0.01233303951016868,
+          "pred_effdim": 38.94138698542509,
+          "mc_effdim": 37.21111526398553
+        },
+        {
+          "seed": 0,
+          "layer": 3,
+          "eig_relerr": 0.08460484169636193,
+          "effdim_relerr": 0.07782859113831063,
+          "trace_relerr": 0.027154049259625987,
+          "pred_effdim": 29.472215149676806,
+          "mc_effdim": 27.344065087891913
+        },
+        {
+          "seed": 0,
+          "layer": 4,
+          "eig_relerr": 0.14436445422322888,
+          "effdim_relerr": 0.13568507171744348,
+          "trace_relerr": 0.0394500974469368,
+          "pred_effdim": 25.599656681992066,
+          "mc_effdim": 22.541158037129872
+        },
+        {
+          "seed": 0,
+          "layer": 5,
+          "eig_relerr": 0.1508866784563546,
+          "effdim_relerr": 0.13765745577073177,
+          "trace_relerr": 0.04673480738246914,
+          "pred_effdim": 21.641050626643985,
+          "mc_effdim": 19.022466311692007
+        },
+        {
+          "seed": 0,
+          "layer": 6,
+          "eig_relerr": 0.2482020390396631,
+          "effdim_relerr": 0.3174203222261321,
+          "trace_relerr": 0.07388145838005995,
+          "pred_effdim": 17.032493879212332,
+          "mc_effdim": 12.928670973005337
+        },
+        {
+          "seed": 0,
+          "layer": 7,
+          "eig_relerr": 0.25435845757100894,
+          "effdim_relerr": 0.31259891500524895,
+          "trace_relerr": 0.08612066762055776,
+          "pred_effdim": 14.187763580240917,
+          "mc_effdim": 10.808910031884478
+        },
+        {
+          "seed": 1,
+          "layer": 0,
+          "eig_relerr": 0.006794299051512744,
+          "effdim_relerr": 0.0035273569678154542,
+          "trace_relerr": 0.0017656112219421474,
+          "pred_effdim": 83.05585891027538,
+          "mc_effdim": 82.76392101679306
+        },
+        {
+          "seed": 1,
+          "layer": 1,
+          "eig_relerr": 0.023960089449795312,
+          "effdim_relerr": 0.02190259123777165,
+          "trace_relerr": 0.005557656658790794,
+          "pred_effdim": 51.08471663191881,
+          "mc_effdim": 49.9898102519173
+        },
+        {
+          "seed": 1,
+          "layer": 2,
+          "eig_relerr": 0.06788260187816629,
+          "effdim_relerr": 0.05118040678706917,
+          "trace_relerr": 0.016202565224944548,
+          "pred_effdim": 35.760098302957076,
+          "mc_effdim": 34.01899243181077
+        },
+        {
+          "seed": 1,
+          "layer": 3,
+          "eig_relerr": 0.08180891298355694,
+          "effdim_relerr": 0.08195619394662182,
+          "trace_relerr": 0.0248037451536227,
+          "pred_effdim": 25.462634522482656,
+          "mc_effdim": 23.533886736766398
+        },
+        {
+          "seed": 1,
+          "layer": 4,
+          "eig_relerr": 0.10255591221239335,
+          "effdim_relerr": 0.1028565768242902,
+          "trace_relerr": 0.03915626916082745,
+          "pred_effdim": 19.865811456941724,
+          "mc_effdim": 18.013050721559775
+        },
+        {
+          "seed": 1,
+          "layer": 5,
+          "eig_relerr": 0.14124869465579037,
+          "effdim_relerr": 0.15211277629690778,
+          "trace_relerr": 0.05346637147959285,
+          "pred_effdim": 18.419541543335107,
+          "mc_effdim": 15.98762024195126
+        },
+        {
+          "seed": 1,
+          "layer": 6,
+          "eig_relerr": 0.22935018314810646,
+          "effdim_relerr": 0.299668883385075,
+          "trace_relerr": 0.07879848081359532,
+          "pred_effdim": 15.51583683294744,
+          "mc_effdim": 11.938299847985434
+        },
+        {
+          "seed": 1,
+          "layer": 7,
+          "eig_relerr": 0.27852072689595336,
+          "effdim_relerr": 0.3755246535210418,
+          "trace_relerr": 0.10035190142438025,
+          "pred_effdim": 14.224966934430189,
+          "mc_effdim": 10.341484536840099
+        },
+        {
+          "seed": 2,
+          "layer": 0,
+          "eig_relerr": 0.010941745884156917,
+          "effdim_relerr": 0.003651628715463064,
+          "trace_relerr": 0.0009035842401531371,
+          "pred_effdim": 83.02410996486539,
+          "mc_effdim": 82.7220397889703
+        },
+        {
+          "seed": 2,
+          "layer": 1,
+          "eig_relerr": 0.023420704063454152,
+          "effdim_relerr": 0.021326019566905618,
+          "trace_relerr": 0.0028581704382457523,
+          "pred_effdim": 54.94054274729541,
+          "mc_effdim": 53.79334482303017
+        },
+        {
+          "seed": 2,
+          "layer": 2,
+          "eig_relerr": 0.044459019567670476,
+          "effdim_relerr": 0.04186019329669039,
+          "trace_relerr": 0.011387950002240051,
+          "pred_effdim": 39.59688834183908,
+          "mc_effdim": 38.00595185093427
+        },
+        {
+          "seed": 2,
+          "layer": 3,
+          "eig_relerr": 0.092338743386735,
+          "effdim_relerr": 0.08419013681742324,
+          "trace_relerr": 0.020673566183388517,
+          "pred_effdim": 29.62748306871864,
+          "mc_effdim": 27.326833239498363
+        },
+        {
+          "seed": 2,
+          "layer": 4,
+          "eig_relerr": 0.1545262630348726,
+          "effdim_relerr": 0.16410402535648225,
+          "trace_relerr": 0.03750954102976807,
+          "pred_effdim": 23.284167858720227,
+          "mc_effdim": 20.001793097133174
+        },
+        {
+          "seed": 2,
+          "layer": 5,
+          "eig_relerr": 0.12493927168153053,
+          "effdim_relerr": 0.14036222734893286,
+          "trace_relerr": 0.03249905787592492,
+          "pred_effdim": 18.471232339861487,
+          "mc_effdim": 16.197688678975844
+        },
+        {
+          "seed": 2,
+          "layer": 6,
+          "eig_relerr": 0.18603339261080096,
+          "effdim_relerr": 0.21760665669722604,
+          "trace_relerr": 0.04965763900421904,
+          "pred_effdim": 17.720698258222672,
+          "mc_effdim": 14.553713352956116
+        },
+        {
+          "seed": 2,
+          "layer": 7,
+          "eig_relerr": 0.2237092588629195,
+          "effdim_relerr": 0.29932677475606123,
+          "trace_relerr": 0.06712234199524429,
+          "pred_effdim": 14.620678444959669,
+          "mc_effdim": 11.252503010803107
+        }
+      ]
+    },
+    {
+      "width": 256,
+      "depth": 8,
+      "n_samples": 40000,
+      "rows": [
+        {
+          "seed": 0,
+          "layer": 0,
+          "eig_relerr": 0.00831243531672083,
+          "effdim_relerr": 0.004019872609965416,
+          "trace_relerr": 0.0005828374131245783,
+          "pred_effdim": 165.25435115237303,
+          "mc_effdim": 164.59270942794365
+        },
+        {
+          "seed": 0,
+          "layer": 1,
+          "eig_relerr": 0.014396497416184885,
+          "effdim_relerr": 0.011748418796160608,
+          "trace_relerr": 0.0024495006673199158,
+          "pred_effdim": 104.11296361497143,
+          "mc_effdim": 102.90400427692423
+        },
+        {
+          "seed": 0,
+          "layer": 2,
+          "eig_relerr": 0.04398960931200534,
+          "effdim_relerr": 0.029674735007611457,
+          "trace_relerr": 0.01054303689389054,
+          "pred_effdim": 75.775529946709,
+          "mc_effdim": 73.59171529652892
+        },
+        {
+          "seed": 0,
+          "layer": 3,
+          "eig_relerr": 0.07820919102776686,
+          "effdim_relerr": 0.05406963718587739,
+          "trace_relerr": 0.01779804941964827,
+          "pred_effdim": 58.83762197259405,
+          "mc_effdim": 55.81948279022335
+        },
+        {
+          "seed": 0,
+          "layer": 4,
+          "eig_relerr": 0.1249450210994766,
+          "effdim_relerr": 0.08662972961320095,
+          "trace_relerr": 0.025327263024876125,
+          "pred_effdim": 49.41234131348172,
+          "mc_effdim": 45.47302541691975
+        },
+        {
+          "seed": 0,
+          "layer": 5,
+          "eig_relerr": 0.15602711768409616,
+          "effdim_relerr": 0.12912326782005168,
+          "trace_relerr": 0.032064502003929844,
+          "pred_effdim": 40.06677646989173,
+          "mc_effdim": 35.48485591590622
+        },
+        {
+          "seed": 0,
+          "layer": 6,
+          "eig_relerr": 0.16741302521107942,
+          "effdim_relerr": 0.17414939802505855,
+          "trace_relerr": 0.03899566854609174,
+          "pred_effdim": 31.776073565796594,
+          "mc_effdim": 27.06305826093728
+        },
+        {
+          "seed": 0,
+          "layer": 7,
+          "eig_relerr": 0.24222923016161454,
+          "effdim_relerr": 0.3146187109308108,
+          "trace_relerr": 0.05923811166239262,
+          "pred_effdim": 26.732817358078528,
+          "mc_effdim": 20.335034893235665
+        },
+        {
+          "seed": 1,
+          "layer": 0,
+          "eig_relerr": 0.007319254495557823,
+          "effdim_relerr": 0.0032635704013702503,
+          "trace_relerr": 7.156171255980577e-05,
+          "pred_effdim": 165.5378806220829,
+          "mc_effdim": 164.99939348526036
+        },
+        {
+          "seed": 1,
+          "layer": 1,
+          "eig_relerr": 0.019805168356748656,
+          "effdim_relerr": 0.01272979290246169,
+          "trace_relerr": 0.0020130405159627255,
+          "pred_effdim": 106.84134621316485,
+          "mc_effdim": 105.49837376360763
+        },
+        {
+          "seed": 1,
+          "layer": 2,
+          "eig_relerr": 0.04229635626644643,
+          "effdim_relerr": 0.03125783593820874,
+          "trace_relerr": 0.006658612075124868,
+          "pred_effdim": 74.19714966909287,
+          "mc_effdim": 71.94820449688068
+        },
+        {
+          "seed": 1,
+          "layer": 3,
+          "eig_relerr": 0.06810322840263892,
+          "effdim_relerr": 0.05110926647702016,
+          "trace_relerr": 0.012029264123317325,
+          "pred_effdim": 59.05967247618872,
+          "mc_effdim": 56.18794768515145
+        },
+        {
+          "seed": 1,
+          "layer": 4,
+          "eig_relerr": 0.11703636322282783,
+          "effdim_relerr": 0.09367628764740657,
+          "trace_relerr": 0.020251539499712624,
+          "pred_effdim": 47.60559896739841,
+          "mc_effdim": 43.52805259205374
+        },
+        {
+          "seed": 1,
+          "layer": 5,
+          "eig_relerr": 0.15268583138742503,
+          "effdim_relerr": 0.14746344755486243,
+          "trace_relerr": 0.029271283642790653,
+          "pred_effdim": 37.96245876237543,
+          "mc_effdim": 33.083806585098536
+        },
+        {
+          "seed": 1,
+          "layer": 6,
+          "eig_relerr": 0.18490029711769512,
+          "effdim_relerr": 0.17660784009351455,
+          "trace_relerr": 0.03728299067367142,
+          "pred_effdim": 33.69484424680743,
+          "mc_effdim": 28.637276668264786
+        },
+        {
+          "seed": 1,
+          "layer": 7,
+          "eig_relerr": 0.24816689519249718,
+          "effdim_relerr": 0.2652417044863236,
+          "trace_relerr": 0.054924895351140285,
+          "pred_effdim": 29.884846058673187,
+          "mc_effdim": 23.619871169837985
+        },
+        {
+          "seed": 2,
+          "layer": 0,
+          "eig_relerr": 0.007224712572647337,
+          "effdim_relerr": 0.003925794579789371,
+          "trace_relerr": 0.001357828391907329,
+          "pred_effdim": 165.30160123391374,
+          "mc_effdim": 164.6551987471381
+        },
+        {
+          "seed": 2,
+          "layer": 1,
+          "eig_relerr": 0.011290839795939348,
+          "effdim_relerr": 0.011141201132730599,
+          "trace_relerr": 0.000614144893700745,
+          "pred_effdim": 106.6086338158833,
+          "mc_effdim": 105.4339727195915
+        },
+        {
+          "seed": 2,
+          "layer": 2,
+          "eig_relerr": 0.03093475062291429,
+          "effdim_relerr": 0.024002239027072443,
+          "trace_relerr": 0.0044401704040504175,
+          "pred_effdim": 77.21497417339648,
+          "mc_effdim": 75.40508333923192
+        },
+        {
+          "seed": 2,
+          "layer": 3,
+          "eig_relerr": 0.06432319770108066,
+          "effdim_relerr": 0.049541751684287434,
+          "trace_relerr": 0.012593938534432187,
+          "pred_effdim": 56.922976523310375,
+          "mc_effdim": 54.23602865913749
+        },
+        {
+          "seed": 2,
+          "layer": 4,
+          "eig_relerr": 0.12307931935462059,
+          "effdim_relerr": 0.09944630857592585,
+          "trace_relerr": 0.023454399304674953,
+          "pred_effdim": 46.34207608687445,
+          "mc_effdim": 42.150376717258446
+        },
+        {
+          "seed": 2,
+          "layer": 5,
+          "eig_relerr": 0.16779349357206996,
+          "effdim_relerr": 0.16043730853099578,
+          "trace_relerr": 0.033897424213477245,
+          "pred_effdim": 38.59301106120071,
+          "mc_effdim": 33.257299448649945
+        },
+        {
+          "seed": 2,
+          "layer": 6,
+          "eig_relerr": 0.16205810625911238,
+          "effdim_relerr": 0.1569615256428573,
+          "trace_relerr": 0.03763213361619127,
+          "pred_effdim": 32.70394556068261,
+          "mc_effdim": 28.267098633648082
+        },
+        {
+          "seed": 2,
+          "layer": 7,
+          "eig_relerr": 0.1941203388323415,
+          "effdim_relerr": 0.20027235024639004,
+          "trace_relerr": 0.049347122583996074,
+          "pred_effdim": 27.80472196318681,
+          "mc_effdim": 23.165344063352872
+        }
+      ]
+    }
+  ],
+  "note": "centered cov spectrum; analytic vacuum vs MC; eig rel-err on top-20"
+}

@@ -62,6 +62,14 @@ architecture-matched corpus has established what a clean signal looks like. HF m
 won't match ARC's null architecture, so they're a second, looser test of generality —
 not a substitute for the matched corpus above.
 
+## Vendored code
+
+MZC is internally reliant: the census tooling (AMC's `manifold_detector.py` /
+`feature_tracker.py`) and the analytic null machinery (ARC's `analytic_vacuum.py`,
+stabilized moment chain) are vendored into `census/` and `null_baseline/` and
+updated **here**. See `PROVENANCE.md` for sources, commits, and the list of
+pending adaptations.
+
 ## Status
 
-Scaffolding only, as of 2026-08-10. No training runs yet.
+Scaffolding + vendored tooling, as of 2026-08-10. No training runs yet.
