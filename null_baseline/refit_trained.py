@@ -47,6 +47,8 @@ from chain_state_keyed import (DEPTH, N_BASIS, NMF, NOF, NVF, W_DIM, corrections
                                var_features, zero_theta)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "train"))
+from corpus_io import net_paths
 CORPUS_DIR = REPO_ROOT / "corpus"
 
 FIT_RUNS = ["sweep_c2_head", "sweep_c5_head", "sweep_c25_head"]
@@ -57,7 +59,7 @@ TRANSFER_RUNS = ["sweep_c50_head"]
 def load_trained(run_ids: list[str]) -> list[tuple[str, np.ndarray]]:
     nets = []
     for run_id in run_ids:
-        for npz_path in sorted((CORPUS_DIR / run_id).glob("net_*.npz")):
+        for npz_path in net_paths(run_id):
             d = np.load(npz_path)
             n_layers = sum(1 for k in d.files if k.startswith("init_w"))
             W = np.stack([d[f"w{i}"].astype(np.float64) for i in range(n_layers)])
