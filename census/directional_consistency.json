@@ -1,61 +1,6 @@
 {
   "rows": [
     {
-      "run_id": "sweep_c2_head",
-      "C": 2,
-      "k": 1,
-      "outcomes": "converged",
-      "seed_overlap_learned": 0.9816096631289772,
-      "seed_overlap_init": 0.00228240679371262,
-      "task_overlap_learned": 0.9907400284814579,
-      "task_overlap_init": 0.003732877320107081,
-      "chance": 0.00390625
-    },
-    {
-      "run_id": "sweep_c5_head",
-      "C": 5,
-      "k": 4,
-      "outcomes": "converged",
-      "seed_overlap_learned": 0.9256627315452718,
-      "seed_overlap_init": 0.015412282525262264,
-      "task_overlap_learned": 0.9631337832841088,
-      "task_overlap_init": 0.01293877837658441,
-      "chance": 0.015625
-    },
-    {
-      "run_id": "probe_d32_c10",
-      "C": 10,
-      "k": 9,
-      "outcomes": "converged",
-      "seed_overlap_learned": 0.8588404991815063,
-      "seed_overlap_init": 0.03325648884318493,
-      "task_overlap_learned": 0.927590680550275,
-      "task_overlap_init": 0.03674680553299215,
-      "chance": 0.03515625
-    },
-    {
-      "run_id": "probe_d32_c10_head",
-      "C": 10,
-      "k": 9,
-      "outcomes": "converged",
-      "seed_overlap_learned": 0.8609279031916962,
-      "seed_overlap_init": 0.03325648884318493,
-      "task_overlap_learned": 0.9285705072122671,
-      "task_overlap_init": 0.03674680553299215,
-      "chance": 0.03515625
-    },
-    {
-      "run_id": "sweep_c25_head",
-      "C": 25,
-      "k": 24,
-      "outcomes": "converged",
-      "seed_overlap_learned": 0.7376412895210547,
-      "seed_overlap_init": 0.0878044413469173,
-      "task_overlap_learned": 0.8574644558129076,
-      "task_overlap_init": 0.09299251025852216,
-      "chance": 0.09375
-    },
-    {
       "run_id": "sweep_c50_head",
       "C": 50,
       "k": 49,
@@ -63,9 +8,20 @@
       "seed_overlap_learned": 0.45436557505194425,
       "seed_overlap_init": 0.18937176003833453,
       "task_overlap_learned": 0.6506705785149417,
-      "task_overlap_init": 0.19420809767011846,
+      "task_overlap_init": 0.1942080976701184,
+      "chance": 0.19140625
+    },
+    {
+      "run_id": "sweep_c50_head_60k",
+      "C": 50,
+      "k": 49,
+      "outcomes": "partial",
+      "seed_overlap_learned": 0.6548893609946012,
+      "seed_overlap_init": 0.18937176003833453,
+      "task_overlap_learned": 0.8039577507387797,
+      "task_overlap_init": 0.1942080976701184,
       "chance": 0.19140625
     }
   ],
-  "written_utc": "2026-08-11 03:57 UTC"
+  "written_utc": "2026-08-11 05:07 UTC"
 }
