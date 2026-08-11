@@ -32,6 +32,8 @@ import numpy as np
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "train"))
+from corpus_io import net_paths
+sys.path.insert(0, str(REPO_ROOT / "train"))
 from gmm_task import make_gmm_task
 
 CORPUS_DIR = REPO_ROOT / "corpus"
@@ -69,7 +71,7 @@ def main() -> None:
         T = np.linalg.qr(means_c.T)[0][:, :k]  # [256, k] task subspace basis
 
         learned, inits = [], []
-        for npz_path in sorted(run_dir.glob("net_*.npz")):
+        for npz_path in net_paths(run_id):
             d = np.load(npz_path)
             dW0 = d["w0"].astype(np.float64) - d["init_w0"].astype(np.float64)
             learned.append(top_left_svs(dW0, k))
@@ -102,12 +104,18 @@ def main() -> None:
               f"{r['task_overlap_learned']:>9.4f} {r['task_overlap_init']:>11.4f} "
               f"{r['chance']:>7.4f}")
 
+    # Merge into the existing file: update rows for the run_ids just computed,
+    # keep rows for other runs (per-config invocations must not clobber).
     out_path = CENSUS_DIR / "directional_consistency.json"
+    merged = {}
+    if out_path.exists():
+        merged = {r["run_id"]: r for r in json.loads(out_path.read_text())["rows"]}
+    merged.update({r["run_id"]: r for r in rows})
     out_path.write_text(json.dumps(
-        {"rows": rows,
+        {"rows": sorted(merged.values(), key=lambda r: (r["C"], r["run_id"])),
          "written_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")},
         indent=2))
-    print(f"\nwrote {out_path}")
+    print(f"\nwrote {out_path} ({len(merged)} runs total)")
 
 
 if __name__ == "__main__":

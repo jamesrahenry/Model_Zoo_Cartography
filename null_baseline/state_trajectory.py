@@ -38,6 +38,8 @@ from chain_state_keyed import step_np, state_basis
 from stage1_validate import build_mlp
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "train"))
+from corpus_io import net_paths
 CORPUS_DIR = REPO_ROOT / "corpus"
 OUT_DIR = REPO_ROOT / "null_baseline"
 
@@ -60,7 +62,7 @@ def trajectory(weights: list[np.ndarray]) -> dict[str, list[float]]:
 def main() -> None:
     # Establish architecture from the first corpus net.
     first_run = CORPUS_DIR / args.run_ids[0]
-    first_npz = sorted(first_run.glob("net_*.npz"))[0]
+    first_npz = net_paths(args.run_ids[0])[0]
     d = np.load(first_npz)
     n_layers = sum(1 for k in d.files if k.startswith("init_w"))
     width = d["init_w0"].shape[0]
@@ -78,7 +80,7 @@ def main() -> None:
     for run_id in args.run_ids:
         run_dir = CORPUS_DIR / run_id
         nets = {}
-        for npz_path in sorted(run_dir.glob("net_*.npz")):
+        for npz_path in net_paths(run_id):
             d = np.load(npz_path)
             init = [d[f"init_w{i}"] for i in range(n_layers)]
             final = [d[f"w{i}"] for i in range(n_layers)]

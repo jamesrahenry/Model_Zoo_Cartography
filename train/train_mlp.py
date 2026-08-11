@@ -237,6 +237,10 @@ def main() -> None:
         print(f"{name}: {result['outcome']} val_acc={result['final_val_acc']:.4f} "
               f"({result['wall_seconds']:.0f}s)")
 
+    if args.upload:
+        from corpus_io import upload_run
+        upload_run(args.run_id, prune=args.prune)
+
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__.split("\n")[1])
@@ -255,6 +259,10 @@ if __name__ == "__main__":
     p.add_argument("--warmup", type=int, default=500)
     p.add_argument("--eval-every", type=int, default=500)
     p.add_argument("--readout", default="head", choices=["head", "columns"])
+    p.add_argument("--upload", action="store_true",
+                   help="upload run to the MZC-Corpus HF dataset after training")
+    p.add_argument("--prune", action="store_true",
+                   help="after verified upload, delete local .npz (JSONs kept)")
     p.add_argument("--device", default="auto", choices=["auto", "cuda", "cpu"])
     p.add_argument("--overwrite", action="store_true")
     args = p.parse_args()

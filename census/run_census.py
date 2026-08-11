@@ -34,6 +34,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 from manifold_detector import layer_manifold_census
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "train"))
+from corpus_io import net_paths
 CORPUS_DIR = REPO_ROOT / "corpus"
 CENSUS_DIR = REPO_ROOT / "census"
 
@@ -62,7 +64,7 @@ def census_weights(weights: list[np.ndarray]) -> list[dict]:
 
 def main() -> None:
     run_dir = CORPUS_DIR / args.run_id
-    npz_files = sorted(run_dir.glob("net_*.npz"))
+    npz_files = net_paths(args.run_id)
     if not npz_files:
         raise SystemExit(f"no nets found in {run_dir}")
 

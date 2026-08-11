@@ -37,6 +37,8 @@ from pathlib import Path
 import numpy as np
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "train"))
+from corpus_io import net_paths
 sys.path.insert(0, str(REPO_ROOT / "census"))
 sys.path.insert(0, str(REPO_ROOT / "null_baseline"))
 sys.path.insert(0, str(REPO_ROOT / "train"))
@@ -114,7 +116,7 @@ def main() -> None:
     for run_id in args.run_ids:
         run_dir = CORPUS_DIR / run_id
         nets = {}
-        for npz_path in sorted(run_dir.glob("net_*.npz")):
+        for npz_path in net_paths(run_id):
             name = npz_path.stem
             d = np.load(npz_path)
             n_layers = sum(1 for k in d.files if k.startswith("init_w"))
