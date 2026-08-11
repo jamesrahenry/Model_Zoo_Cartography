@@ -72,4 +72,27 @@ pending adaptations.
 
 ## Status
 
-Scaffolding + vendored tooling, as of 2026-08-10. No training runs yet.
+*Updated: 2026-08-11 02:30 UTC.*
+
+Corpus: 30 trained nets at ARC's exact spec (depth-32 converges plain — no
+skip/norm needed): GMM families C ∈ {2, 5, 10, 25, 50} × 3 seeds (two readout
+modes at C=10, a 60k-step C=50 rerun, a weight-decay C=10 family) plus a
+whitened-MNIST family. Key results so far (details in commit log and Hopper
+task t4b9971d):
+
+- **L0 rank law**: input-layer significant dims = C−1 (the centered class-mean
+  simplex) for every converged family, GMM and MNIST alike.
+- **Rank-collapse arrest**: random nets' propagated rank decays smoothly to the
+  fixed point; trained nets crash to task rank at L0 and hold flat to L31.
+- **Weights carry the "where"**: noise-input activations on trained weights
+  already show the full structure signature; task input sharpens (~10%), the
+  higher-order weight×input interaction, but does not create it.
+- **Directional consistency**: same-task nets learn the same L0 subspace
+  (init controls exactly at isotropic chance); detects partial learning that
+  rank metrics miss.
+- **Refit chain**: 128 state-keyed parameters fix mean-field's mid-net failure
+  on trained weights 10–17× held-out; edges (L0/L1, L31) remain the hard part;
+  corrections are population-specific (fail on partial learners).
+- **C=50 wall**: accuracy asymptotes below Bayes while L0 structure keeps
+  accreting — a mid-net expressivity limit (~14-dim activation bottleneck),
+  not an input-learning failure.
