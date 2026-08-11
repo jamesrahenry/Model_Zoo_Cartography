@@ -56,9 +56,16 @@ def main() -> None:
         C = provs[0]["task"]["n_classes"]
         k = max(C - 1, 1)
         t = provs[0]["task"]
-        task = make_gmm_task(dim=256, n_classes=C, separation=t["separation"],
-                             seed=t["task_seed"])
-        means_c = task.means - task.means.mean(axis=0)
+        if t["family"] == "gmm":
+            task = make_gmm_task(dim=256, n_classes=C, separation=t["separation"],
+                                 seed=t["task_seed"])
+            means = task.means
+        else:  # mnist_whitened: class means of the whitened train split
+            from mnist_task import make_mnist_task
+            task = make_mnist_task(dim=256, seed=t["projection_seed"])
+            means = np.stack([task.x_train[task.y_train == c].mean(axis=0)
+                              for c in range(C)]).astype(np.float64)
+        means_c = means - means.mean(axis=0)
         T = np.linalg.qr(means_c.T)[0][:, :k]  # [256, k] task subspace basis
 
         learned, inits = [], []

@@ -11,8 +11,8 @@
       "L0_sig_dims": 1.0,
       "P2_q_plateau_x_w": 1.4798657254901961,
       "P3_sig_dims_task": 2.0,
-      "eff_dim_task": 1.3121568627450984,
-      "eff_dim_noise": 1.4056862745098042
+      "eff_dim_task": 1.3127450980392157,
+      "eff_dim_noise": 1.4031372549019607
     },
     {
       "run_id": "sweep_c5_head",
@@ -23,9 +23,22 @@
       "P1_L0_eff_dim": 18.343333333333334,
       "L0_sig_dims": 4.0,
       "P2_q_plateau_x_w": 6.410310274509803,
-      "P3_sig_dims_task": 9.411764705882353,
-      "eff_dim_task": 5.2119607843137254,
-      "eff_dim_noise": 6.653725490196079
+      "P3_sig_dims_task": 9.450980392156863,
+      "eff_dim_task": 5.220196078431373,
+      "eff_dim_noise": 6.650980392156864
+    },
+    {
+      "run_id": "mnist_d32",
+      "C": 10,
+      "bayes": 0.985,
+      "acc_mean": 0.9481333333333334,
+      "outcomes": "partial",
+      "P1_L0_eff_dim": 114.22666666666665,
+      "L0_sig_dims": 9.333333333333334,
+      "P2_q_plateau_x_w": 3.81985631372549,
+      "P3_sig_dims_task": 9.549019607843137,
+      "eff_dim_task": 4.604313725490196,
+      "eff_dim_noise": 5.240588235294118
     },
     {
       "run_id": "probe_d32_c10",
@@ -37,8 +50,8 @@
       "L0_sig_dims": 9.0,
       "P2_q_plateau_x_w": 10.583255843137254,
       "P3_sig_dims_task": 10.0,
-      "eff_dim_task": 9.70607843137255,
-      "eff_dim_noise": 10.869019607843136
+      "eff_dim_task": 9.72862745098039,
+      "eff_dim_noise": 10.837450980392157
     },
     {
       "run_id": "probe_d32_c10_head",
@@ -50,8 +63,21 @@
       "L0_sig_dims": 9.0,
       "P2_q_plateau_x_w": 10.15424,
       "P3_sig_dims_task": 10.0,
-      "eff_dim_task": 9.571764705882352,
-      "eff_dim_noise": 10.804509803921569
+      "eff_dim_task": 9.54862745098039,
+      "eff_dim_noise": 10.818823529411764
+    },
+    {
+      "run_id": "sweep_c10_wd",
+      "C": 10,
+      "bayes": 0.901,
+      "acc_mean": 0.8961666666666668,
+      "outcomes": "converged",
+      "P1_L0_eff_dim": 25.92,
+      "L0_sig_dims": 9.0,
+      "P2_q_plateau_x_w": 9.968715294117647,
+      "P3_sig_dims_task": 10.0,
+      "eff_dim_task": 9.519607843137255,
+      "eff_dim_noise": 10.641372549019607
     },
     {
       "run_id": "sweep_c25_head",
@@ -78,6 +104,19 @@
       "P3_sig_dims_task": 20.431372549019606,
       "eff_dim_task": 11.976666666666665,
       "eff_dim_noise": 13.21392156862745
+    },
+    {
+      "run_id": "sweep_c50_head_60k",
+      "C": 50,
+      "bayes": 0.7586,
+      "acc_mean": 0.6903333333333334,
+      "outcomes": "partial",
+      "P1_L0_eff_dim": 56.53666666666667,
+      "L0_sig_dims": 45.333333333333336,
+      "P2_q_plateau_x_w": 8.95079905882353,
+      "P3_sig_dims_task": 20.41176470588235,
+      "eff_dim_task": 13.573137254901962,
+      "eff_dim_noise": 14.302941176470586
     }
   ]
 }

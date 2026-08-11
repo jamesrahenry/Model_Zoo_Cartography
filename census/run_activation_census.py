@@ -47,6 +47,26 @@ from gmm_task import make_gmm_task
 CORPUS_DIR = REPO_ROOT / "corpus"
 CENSUS_DIR = REPO_ROOT / "census"
 
+_TASK_CACHE: dict = {}
+
+
+def get_task(t: dict, width: int):
+    """Reconstruct the training task from provenance (cached across nets)."""
+    if t["family"] == "gmm":
+        key = ("gmm", width, t["n_classes"], t["separation"], t["task_seed"])
+        if key not in _TASK_CACHE:
+            _TASK_CACHE[key] = make_gmm_task(
+                dim=width, n_classes=t["n_classes"],
+                separation=t["separation"], seed=t["task_seed"])
+    elif t["family"] == "mnist_whitened":
+        from mnist_task import make_mnist_task
+        key = ("mnist", width, t["projection_seed"])
+        if key not in _TASK_CACHE:
+            _TASK_CACHE[key] = make_mnist_task(dim=width, seed=t["projection_seed"])
+    else:
+        raise ValueError(f"unknown task family {t['family']}")
+    return _TASK_CACHE[key]
+
 
 def empirical_q(z: np.ndarray) -> float:
     S = np.cov(z, rowvar=False)
@@ -103,9 +123,7 @@ def main() -> None:
             trained = [d[f"w{i}"] for i in range(n_layers)]
 
             prov = json.loads((run_dir / f"{name}.json").read_text())
-            t = prov["task"]
-            task = make_gmm_task(dim=width, n_classes=t["n_classes"],
-                                 separation=t["separation"], seed=t["task_seed"])
+            task = get_task(prov["task"], width)
 
             x_noise = rng.standard_normal((args.n_samples, width))
             x_task, _ = task.sample(args.n_samples, rng)
