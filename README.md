@@ -74,7 +74,7 @@ pending adaptations.
 
 *Updated: 2026-08-11 02:30 UTC.*
 
-Corpus: 30 trained nets at ARC's exact spec (depth-32 converges plain — no
+Corpus: 27 trained nets at ARC's exact spec (depth-32 converges plain — no
 skip/norm needed): GMM families C ∈ {2, 5, 10, 25, 50} × 3 seeds (two readout
 modes at C=10, a 60k-step C=50 rerun, a weight-decay C=10 family) plus a
 whitened-MNIST family. Key results so far (details in commit log and Hopper
