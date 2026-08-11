@@ -1,0 +1,83 @@
+{
+  "plateau_layers": "L8-L24",
+  "rows": [
+    {
+      "run_id": "sweep_c2_head",
+      "C": 2,
+      "bayes": 0.9831,
+      "acc_mean": 0.9813,
+      "outcomes": "converged",
+      "P1_L0_eff_dim": 10.516666666666666,
+      "L0_sig_dims": 1.0,
+      "P2_q_plateau_x_w": 1.4798657254901961,
+      "P3_sig_dims_task": 2.0,
+      "eff_dim_task": 1.3121568627450984,
+      "eff_dim_noise": 1.4056862745098042
+    },
+    {
+      "run_id": "sweep_c5_head",
+      "C": 5,
+      "bayes": 0.945,
+      "acc_mean": 0.9413333333333332,
+      "outcomes": "converged",
+      "P1_L0_eff_dim": 18.343333333333334,
+      "L0_sig_dims": 4.0,
+      "P2_q_plateau_x_w": 6.410310274509803,
+      "P3_sig_dims_task": 9.411764705882353,
+      "eff_dim_task": 5.2119607843137254,
+      "eff_dim_noise": 6.653725490196079
+    },
+    {
+      "run_id": "probe_d32_c10",
+      "C": 10,
+      "bayes": 0.901,
+      "acc_mean": 0.8959999999999999,
+      "outcomes": "converged",
+      "P1_L0_eff_dim": 26.310000000000002,
+      "L0_sig_dims": 9.0,
+      "P2_q_plateau_x_w": 10.583255843137254,
+      "P3_sig_dims_task": 10.0,
+      "eff_dim_task": 9.70607843137255,
+      "eff_dim_noise": 10.869019607843136
+    },
+    {
+      "run_id": "probe_d32_c10_head",
+      "C": 10,
+      "bayes": 0.901,
+      "acc_mean": 0.8958,
+      "outcomes": "converged",
+      "P1_L0_eff_dim": 26.319999999999997,
+      "L0_sig_dims": 9.0,
+      "P2_q_plateau_x_w": 10.15424,
+      "P3_sig_dims_task": 10.0,
+      "eff_dim_task": 9.571764705882352,
+      "eff_dim_noise": 10.804509803921569
+    },
+    {
+      "run_id": "sweep_c25_head",
+      "C": 25,
+      "bayes": 0.8266,
+      "acc_mean": 0.8092,
+      "outcomes": "converged",
+      "P1_L0_eff_dim": 47.623333333333335,
+      "L0_sig_dims": 24.0,
+      "P2_q_plateau_x_w": 11.028003137254903,
+      "P3_sig_dims_task": 21.137254901960784,
+      "eff_dim_task": 14.268235294117646,
+      "eff_dim_noise": 15.256274509803923
+    },
+    {
+      "run_id": "sweep_c50_head",
+      "C": 50,
+      "bayes": 0.7586,
+      "acc_mean": 0.5590666666666666,
+      "outcomes": "partial",
+      "P1_L0_eff_dim": 70.79,
+      "L0_sig_dims": 35.666666666666664,
+      "P2_q_plateau_x_w": 4.467139764705882,
+      "P3_sig_dims_task": 20.431372549019606,
+      "eff_dim_task": 11.976666666666665,
+      "eff_dim_noise": 13.21392156862745
+    }
+  ]
+}
