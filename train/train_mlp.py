@@ -115,12 +115,17 @@ def train_one(task: GMMTask, init_seed: int, data_seed: int, steps: int,
                    head_classes=head_classes).to(device)
     init_weights = model.weights_arc_convention()
 
-    opt = torch.optim.Adam(model.parameters(), lr=lr)
+    if args.weight_decay > 0:
+        opt = torch.optim.AdamW(model.parameters(), lr=lr,
+                                weight_decay=args.weight_decay)
+    else:
+        opt = torch.optim.Adam(model.parameters(), lr=lr)
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda s: min(1.0, (s + 1) / max(1, warmup)))
 
     rng = np.random.default_rng(data_seed)
-    xv, yv = task.sample(val_size, np.random.default_rng(data_seed + 500_000))
+    sample_val = getattr(task, "sample_val", task.sample)
+    xv, yv = sample_val(val_size, np.random.default_rng(data_seed + 500_000))
     xv = torch.from_numpy(xv).to(device)
     yv = torch.from_numpy(yv).to(device)
 
@@ -174,11 +179,13 @@ def main() -> None:
     device = args.device if args.device != "auto" else (
         "cuda" if torch.cuda.is_available() else "cpu")
 
-    task = make_gmm_task(dim=args.width, n_classes=args.classes,
-                         separation=args.separation, seed=args.task_seed)
-    print(f"task: gmm C={task.n_classes} sep={task.separation} "
-          f"(effective {task.effective_separation:.3f}) dim={task.dim} "
-          f"bayes={task.bayes_accuracy:.4f}")
+    if args.task == "gmm":
+        task = make_gmm_task(dim=args.width, n_classes=args.classes,
+                             separation=args.separation, seed=args.task_seed)
+    else:
+        from mnist_task import make_mnist_task
+        task = make_mnist_task(dim=args.width, seed=args.task_seed)
+    print(f"task: {task.describe()}")
 
     for seed in args.seeds:
         name = f"net_{seed:04d}"
@@ -206,19 +213,15 @@ def main() -> None:
                              "bias": False, "activation": "relu_all_layers",
                              "init": "he_gaussian_2_over_fanin",
                              "weight_convention": "(in, out); forward = x @ W"},
-            "task": {"family": "gmm", "n_classes": task.n_classes,
-                     "separation": task.separation,
-                     "effective_separation": round(task.effective_separation, 4),
-                     "bayes_accuracy": round(task.bayes_accuracy, 4),
-                     "task_seed": args.task_seed,
-                     "aggregate_distribution": "exact mean-0 cov-I (whitened)"},
+            "task": task.describe(),
             "training": {"loss": ("cross_entropy_head_post_relu"
                                   if args.readout == "head"
                                   else "cross_entropy_pre_relu_final_layer"),
                          "readout": (f"bias_free_head_{args.width}x{task.n_classes}"
                                      if args.readout == "head"
                                      else f"first_{task.n_classes}_of_{args.width}_units"),
-                         "optimizer": "adam", "lr": args.lr,
+                         "optimizer": ("adamw" if args.weight_decay > 0 else "adam"),
+                         "weight_decay": args.weight_decay, "lr": args.lr,
                          "warmup_steps": args.warmup, "steps": args.steps,
                          "batch_size": args.batch_size,
                          "init_seed": seed, "data_seed": seed + 1_000_000,
@@ -238,9 +241,11 @@ def main() -> None:
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     p.add_argument("--run-id", required=True)
+    p.add_argument("--task", default="gmm", choices=["gmm", "mnist"])
     p.add_argument("--width", type=int, default=256)
     p.add_argument("--depth", type=int, default=32)
     p.add_argument("--classes", type=int, default=10)
+    p.add_argument("--weight-decay", type=float, default=0.0)
     p.add_argument("--separation", type=float, default=3.0)
     p.add_argument("--task-seed", type=int, default=0)
     p.add_argument("--seeds", type=int, nargs="+", default=[0])

@@ -51,6 +51,14 @@ class GMMTask:
         x = self.means[y] + z @ self.whiten  # whiten is symmetric: W z ~ N(0, W W)
         return x.astype(np.float32), y.astype(np.int64)
 
+    def describe(self) -> dict:
+        return {"family": "gmm", "n_classes": self.n_classes,
+                "separation": self.separation,
+                "effective_separation": round(self.effective_separation, 4),
+                "bayes_accuracy": round(self.bayes_accuracy, 4),
+                "task_seed": self.seed,
+                "aggregate_distribution": "exact mean-0 cov-I (whitened)"}
+
 
 def make_gmm_task(
     dim: int = 256,
