@@ -35,3 +35,26 @@ seen from both ends.
 
 *(Corpus context: measured on Phase A's 20-seed families — probe_d32_c10_head,
 sweep_c25_head, mnist_d32.)*
+
+## Addendum (2026-08-13 14:06 UTC): the Procrustes half — recovery is near-total for twins, graded by task overlap
+
+Ran the fitted-rotation version P4 predicted (`census/procrustes_overlap.py`,
+honest fit/test split: R fitted on half the shared sample, overlap measured on
+held-out top-9 eigenvectors). Recovered overlap vs 0.0352 chance:
+
+| condition | L0 | L4 | L8 | L16 | L31 |
+|---|---|---|---|---|---|
+| trained twins (task input) | 0.988 | 0.996 | 0.897 | 0.901 | 0.901 |
+| cross-task pairs (GMM vs MNIST, noise input) | 0.120 | 0.497 | 0.580 | 0.706 | 0.671 |
+| init twins (control) | 0.074 | 0.196 | 0.271 | 0.346 | 0.379 |
+
+**Same-task twins carry the SAME depth code up to rotation — 0.90+ recovered
+everywhere against raw-coordinate chance.** The sharing hierarchy is graded:
+same task ≈ 0.90, different task ≈ 0.67, untrained ≈ 0.38 (deep random nets
+gain some alignability as rank collapses — conditioning caveat: recovered
+overlap of top-9 subspaces inside ~10–14-dim effective codes is easier than in
+256 dims, so the trained-twins vs cross-task *increment* (+0.23) is the
+cleanest number). Full statement for PRH: representational convergence across
+independently trained nets is real, rotation-hidden, and graded by task
+overlap — mirror of P4's cross-family Procrustes recovery, now with the
+task-identity axis P4's corpus can't isolate.
