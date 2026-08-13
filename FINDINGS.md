@@ -1,5 +1,16 @@
 # MZC Findings
 
+> **EXTERNALLY AUDITED 2026-08-13 — F2 and F3 are currently WRONG, do not cite.** An adversarial
+> audit (`notes/2026-08-13_external-audit-f1-f7.md`) found F2's headline numbers are a stale
+> 6-net pilot never rechecked against the full 21-family dataset already in the cited file (which
+> contradicts it), and F3's "exactly C" / "flat" claims fail outside a narrow C=10-15 band and
+> contradict F6's own ceiling claim in this same document. F1, F4, F5 hold up under independent,
+> from-scratch reproduction but need wording/scoping fixes (MNIST/C32/C50 edge cases; a 10-17x
+> range that doesn't match its own cited example; "exact chance" that's actually near-chance).
+> F6/F7's core claims survive re-derivation but two headline numbers (C₅₀/width; "exact on
+> synthetics") are stated with more precision/certainty than the evidence supports. Read the audit
+> note before relying on any specific number below.
+
 *Written: 2026-08-13 16:45 UTC. Covers program start (2026-08-10) through Phase A
 and its analysis. Corpus: 401 trained nets / 22 families on
 `james-ra-henry/MZC-Corpus` (private HF dataset); every number below is
