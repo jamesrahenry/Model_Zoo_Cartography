@@ -10,6 +10,9 @@
         {
           "layer": 0,
           "significant_dims": 0,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 0.9777,
+          "bulk_regime": "intact",
           "effective_dim": 126.89,
           "total_variance": 2.002815,
           "top_eigenvalues": [
@@ -28,6 +31,9 @@
         {
           "layer": 1,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0141,
+          "bulk_regime": "intact",
           "effective_dim": 127.8,
           "total_variance": 2.024188,
           "top_eigenvalues": [
@@ -46,6 +52,9 @@
         {
           "layer": 2,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 1.0083,
+          "bulk_regime": "intact",
           "effective_dim": 128.01,
           "total_variance": 1.998144,
           "top_eigenvalues": [
@@ -64,6 +73,9 @@
         {
           "layer": 3,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0184,
+          "bulk_regime": "intact",
           "effective_dim": 128.22,
           "total_variance": 2.009259,
           "top_eigenvalues": [
@@ -82,6 +94,9 @@
         {
           "layer": 4,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9926,
+          "bulk_regime": "intact",
           "effective_dim": 127.24,
           "total_variance": 2.010011,
           "top_eigenvalues": [
@@ -100,6 +115,9 @@
         {
           "layer": 5,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0084,
+          "bulk_regime": "intact",
           "effective_dim": 127.3,
           "total_variance": 2.014225,
           "top_eigenvalues": [
@@ -118,6 +136,9 @@
         {
           "layer": 6,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9995,
+          "bulk_regime": "intact",
           "effective_dim": 126.98,
           "total_variance": 2.019845,
           "top_eigenvalues": [
@@ -136,6 +157,9 @@
         {
           "layer": 7,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0076,
+          "bulk_regime": "intact",
           "effective_dim": 128.08,
           "total_variance": 1.998843,
           "top_eigenvalues": [
@@ -154,6 +178,9 @@
         {
           "layer": 8,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9902,
+          "bulk_regime": "intact",
           "effective_dim": 127.59,
           "total_variance": 2.003732,
           "top_eigenvalues": [
@@ -172,6 +199,9 @@
         {
           "layer": 9,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9932,
+          "bulk_regime": "intact",
           "effective_dim": 127.67,
           "total_variance": 2.000824,
           "top_eigenvalues": [
@@ -190,6 +220,9 @@
         {
           "layer": 10,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9962,
+          "bulk_regime": "intact",
           "effective_dim": 128.05,
           "total_variance": 1.997452,
           "top_eigenvalues": [
@@ -208,6 +241,9 @@
         {
           "layer": 11,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9936,
+          "bulk_regime": "intact",
           "effective_dim": 127.22,
           "total_variance": 2.005048,
           "top_eigenvalues": [
@@ -226,6 +262,9 @@
         {
           "layer": 12,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 1.0052,
+          "bulk_regime": "intact",
           "effective_dim": 127.21,
           "total_variance": 2.010965,
           "top_eigenvalues": [
@@ -244,6 +283,9 @@
         {
           "layer": 13,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0104,
+          "bulk_regime": "intact",
           "effective_dim": 127.9,
           "total_variance": 2.015799,
           "top_eigenvalues": [
@@ -262,6 +304,9 @@
         {
           "layer": 14,
           "significant_dims": 0,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9702,
+          "bulk_regime": "intact",
           "effective_dim": 126.78,
           "total_variance": 2.00135,
           "top_eigenvalues": [
@@ -280,6 +325,9 @@
         {
           "layer": 15,
           "significant_dims": 1,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0133,
+          "bulk_regime": "intact",
           "effective_dim": 127.29,
           "total_variance": 2.002474,
           "top_eigenvalues": [
@@ -298,6 +346,9 @@
         {
           "layer": 16,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0192,
+          "bulk_regime": "intact",
           "effective_dim": 127.97,
           "total_variance": 2.003871,
           "top_eigenvalues": [
@@ -316,6 +367,9 @@
         {
           "layer": 17,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0004,
+          "bulk_regime": "intact",
           "effective_dim": 127.41,
           "total_variance": 2.010505,
           "top_eigenvalues": [
@@ -334,6 +388,9 @@
         {
           "layer": 18,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9984,
+          "bulk_regime": "intact",
           "effective_dim": 127.82,
           "total_variance": 1.993173,
           "top_eigenvalues": [
@@ -352,6 +409,9 @@
         {
           "layer": 19,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9967,
+          "bulk_regime": "intact",
           "effective_dim": 127.7,
           "total_variance": 1.996183,
           "top_eigenvalues": [
@@ -370,6 +430,9 @@
         {
           "layer": 20,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 1.0022,
+          "bulk_regime": "intact",
           "effective_dim": 127.7,
           "total_variance": 2.019831,
           "top_eigenvalues": [
@@ -388,6 +451,9 @@
         {
           "layer": 21,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0183,
+          "bulk_regime": "intact",
           "effective_dim": 127.99,
           "total_variance": 2.015049,
           "top_eigenvalues": [
@@ -406,6 +472,9 @@
         {
           "layer": 22,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9941,
+          "bulk_regime": "intact",
           "effective_dim": 126.73,
           "total_variance": 2.002791,
           "top_eigenvalues": [
@@ -424,6 +493,9 @@
         {
           "layer": 23,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0137,
+          "bulk_regime": "intact",
           "effective_dim": 128.03,
           "total_variance": 2.004041,
           "top_eigenvalues": [
@@ -442,6 +514,9 @@
         {
           "layer": 24,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0107,
+          "bulk_regime": "intact",
           "effective_dim": 127.77,
           "total_variance": 2.026949,
           "top_eigenvalues": [
@@ -460,6 +535,9 @@
         {
           "layer": 25,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9919,
+          "bulk_regime": "intact",
           "effective_dim": 127.71,
           "total_variance": 1.98658,
           "top_eigenvalues": [
@@ -478,6 +556,9 @@
         {
           "layer": 26,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9988,
+          "bulk_regime": "intact",
           "effective_dim": 127.72,
           "total_variance": 2.002814,
           "top_eigenvalues": [
@@ -496,6 +577,9 @@
         {
           "layer": 27,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.997,
+          "bulk_regime": "intact",
           "effective_dim": 127.69,
           "total_variance": 2.017676,
           "top_eigenvalues": [
@@ -514,6 +598,9 @@
         {
           "layer": 28,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9987,
+          "bulk_regime": "intact",
           "effective_dim": 126.82,
           "total_variance": 2.024985,
           "top_eigenvalues": [
@@ -532,6 +619,9 @@
         {
           "layer": 29,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0052,
+          "bulk_regime": "intact",
           "effective_dim": 128.24,
           "total_variance": 2.005437,
           "top_eigenvalues": [
@@ -550,6 +640,9 @@
         {
           "layer": 30,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0339,
+          "bulk_regime": "intact",
           "effective_dim": 128.59,
           "total_variance": 2.003918,
           "top_eigenvalues": [
@@ -568,6 +661,9 @@
         {
           "layer": 31,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0293,
+          "bulk_regime": "intact",
           "effective_dim": 128.02,
           "total_variance": 2.02823,
           "top_eigenvalues": [
@@ -588,6 +684,9 @@
         {
           "layer": 0,
           "significant_dims": 43,
+          "significant_dims_scaled": 44,
+          "scale_ratio": 0.3628,
+          "bulk_regime": "intact",
           "effective_dim": 55.77,
           "total_variance": 3.199229,
           "top_eigenvalues": [
@@ -606,6 +705,9 @@
         {
           "layer": 1,
           "significant_dims": 38,
+          "significant_dims_scaled": 41,
+          "scale_ratio": 0.9357,
+          "bulk_regime": "intact",
           "effective_dim": 94.48,
           "total_variance": 2.778782,
           "top_eigenvalues": [
@@ -624,6 +726,9 @@
         {
           "layer": 2,
           "significant_dims": 30,
+          "significant_dims_scaled": 25,
+          "scale_ratio": 1.0739,
+          "bulk_regime": "intact",
           "effective_dim": 95.67,
           "total_variance": 2.836415,
           "top_eigenvalues": [
@@ -642,6 +747,9 @@
         {
           "layer": 3,
           "significant_dims": 21,
+          "significant_dims_scaled": 17,
+          "scale_ratio": 1.1,
+          "bulk_regime": "intact",
           "effective_dim": 100.08,
           "total_variance": 2.723722,
           "top_eigenvalues": [
@@ -660,6 +768,9 @@
         {
           "layer": 4,
           "significant_dims": 23,
+          "significant_dims_scaled": 17,
+          "scale_ratio": 1.106,
+          "bulk_regime": "intact",
           "effective_dim": 95.76,
           "total_variance": 2.808353,
           "top_eigenvalues": [
@@ -678,6 +789,9 @@
         {
           "layer": 5,
           "significant_dims": 23,
+          "significant_dims_scaled": 16,
+          "scale_ratio": 1.1616,
+          "bulk_regime": "intact",
           "effective_dim": 92.89,
           "total_variance": 2.8685,
           "top_eigenvalues": [
@@ -696,6 +810,9 @@
         {
           "layer": 6,
           "significant_dims": 23,
+          "significant_dims_scaled": 16,
+          "scale_ratio": 1.1905,
+          "bulk_regime": "intact",
           "effective_dim": 87.74,
           "total_variance": 2.9775,
           "top_eigenvalues": [
@@ -714,6 +831,9 @@
         {
           "layer": 7,
           "significant_dims": 21,
+          "significant_dims_scaled": 14,
+          "scale_ratio": 1.206,
+          "bulk_regime": "intact",
           "effective_dim": 87.27,
           "total_variance": 2.883209,
           "top_eigenvalues": [
@@ -732,6 +852,9 @@
         {
           "layer": 8,
           "significant_dims": 19,
+          "significant_dims_scaled": 13,
+          "scale_ratio": 1.143,
+          "bulk_regime": "intact",
           "effective_dim": 91.92,
           "total_variance": 2.782834,
           "top_eigenvalues": [
@@ -750,6 +873,9 @@
         {
           "layer": 9,
           "significant_dims": 16,
+          "significant_dims_scaled": 11,
+          "scale_ratio": 1.1572,
+          "bulk_regime": "intact",
           "effective_dim": 90.47,
           "total_variance": 2.663193,
           "top_eigenvalues": [
@@ -768,6 +894,9 @@
         {
           "layer": 10,
           "significant_dims": 14,
+          "significant_dims_scaled": 9,
+          "scale_ratio": 1.1451,
+          "bulk_regime": "intact",
           "effective_dim": 95.94,
           "total_variance": 2.541824,
           "top_eigenvalues": [
@@ -786,6 +915,9 @@
         {
           "layer": 11,
           "significant_dims": 12,
+          "significant_dims_scaled": 8,
+          "scale_ratio": 1.1076,
+          "bulk_regime": "intact",
           "effective_dim": 91.91,
           "total_variance": 2.493754,
           "top_eigenvalues": [
@@ -804,6 +936,9 @@
         {
           "layer": 12,
           "significant_dims": 10,
+          "significant_dims_scaled": 6,
+          "scale_ratio": 1.0883,
+          "bulk_regime": "intact",
           "effective_dim": 94.17,
           "total_variance": 2.388168,
           "top_eigenvalues": [
@@ -822,6 +957,9 @@
         {
           "layer": 13,
           "significant_dims": 8,
+          "significant_dims_scaled": 5,
+          "scale_ratio": 1.0774,
+          "bulk_regime": "intact",
           "effective_dim": 96.92,
           "total_variance": 2.333748,
           "top_eigenvalues": [
@@ -840,6 +978,9 @@
         {
           "layer": 14,
           "significant_dims": 5,
+          "significant_dims_scaled": 5,
+          "scale_ratio": 1.0381,
+          "bulk_regime": "intact",
           "effective_dim": 101.47,
           "total_variance": 2.275041,
           "top_eigenvalues": [
@@ -858,6 +999,9 @@
         {
           "layer": 15,
           "significant_dims": 5,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0668,
+          "bulk_regime": "intact",
           "effective_dim": 97.13,
           "total_variance": 2.276991,
           "top_eigenvalues": [
@@ -876,6 +1020,9 @@
         {
           "layer": 16,
           "significant_dims": 4,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0577,
+          "bulk_regime": "intact",
           "effective_dim": 97.16,
           "total_variance": 2.239553,
           "top_eigenvalues": [
@@ -894,6 +1041,9 @@
         {
           "layer": 17,
           "significant_dims": 4,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 1.0465,
+          "bulk_regime": "intact",
           "effective_dim": 96.95,
           "total_variance": 2.197265,
           "top_eigenvalues": [
@@ -912,6 +1062,9 @@
         {
           "layer": 18,
           "significant_dims": 3,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 1.0156,
+          "bulk_regime": "intact",
           "effective_dim": 101.29,
           "total_variance": 2.160269,
           "top_eigenvalues": [
@@ -930,6 +1083,9 @@
         {
           "layer": 19,
           "significant_dims": 3,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0189,
+          "bulk_regime": "intact",
           "effective_dim": 100.38,
           "total_variance": 2.181949,
           "top_eigenvalues": [
@@ -948,6 +1104,9 @@
         {
           "layer": 20,
           "significant_dims": 3,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 1.0247,
+          "bulk_regime": "intact",
           "effective_dim": 99.57,
           "total_variance": 2.196304,
           "top_eigenvalues": [
@@ -966,6 +1125,9 @@
         {
           "layer": 21,
           "significant_dims": 4,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0389,
+          "bulk_regime": "intact",
           "effective_dim": 97.42,
           "total_variance": 2.193534,
           "top_eigenvalues": [
@@ -984,6 +1146,9 @@
         {
           "layer": 22,
           "significant_dims": 4,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0279,
+          "bulk_regime": "intact",
           "effective_dim": 102.95,
           "total_variance": 2.208601,
           "top_eigenvalues": [
@@ -1002,6 +1167,9 @@
         {
           "layer": 23,
           "significant_dims": 4,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0517,
+          "bulk_regime": "intact",
           "effective_dim": 100.53,
           "total_variance": 2.225233,
           "top_eigenvalues": [
@@ -1020,6 +1188,9 @@
         {
           "layer": 24,
           "significant_dims": 5,
+          "significant_dims_scaled": 4,
+          "scale_ratio": 1.0405,
+          "bulk_regime": "intact",
           "effective_dim": 96.95,
           "total_variance": 2.249944,
           "top_eigenvalues": [
@@ -1038,6 +1209,9 @@
         {
           "layer": 25,
           "significant_dims": 5,
+          "significant_dims_scaled": 4,
+          "scale_ratio": 1.0336,
+          "bulk_regime": "intact",
           "effective_dim": 99.65,
           "total_variance": 2.250714,
           "top_eigenvalues": [
@@ -1056,6 +1230,9 @@
         {
           "layer": 26,
           "significant_dims": 8,
+          "significant_dims_scaled": 6,
+          "scale_ratio": 1.096,
+          "bulk_regime": "intact",
           "effective_dim": 101.19,
           "total_variance": 2.352259,
           "top_eigenvalues": [
@@ -1074,6 +1251,9 @@
         {
           "layer": 27,
           "significant_dims": 13,
+          "significant_dims_scaled": 9,
+          "scale_ratio": 1.1408,
+          "bulk_regime": "intact",
           "effective_dim": 98.09,
           "total_variance": 2.54607,
           "top_eigenvalues": [
@@ -1092,6 +1272,9 @@
         {
           "layer": 28,
           "significant_dims": 18,
+          "significant_dims_scaled": 10,
+          "scale_ratio": 1.1899,
+          "bulk_regime": "intact",
           "effective_dim": 94.77,
           "total_variance": 2.735845,
           "top_eigenvalues": [
@@ -1110,6 +1293,9 @@
         {
           "layer": 29,
           "significant_dims": 21,
+          "significant_dims_scaled": 12,
+          "scale_ratio": 1.2691,
+          "bulk_regime": "intact",
           "effective_dim": 100.66,
           "total_variance": 2.872632,
           "top_eigenvalues": [
@@ -1128,6 +1314,9 @@
         {
           "layer": 30,
           "significant_dims": 26,
+          "significant_dims_scaled": 15,
+          "scale_ratio": 1.2702,
+          "bulk_regime": "intact",
           "effective_dim": 96.92,
           "total_variance": 3.082809,
           "top_eigenvalues": [
@@ -1146,6 +1335,9 @@
         {
           "layer": 31,
           "significant_dims": 27,
+          "significant_dims_scaled": 16,
+          "scale_ratio": 1.2359,
+          "bulk_regime": "intact",
           "effective_dim": 102.05,
           "total_variance": 3.016926,
           "top_eigenvalues": [
@@ -1238,6 +1430,9 @@
         {
           "layer": 0,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 1.0003,
+          "bulk_regime": "intact",
           "effective_dim": 127.7,
           "total_variance": 2.021108,
           "top_eigenvalues": [
@@ -1256,6 +1451,9 @@
         {
           "layer": 1,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9959,
+          "bulk_regime": "intact",
           "effective_dim": 126.84,
           "total_variance": 2.01082,
           "top_eigenvalues": [
@@ -1274,6 +1472,9 @@
         {
           "layer": 2,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0085,
+          "bulk_regime": "intact",
           "effective_dim": 127.54,
           "total_variance": 2.017603,
           "top_eigenvalues": [
@@ -1292,6 +1493,9 @@
         {
           "layer": 3,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9876,
+          "bulk_regime": "intact",
           "effective_dim": 127.96,
           "total_variance": 2.012443,
           "top_eigenvalues": [
@@ -1310,6 +1514,9 @@
         {
           "layer": 4,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9985,
+          "bulk_regime": "intact",
           "effective_dim": 127.31,
           "total_variance": 2.017444,
           "top_eigenvalues": [
@@ -1328,6 +1535,9 @@
         {
           "layer": 5,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9904,
+          "bulk_regime": "intact",
           "effective_dim": 128.0,
           "total_variance": 1.991691,
           "top_eigenvalues": [
@@ -1346,6 +1556,9 @@
         {
           "layer": 6,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0049,
+          "bulk_regime": "intact",
           "effective_dim": 127.79,
           "total_variance": 2.015915,
           "top_eigenvalues": [
@@ -1364,6 +1577,9 @@
         {
           "layer": 7,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0066,
+          "bulk_regime": "intact",
           "effective_dim": 128.71,
           "total_variance": 2.017365,
           "top_eigenvalues": [
@@ -1382,6 +1598,9 @@
         {
           "layer": 8,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0215,
+          "bulk_regime": "intact",
           "effective_dim": 128.71,
           "total_variance": 2.011971,
           "top_eigenvalues": [
@@ -1400,6 +1619,9 @@
         {
           "layer": 9,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9951,
+          "bulk_regime": "intact",
           "effective_dim": 126.85,
           "total_variance": 2.013367,
           "top_eigenvalues": [
@@ -1418,6 +1640,9 @@
         {
           "layer": 10,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0005,
+          "bulk_regime": "intact",
           "effective_dim": 127.58,
           "total_variance": 2.021252,
           "top_eigenvalues": [
@@ -1436,6 +1661,9 @@
         {
           "layer": 11,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.998,
+          "bulk_regime": "intact",
           "effective_dim": 127.86,
           "total_variance": 2.016105,
           "top_eigenvalues": [
@@ -1454,6 +1682,9 @@
         {
           "layer": 12,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0167,
+          "bulk_regime": "intact",
           "effective_dim": 128.24,
           "total_variance": 1.988005,
           "top_eigenvalues": [
@@ -1472,6 +1703,9 @@
         {
           "layer": 13,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.999,
+          "bulk_regime": "intact",
           "effective_dim": 128.16,
           "total_variance": 2.012297,
           "top_eigenvalues": [
@@ -1490,6 +1724,9 @@
         {
           "layer": 14,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9865,
+          "bulk_regime": "intact",
           "effective_dim": 127.6,
           "total_variance": 1.984307,
           "top_eigenvalues": [
@@ -1508,6 +1745,9 @@
         {
           "layer": 15,
           "significant_dims": 0,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9924,
+          "bulk_regime": "intact",
           "effective_dim": 127.39,
           "total_variance": 2.002784,
           "top_eigenvalues": [
@@ -1526,6 +1766,9 @@
         {
           "layer": 16,
           "significant_dims": 0,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9604,
+          "bulk_regime": "intact",
           "effective_dim": 127.31,
           "total_variance": 2.00454,
           "top_eigenvalues": [
@@ -1544,6 +1787,9 @@
         {
           "layer": 17,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.999,
+          "bulk_regime": "intact",
           "effective_dim": 128.17,
           "total_variance": 2.003477,
           "top_eigenvalues": [
@@ -1562,6 +1808,9 @@
         {
           "layer": 18,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9919,
+          "bulk_regime": "intact",
           "effective_dim": 127.96,
           "total_variance": 1.993215,
           "top_eigenvalues": [
@@ -1580,6 +1829,9 @@
         {
           "layer": 19,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 1.007,
+          "bulk_regime": "intact",
           "effective_dim": 127.42,
           "total_variance": 2.02438,
           "top_eigenvalues": [
@@ -1598,6 +1850,9 @@
         {
           "layer": 20,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9953,
+          "bulk_regime": "intact",
           "effective_dim": 128.25,
           "total_variance": 1.991965,
           "top_eigenvalues": [
@@ -1616,6 +1871,9 @@
         {
           "layer": 21,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 1.0052,
+          "bulk_regime": "intact",
           "effective_dim": 127.47,
           "total_variance": 2.012252,
           "top_eigenvalues": [
@@ -1634,6 +1892,9 @@
         {
           "layer": 22,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9967,
+          "bulk_regime": "intact",
           "effective_dim": 127.41,
           "total_variance": 2.016841,
           "top_eigenvalues": [
@@ -1652,6 +1913,9 @@
         {
           "layer": 23,
           "significant_dims": 1,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0053,
+          "bulk_regime": "intact",
           "effective_dim": 127.59,
           "total_variance": 2.008392,
           "top_eigenvalues": [
@@ -1670,6 +1934,9 @@
         {
           "layer": 24,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9919,
+          "bulk_regime": "intact",
           "effective_dim": 127.51,
           "total_variance": 1.998622,
           "top_eigenvalues": [
@@ -1688,6 +1955,9 @@
         {
           "layer": 25,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9904,
+          "bulk_regime": "intact",
           "effective_dim": 127.26,
           "total_variance": 2.004211,
           "top_eigenvalues": [
@@ -1706,6 +1976,9 @@
         {
           "layer": 26,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0087,
+          "bulk_regime": "intact",
           "effective_dim": 127.67,
           "total_variance": 2.019912,
           "top_eigenvalues": [
@@ -1724,6 +1997,9 @@
         {
           "layer": 27,
           "significant_dims": 1,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.015,
+          "bulk_regime": "intact",
           "effective_dim": 128.73,
           "total_variance": 2.011452,
           "top_eigenvalues": [
@@ -1742,6 +2018,9 @@
         {
           "layer": 28,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9968,
+          "bulk_regime": "intact",
           "effective_dim": 127.36,
           "total_variance": 2.006637,
           "top_eigenvalues": [
@@ -1760,6 +2039,9 @@
         {
           "layer": 29,
           "significant_dims": 0,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9966,
+          "bulk_regime": "intact",
           "effective_dim": 127.49,
           "total_variance": 2.013842,
           "top_eigenvalues": [
@@ -1778,6 +2060,9 @@
         {
           "layer": 30,
           "significant_dims": 1,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 0.9695,
+          "bulk_regime": "intact",
           "effective_dim": 126.87,
           "total_variance": 1.995995,
           "top_eigenvalues": [
@@ -1796,6 +2081,9 @@
         {
           "layer": 31,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9855,
+          "bulk_regime": "intact",
           "effective_dim": 128.03,
           "total_variance": 1.990297,
           "top_eigenvalues": [
@@ -1816,6 +2104,9 @@
         {
           "layer": 0,
           "significant_dims": 46,
+          "significant_dims_scaled": 47,
+          "scale_ratio": 0.3582,
+          "bulk_regime": "intact",
           "effective_dim": 58.43,
           "total_variance": 3.265171,
           "top_eigenvalues": [
@@ -1834,6 +2125,9 @@
         {
           "layer": 1,
           "significant_dims": 36,
+          "significant_dims_scaled": 40,
+          "scale_ratio": 0.9172,
+          "bulk_regime": "intact",
           "effective_dim": 94.77,
           "total_variance": 2.745992,
           "top_eigenvalues": [
@@ -1852,6 +2146,9 @@
         {
           "layer": 2,
           "significant_dims": 29,
+          "significant_dims_scaled": 25,
+          "scale_ratio": 1.0694,
+          "bulk_regime": "intact",
           "effective_dim": 92.56,
           "total_variance": 2.897457,
           "top_eigenvalues": [
@@ -1870,6 +2167,9 @@
         {
           "layer": 3,
           "significant_dims": 25,
+          "significant_dims_scaled": 18,
+          "scale_ratio": 1.0919,
+          "bulk_regime": "intact",
           "effective_dim": 101.33,
           "total_variance": 2.725245,
           "top_eigenvalues": [
@@ -1888,6 +2188,9 @@
         {
           "layer": 4,
           "significant_dims": 22,
+          "significant_dims_scaled": 17,
+          "scale_ratio": 1.1534,
+          "bulk_regime": "intact",
           "effective_dim": 96.33,
           "total_variance": 2.836767,
           "top_eigenvalues": [
@@ -1906,6 +2209,9 @@
         {
           "layer": 5,
           "significant_dims": 22,
+          "significant_dims_scaled": 15,
+          "scale_ratio": 1.1556,
+          "bulk_regime": "intact",
           "effective_dim": 92.58,
           "total_variance": 2.886336,
           "top_eigenvalues": [
@@ -1924,6 +2230,9 @@
         {
           "layer": 6,
           "significant_dims": 23,
+          "significant_dims_scaled": 15,
+          "scale_ratio": 1.1901,
+          "bulk_regime": "intact",
           "effective_dim": 92.29,
           "total_variance": 2.937971,
           "top_eigenvalues": [
@@ -1942,6 +2251,9 @@
         {
           "layer": 7,
           "significant_dims": 20,
+          "significant_dims_scaled": 12,
+          "scale_ratio": 1.2084,
+          "bulk_regime": "intact",
           "effective_dim": 92.46,
           "total_variance": 2.847345,
           "top_eigenvalues": [
@@ -1960,6 +2272,9 @@
         {
           "layer": 8,
           "significant_dims": 18,
+          "significant_dims_scaled": 11,
+          "scale_ratio": 1.2144,
+          "bulk_regime": "intact",
           "effective_dim": 92.96,
           "total_variance": 2.778934,
           "top_eigenvalues": [
@@ -1978,6 +2293,9 @@
         {
           "layer": 9,
           "significant_dims": 17,
+          "significant_dims_scaled": 12,
+          "scale_ratio": 1.1422,
+          "bulk_regime": "intact",
           "effective_dim": 87.68,
           "total_variance": 2.73585,
           "top_eigenvalues": [
@@ -1996,6 +2314,9 @@
         {
           "layer": 10,
           "significant_dims": 14,
+          "significant_dims_scaled": 10,
+          "scale_ratio": 1.1429,
+          "bulk_regime": "intact",
           "effective_dim": 97.71,
           "total_variance": 2.597468,
           "top_eigenvalues": [
@@ -2014,6 +2335,9 @@
         {
           "layer": 11,
           "significant_dims": 12,
+          "significant_dims_scaled": 8,
+          "scale_ratio": 1.1258,
+          "bulk_regime": "intact",
           "effective_dim": 91.06,
           "total_variance": 2.527008,
           "top_eigenvalues": [
@@ -2032,6 +2356,9 @@
         {
           "layer": 12,
           "significant_dims": 10,
+          "significant_dims_scaled": 7,
+          "scale_ratio": 1.103,
+          "bulk_regime": "intact",
           "effective_dim": 98.48,
           "total_variance": 2.408539,
           "top_eigenvalues": [
@@ -2050,6 +2377,9 @@
         {
           "layer": 13,
           "significant_dims": 10,
+          "significant_dims_scaled": 7,
+          "scale_ratio": 1.1104,
+          "bulk_regime": "intact",
           "effective_dim": 98.65,
           "total_variance": 2.408033,
           "top_eigenvalues": [
@@ -2068,6 +2398,9 @@
         {
           "layer": 14,
           "significant_dims": 8,
+          "significant_dims_scaled": 7,
+          "scale_ratio": 1.0702,
+          "bulk_regime": "intact",
           "effective_dim": 95.39,
           "total_variance": 2.338204,
           "top_eigenvalues": [
@@ -2086,6 +2419,9 @@
         {
           "layer": 15,
           "significant_dims": 7,
+          "significant_dims_scaled": 5,
+          "scale_ratio": 1.0377,
+          "bulk_regime": "intact",
           "effective_dim": 95.97,
           "total_variance": 2.294467,
           "top_eigenvalues": [
@@ -2104,6 +2440,9 @@
         {
           "layer": 16,
           "significant_dims": 6,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0911,
+          "bulk_regime": "intact",
           "effective_dim": 97.6,
           "total_variance": 2.29026,
           "top_eigenvalues": [
@@ -2122,6 +2461,9 @@
         {
           "layer": 17,
           "significant_dims": 4,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 1.0594,
+          "bulk_regime": "intact",
           "effective_dim": 101.25,
           "total_variance": 2.242631,
           "top_eigenvalues": [
@@ -2140,6 +2482,9 @@
         {
           "layer": 18,
           "significant_dims": 4,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0465,
+          "bulk_regime": "intact",
           "effective_dim": 98.26,
           "total_variance": 2.204562,
           "top_eigenvalues": [
@@ -2158,6 +2503,9 @@
         {
           "layer": 19,
           "significant_dims": 4,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0446,
+          "bulk_regime": "intact",
           "effective_dim": 96.88,
           "total_variance": 2.225779,
           "top_eigenvalues": [
@@ -2176,6 +2524,9 @@
         {
           "layer": 20,
           "significant_dims": 2,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 1.0359,
+          "bulk_regime": "intact",
           "effective_dim": 97.34,
           "total_variance": 2.178544,
           "top_eigenvalues": [
@@ -2194,6 +2545,9 @@
         {
           "layer": 21,
           "significant_dims": 3,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0164,
+          "bulk_regime": "intact",
           "effective_dim": 100.78,
           "total_variance": 2.19126,
           "top_eigenvalues": [
@@ -2212,6 +2566,9 @@
         {
           "layer": 22,
           "significant_dims": 5,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 1.0484,
+          "bulk_regime": "intact",
           "effective_dim": 100.72,
           "total_variance": 2.21757,
           "top_eigenvalues": [
@@ -2230,6 +2587,9 @@
         {
           "layer": 23,
           "significant_dims": 4,
+          "significant_dims_scaled": 4,
+          "scale_ratio": 1.0368,
+          "bulk_regime": "intact",
           "effective_dim": 101.42,
           "total_variance": 2.225554,
           "top_eigenvalues": [
@@ -2248,6 +2608,9 @@
         {
           "layer": 24,
           "significant_dims": 6,
+          "significant_dims_scaled": 5,
+          "scale_ratio": 1.0508,
+          "bulk_regime": "intact",
           "effective_dim": 97.74,
           "total_variance": 2.277431,
           "top_eigenvalues": [
@@ -2266,6 +2629,9 @@
         {
           "layer": 25,
           "significant_dims": 7,
+          "significant_dims_scaled": 5,
+          "scale_ratio": 1.0875,
+          "bulk_regime": "intact",
           "effective_dim": 99.17,
           "total_variance": 2.314885,
           "top_eigenvalues": [
@@ -2284,6 +2650,9 @@
         {
           "layer": 26,
           "significant_dims": 7,
+          "significant_dims_scaled": 6,
+          "scale_ratio": 1.0785,
+          "bulk_regime": "intact",
           "effective_dim": 95.57,
           "total_variance": 2.373385,
           "top_eigenvalues": [
@@ -2302,6 +2671,9 @@
         {
           "layer": 27,
           "significant_dims": 11,
+          "significant_dims_scaled": 6,
+          "scale_ratio": 1.1322,
+          "bulk_regime": "intact",
           "effective_dim": 105.72,
           "total_variance": 2.47146,
           "top_eigenvalues": [
@@ -2320,6 +2692,9 @@
         {
           "layer": 28,
           "significant_dims": 17,
+          "significant_dims_scaled": 10,
+          "scale_ratio": 1.1789,
+          "bulk_regime": "intact",
           "effective_dim": 101.29,
           "total_variance": 2.675844,
           "top_eigenvalues": [
@@ -2338,6 +2713,9 @@
         {
           "layer": 29,
           "significant_dims": 22,
+          "significant_dims_scaled": 13,
+          "scale_ratio": 1.233,
+          "bulk_regime": "intact",
           "effective_dim": 94.0,
           "total_variance": 2.907168,
           "top_eigenvalues": [
@@ -2356,6 +2734,9 @@
         {
           "layer": 30,
           "significant_dims": 25,
+          "significant_dims_scaled": 15,
+          "scale_ratio": 1.2627,
+          "bulk_regime": "intact",
           "effective_dim": 97.71,
           "total_variance": 3.075283,
           "top_eigenvalues": [
@@ -2374,6 +2755,9 @@
         {
           "layer": 31,
           "significant_dims": 28,
+          "significant_dims_scaled": 16,
+          "scale_ratio": 1.2647,
+          "bulk_regime": "intact",
           "effective_dim": 101.56,
           "total_variance": 3.098526,
           "top_eigenvalues": [
@@ -2466,6 +2850,9 @@
         {
           "layer": 0,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0018,
+          "bulk_regime": "intact",
           "effective_dim": 127.06,
           "total_variance": 1.990656,
           "top_eigenvalues": [
@@ -2484,6 +2871,9 @@
         {
           "layer": 1,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 1.0162,
+          "bulk_regime": "intact",
           "effective_dim": 127.01,
           "total_variance": 2.022794,
           "top_eigenvalues": [
@@ -2502,6 +2892,9 @@
         {
           "layer": 2,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9903,
+          "bulk_regime": "intact",
           "effective_dim": 127.3,
           "total_variance": 1.999181,
           "top_eigenvalues": [
@@ -2520,6 +2913,9 @@
         {
           "layer": 3,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9864,
+          "bulk_regime": "intact",
           "effective_dim": 128.02,
           "total_variance": 2.009337,
           "top_eigenvalues": [
@@ -2538,6 +2934,9 @@
         {
           "layer": 4,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9886,
+          "bulk_regime": "intact",
           "effective_dim": 127.21,
           "total_variance": 1.996685,
           "top_eigenvalues": [
@@ -2556,6 +2955,9 @@
         {
           "layer": 5,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0048,
+          "bulk_regime": "intact",
           "effective_dim": 127.37,
           "total_variance": 2.002711,
           "top_eigenvalues": [
@@ -2574,6 +2976,9 @@
         {
           "layer": 6,
           "significant_dims": 0,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 0.9864,
+          "bulk_regime": "intact",
           "effective_dim": 126.76,
           "total_variance": 2.004143,
           "top_eigenvalues": [
@@ -2592,6 +2997,9 @@
         {
           "layer": 7,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9844,
+          "bulk_regime": "intact",
           "effective_dim": 127.36,
           "total_variance": 1.997176,
           "top_eigenvalues": [
@@ -2610,6 +3018,9 @@
         {
           "layer": 8,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0309,
+          "bulk_regime": "intact",
           "effective_dim": 128.51,
           "total_variance": 2.016702,
           "top_eigenvalues": [
@@ -2628,6 +3039,9 @@
         {
           "layer": 9,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.963,
+          "bulk_regime": "intact",
           "effective_dim": 127.26,
           "total_variance": 1.996329,
           "top_eigenvalues": [
@@ -2646,6 +3060,9 @@
         {
           "layer": 10,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0046,
+          "bulk_regime": "intact",
           "effective_dim": 127.98,
           "total_variance": 2.011006,
           "top_eigenvalues": [
@@ -2664,6 +3081,9 @@
         {
           "layer": 11,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9873,
+          "bulk_regime": "intact",
           "effective_dim": 128.54,
           "total_variance": 2.001808,
           "top_eigenvalues": [
@@ -2682,6 +3102,9 @@
         {
           "layer": 12,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0028,
+          "bulk_regime": "intact",
           "effective_dim": 128.0,
           "total_variance": 1.990103,
           "top_eigenvalues": [
@@ -2700,6 +3123,9 @@
         {
           "layer": 13,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9932,
+          "bulk_regime": "intact",
           "effective_dim": 127.15,
           "total_variance": 2.014778,
           "top_eigenvalues": [
@@ -2718,6 +3144,9 @@
         {
           "layer": 14,
           "significant_dims": 1,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0061,
+          "bulk_regime": "intact",
           "effective_dim": 128.15,
           "total_variance": 1.997279,
           "top_eigenvalues": [
@@ -2736,6 +3165,9 @@
         {
           "layer": 15,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9929,
+          "bulk_regime": "intact",
           "effective_dim": 127.84,
           "total_variance": 2.000726,
           "top_eigenvalues": [
@@ -2754,6 +3186,9 @@
         {
           "layer": 16,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0013,
+          "bulk_regime": "intact",
           "effective_dim": 127.65,
           "total_variance": 2.019764,
           "top_eigenvalues": [
@@ -2772,6 +3207,9 @@
         {
           "layer": 17,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0266,
+          "bulk_regime": "intact",
           "effective_dim": 127.2,
           "total_variance": 2.019624,
           "top_eigenvalues": [
@@ -2790,6 +3228,9 @@
         {
           "layer": 18,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0062,
+          "bulk_regime": "intact",
           "effective_dim": 127.5,
           "total_variance": 2.003406,
           "top_eigenvalues": [
@@ -2808,6 +3249,9 @@
         {
           "layer": 19,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0135,
+          "bulk_regime": "intact",
           "effective_dim": 127.8,
           "total_variance": 2.016851,
           "top_eigenvalues": [
@@ -2826,6 +3270,9 @@
         {
           "layer": 20,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0141,
+          "bulk_regime": "intact",
           "effective_dim": 128.13,
           "total_variance": 2.009476,
           "top_eigenvalues": [
@@ -2844,6 +3291,9 @@
         {
           "layer": 21,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9967,
+          "bulk_regime": "intact",
           "effective_dim": 128.18,
           "total_variance": 2.006944,
           "top_eigenvalues": [
@@ -2862,6 +3312,9 @@
         {
           "layer": 22,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9978,
+          "bulk_regime": "intact",
           "effective_dim": 127.78,
           "total_variance": 2.006704,
           "top_eigenvalues": [
@@ -2880,6 +3333,9 @@
         {
           "layer": 23,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.989,
+          "bulk_regime": "intact",
           "effective_dim": 127.44,
           "total_variance": 2.021063,
           "top_eigenvalues": [
@@ -2898,6 +3354,9 @@
         {
           "layer": 24,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9992,
+          "bulk_regime": "intact",
           "effective_dim": 127.51,
           "total_variance": 2.007066,
           "top_eigenvalues": [
@@ -2916,6 +3375,9 @@
         {
           "layer": 25,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0126,
+          "bulk_regime": "intact",
           "effective_dim": 128.66,
           "total_variance": 2.023501,
           "top_eigenvalues": [
@@ -2934,6 +3396,9 @@
         {
           "layer": 26,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0134,
+          "bulk_regime": "intact",
           "effective_dim": 127.37,
           "total_variance": 2.011481,
           "top_eigenvalues": [
@@ -2952,6 +3417,9 @@
         {
           "layer": 27,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 0.9955,
+          "bulk_regime": "intact",
           "effective_dim": 127.67,
           "total_variance": 2.007484,
           "top_eigenvalues": [
@@ -2970,6 +3438,9 @@
         {
           "layer": 28,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0029,
+          "bulk_regime": "intact",
           "effective_dim": 127.44,
           "total_variance": 2.016395,
           "top_eigenvalues": [
@@ -2988,6 +3459,9 @@
         {
           "layer": 29,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 0.9905,
+          "bulk_regime": "intact",
           "effective_dim": 128.29,
           "total_variance": 1.996151,
           "top_eigenvalues": [
@@ -3006,6 +3480,9 @@
         {
           "layer": 30,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0069,
+          "bulk_regime": "intact",
           "effective_dim": 128.56,
           "total_variance": 2.005548,
           "top_eigenvalues": [
@@ -3024,6 +3501,9 @@
         {
           "layer": 31,
           "significant_dims": 0,
+          "significant_dims_scaled": 0,
+          "scale_ratio": 1.0183,
+          "bulk_regime": "intact",
           "effective_dim": 127.79,
           "total_variance": 2.007363,
           "top_eigenvalues": [
@@ -3044,6 +3524,9 @@
         {
           "layer": 0,
           "significant_dims": 47,
+          "significant_dims_scaled": 48,
+          "scale_ratio": 0.2397,
+          "bulk_regime": "depleted",
           "effective_dim": 55.41,
           "total_variance": 3.160253,
           "top_eigenvalues": [
@@ -3062,6 +3545,9 @@
         {
           "layer": 1,
           "significant_dims": 27,
+          "significant_dims_scaled": 36,
+          "scale_ratio": 0.893,
+          "bulk_regime": "intact",
           "effective_dim": 100.0,
           "total_variance": 2.553345,
           "top_eigenvalues": [
@@ -3080,6 +3566,9 @@
         {
           "layer": 2,
           "significant_dims": 28,
+          "significant_dims_scaled": 25,
+          "scale_ratio": 1.04,
+          "bulk_regime": "intact",
           "effective_dim": 96.76,
           "total_variance": 2.825507,
           "top_eigenvalues": [
@@ -3098,6 +3587,9 @@
         {
           "layer": 3,
           "significant_dims": 17,
+          "significant_dims_scaled": 11,
+          "scale_ratio": 1.0931,
+          "bulk_regime": "intact",
           "effective_dim": 103.1,
           "total_variance": 2.586739,
           "top_eigenvalues": [
@@ -3116,6 +3608,9 @@
         {
           "layer": 4,
           "significant_dims": 18,
+          "significant_dims_scaled": 15,
+          "scale_ratio": 1.0674,
+          "bulk_regime": "intact",
           "effective_dim": 100.93,
           "total_variance": 2.653183,
           "top_eigenvalues": [
@@ -3134,6 +3629,9 @@
         {
           "layer": 5,
           "significant_dims": 18,
+          "significant_dims_scaled": 13,
+          "scale_ratio": 1.125,
+          "bulk_regime": "intact",
           "effective_dim": 94.95,
           "total_variance": 2.728187,
           "top_eigenvalues": [
@@ -3152,6 +3650,9 @@
         {
           "layer": 6,
           "significant_dims": 20,
+          "significant_dims_scaled": 13,
+          "scale_ratio": 1.1534,
+          "bulk_regime": "intact",
           "effective_dim": 91.92,
           "total_variance": 2.782957,
           "top_eigenvalues": [
@@ -3170,6 +3671,9 @@
         {
           "layer": 7,
           "significant_dims": 19,
+          "significant_dims_scaled": 14,
+          "scale_ratio": 1.1422,
+          "bulk_regime": "intact",
           "effective_dim": 94.43,
           "total_variance": 2.753379,
           "top_eigenvalues": [
@@ -3188,6 +3692,9 @@
         {
           "layer": 8,
           "significant_dims": 18,
+          "significant_dims_scaled": 11,
+          "scale_ratio": 1.1756,
+          "bulk_regime": "intact",
           "effective_dim": 92.85,
           "total_variance": 2.688113,
           "top_eigenvalues": [
@@ -3206,6 +3713,9 @@
         {
           "layer": 9,
           "significant_dims": 15,
+          "significant_dims_scaled": 10,
+          "scale_ratio": 1.098,
+          "bulk_regime": "intact",
           "effective_dim": 98.92,
           "total_variance": 2.530995,
           "top_eigenvalues": [
@@ -3224,6 +3734,9 @@
         {
           "layer": 10,
           "significant_dims": 12,
+          "significant_dims_scaled": 7,
+          "scale_ratio": 1.1172,
+          "bulk_regime": "intact",
           "effective_dim": 91.74,
           "total_variance": 2.481495,
           "top_eigenvalues": [
@@ -3242,6 +3755,9 @@
         {
           "layer": 11,
           "significant_dims": 9,
+          "significant_dims_scaled": 6,
+          "scale_ratio": 1.1013,
+          "bulk_regime": "intact",
           "effective_dim": 99.06,
           "total_variance": 2.393233,
           "top_eigenvalues": [
@@ -3260,6 +3776,9 @@
         {
           "layer": 12,
           "significant_dims": 8,
+          "significant_dims_scaled": 6,
+          "scale_ratio": 1.0764,
+          "bulk_regime": "intact",
           "effective_dim": 96.25,
           "total_variance": 2.347699,
           "top_eigenvalues": [
@@ -3278,6 +3797,9 @@
         {
           "layer": 13,
           "significant_dims": 7,
+          "significant_dims_scaled": 4,
+          "scale_ratio": 1.0493,
+          "bulk_regime": "intact",
           "effective_dim": 94.85,
           "total_variance": 2.306796,
           "top_eigenvalues": [
@@ -3296,6 +3818,9 @@
         {
           "layer": 14,
           "significant_dims": 5,
+          "significant_dims_scaled": 5,
+          "scale_ratio": 1.0425,
+          "bulk_regime": "intact",
           "effective_dim": 94.44,
           "total_variance": 2.259556,
           "top_eigenvalues": [
@@ -3314,6 +3839,9 @@
         {
           "layer": 15,
           "significant_dims": 4,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0394,
+          "bulk_regime": "intact",
           "effective_dim": 98.9,
           "total_variance": 2.221549,
           "top_eigenvalues": [
@@ -3332,6 +3860,9 @@
         {
           "layer": 16,
           "significant_dims": 3,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.0515,
+          "bulk_regime": "intact",
           "effective_dim": 101.3,
           "total_variance": 2.20699,
           "top_eigenvalues": [
@@ -3350,6 +3881,9 @@
         {
           "layer": 17,
           "significant_dims": 3,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 1.0417,
+          "bulk_regime": "intact",
           "effective_dim": 96.16,
           "total_variance": 2.179959,
           "top_eigenvalues": [
@@ -3368,6 +3902,9 @@
         {
           "layer": 18,
           "significant_dims": 2,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 1.0301,
+          "bulk_regime": "intact",
           "effective_dim": 103.24,
           "total_variance": 2.155281,
           "top_eigenvalues": [
@@ -3386,6 +3923,9 @@
         {
           "layer": 19,
           "significant_dims": 3,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 1.0335,
+          "bulk_regime": "intact",
           "effective_dim": 101.08,
           "total_variance": 2.17741,
           "top_eigenvalues": [
@@ -3404,6 +3944,9 @@
         {
           "layer": 20,
           "significant_dims": 2,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 1.0183,
+          "bulk_regime": "intact",
           "effective_dim": 99.45,
           "total_variance": 2.148123,
           "top_eigenvalues": [
@@ -3422,6 +3965,9 @@
         {
           "layer": 21,
           "significant_dims": 1,
+          "significant_dims_scaled": 1,
+          "scale_ratio": 1.0259,
+          "bulk_regime": "intact",
           "effective_dim": 102.31,
           "total_variance": 2.132726,
           "top_eigenvalues": [
@@ -3440,6 +3986,9 @@
         {
           "layer": 22,
           "significant_dims": 2,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 1.0296,
+          "bulk_regime": "intact",
           "effective_dim": 98.49,
           "total_variance": 2.159592,
           "top_eigenvalues": [
@@ -3458,6 +4007,9 @@
         {
           "layer": 23,
           "significant_dims": 2,
+          "significant_dims_scaled": 2,
+          "scale_ratio": 1.0362,
+          "bulk_regime": "intact",
           "effective_dim": 100.87,
           "total_variance": 2.176333,
           "top_eigenvalues": [
@@ -3476,6 +4028,9 @@
         {
           "layer": 24,
           "significant_dims": 4,
+          "significant_dims_scaled": 3,
+          "scale_ratio": 1.053,
+          "bulk_regime": "intact",
           "effective_dim": 100.54,
           "total_variance": 2.20329,
           "top_eigenvalues": [
@@ -3494,6 +4049,9 @@
         {
           "layer": 25,
           "significant_dims": 6,
+          "significant_dims_scaled": 4,
+          "scale_ratio": 1.0512,
+          "bulk_regime": "intact",
           "effective_dim": 102.46,
           "total_variance": 2.272076,
           "top_eigenvalues": [
@@ -3512,6 +4070,9 @@
         {
           "layer": 26,
           "significant_dims": 8,
+          "significant_dims_scaled": 6,
+          "scale_ratio": 1.0902,
+          "bulk_regime": "intact",
           "effective_dim": 99.86,
           "total_variance": 2.378683,
           "top_eigenvalues": [
@@ -3530,6 +4091,9 @@
         {
           "layer": 27,
           "significant_dims": 13,
+          "significant_dims_scaled": 6,
+          "scale_ratio": 1.1471,
+          "bulk_regime": "intact",
           "effective_dim": 104.1,
           "total_variance": 2.491184,
           "top_eigenvalues": [
@@ -3548,6 +4112,9 @@
         {
           "layer": 28,
           "significant_dims": 14,
+          "significant_dims_scaled": 10,
+          "scale_ratio": 1.1512,
+          "bulk_regime": "intact",
           "effective_dim": 102.39,
           "total_variance": 2.624251,
           "top_eigenvalues": [
@@ -3566,6 +4133,9 @@
         {
           "layer": 29,
           "significant_dims": 20,
+          "significant_dims_scaled": 13,
+          "scale_ratio": 1.2196,
+          "bulk_regime": "intact",
           "effective_dim": 103.91,
           "total_variance": 2.789732,
           "top_eigenvalues": [
@@ -3584,6 +4154,9 @@
         {
           "layer": 30,
           "significant_dims": 24,
+          "significant_dims_scaled": 15,
+          "scale_ratio": 1.2132,
+          "bulk_regime": "intact",
           "effective_dim": 100.02,
           "total_variance": 2.929211,
           "top_eigenvalues": [
@@ -3602,6 +4175,9 @@
         {
           "layer": 31,
           "significant_dims": 26,
+          "significant_dims_scaled": 16,
+          "scale_ratio": 1.2108,
+          "bulk_regime": "intact",
           "effective_dim": 105.12,
           "total_variance": 2.949374,
           "top_eigenvalues": [
@@ -3688,5 +4264,5 @@
       ]
     }
   },
-  "written_utc": "2026-08-11 05:07 UTC"
+  "written_utc": "2026-08-13 14:06 UTC"
 }
