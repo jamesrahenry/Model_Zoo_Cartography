@@ -100,8 +100,12 @@ def main() -> None:
         return
     B = len(seeds)
 
-    task = make_gmm_task(dim=args.width, n_classes=args.classes,
-                         separation=args.separation, seed=args.task_seed)
+    if args.task == "gmm":
+        task = make_gmm_task(dim=args.width, n_classes=args.classes,
+                             separation=args.separation, seed=args.task_seed)
+    else:
+        from mnist_task import make_mnist_task
+        task = make_mnist_task(dim=args.width, seed=args.task_seed)
     print(f"task: {task.describe()}")
     print(f"batched: {B} nets, depth {args.depth}, device {device}")
 
@@ -111,7 +115,11 @@ def main() -> None:
     layers = [torch.nn.Parameter(W.to(device)) for W in layers]
     heads = torch.nn.Parameter(heads.to(device))
 
-    opt = torch.optim.Adam(list(layers) + [heads], lr=args.lr)
+    if args.weight_decay > 0:
+        opt = torch.optim.AdamW(list(layers) + [heads], lr=args.lr,
+                                weight_decay=args.weight_decay)
+    else:
+        opt = torch.optim.Adam(list(layers) + [heads], lr=args.lr)
     sched = torch.optim.lr_scheduler.LambdaLR(
         opt, lambda s: min(1.0, (s + 1) / max(1, args.warmup)))
 
@@ -119,16 +127,27 @@ def main() -> None:
     # the throughput bottleneck at B=32). One device generator; streams are
     # independent across nets but do NOT replicate train_mlp.py's per-net
     # numpy streams — recorded in provenance as sampler="gpu_batched".
-    means_t = torch.from_numpy(task.means).float().to(device)
-    whiten_t = torch.from_numpy(task.whiten).float().to(device)
     gen_dev = torch.Generator(device=device).manual_seed(args.task_seed + 42)
+    if args.task == "gmm":
+        means_t = torch.from_numpy(task.means).float().to(device)
+        whiten_t = torch.from_numpy(task.whiten).float().to(device)
 
-    def sample_gpu(n: int) -> tuple[torch.Tensor, torch.Tensor]:
-        y = torch.randint(task.n_classes, (B, n), device=device, generator=gen_dev)
-        z = torch.randn(B, n, args.width, device=device, generator=gen_dev)
-        return means_t[y] + z @ whiten_t, y
+        def sample_gpu(n: int) -> tuple[torch.Tensor, torch.Tensor]:
+            y = torch.randint(task.n_classes, (B, n), device=device,
+                              generator=gen_dev)
+            z = torch.randn(B, n, args.width, device=device, generator=gen_dev)
+            return means_t[y] + z @ whiten_t, y
+    else:  # mnist: index-select from the device-resident whitened train split
+        xtr_t = torch.from_numpy(task.x_train).to(device)
+        ytr_t = torch.from_numpy(task.y_train).to(device)
 
-    val = [task.sample(20_000, np.random.default_rng(seed + 1_500_000))
+        def sample_gpu(n: int) -> tuple[torch.Tensor, torch.Tensor]:
+            idx = torch.randint(len(xtr_t), (B, n), device=device,
+                                generator=gen_dev)
+            return xtr_t[idx], ytr_t[idx]
+
+    sample_val = getattr(task, "sample_val", task.sample)
+    val = [sample_val(20_000, np.random.default_rng(seed + 1_500_000))
            for seed in seeds]
     xv = torch.from_numpy(np.stack([v[0] for v in val])).to(device)
     yv = torch.from_numpy(np.stack([v[1] for v in val])).to(device)
@@ -182,7 +201,8 @@ def main() -> None:
             "training": {"trainer": "batched", "net_batch": B,
                          "loss": "cross_entropy_head_post_relu",
                          "readout": f"bias_free_head_{args.width}x{task.n_classes}",
-                         "optimizer": "adam", "weight_decay": 0.0,
+                         "optimizer": ("adamw" if args.weight_decay > 0 else "adam"),
+                         "weight_decay": args.weight_decay,
                          "lr": args.lr, "warmup_steps": args.warmup,
                          "steps": args.steps, "batch_size": args.batch_size,
                          "init_seed": seed,
@@ -210,6 +230,8 @@ def main() -> None:
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     p.add_argument("--run-id", required=True)
+    p.add_argument("--task", default="gmm", choices=["gmm", "mnist"])
+    p.add_argument("--weight-decay", type=float, default=0.0)
     p.add_argument("--width", type=int, default=256)
     p.add_argument("--depth", type=int, default=32)
     p.add_argument("--classes", type=int, default=10)

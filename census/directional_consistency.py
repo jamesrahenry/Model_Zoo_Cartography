@@ -58,20 +58,22 @@ def main() -> None:
         C = provs[0]["task"]["n_classes"]
         k = max(C - 1, 1)
         t = provs[0]["task"]
+        paths = net_paths(run_id)
+        width = int(np.load(paths[0])["init_w0"].shape[0])
         if t["family"] == "gmm":
-            task = make_gmm_task(dim=256, n_classes=C, separation=t["separation"],
+            task = make_gmm_task(dim=width, n_classes=C, separation=t["separation"],
                                  seed=t["task_seed"])
             means = task.means
         else:  # mnist_whitened: class means of the whitened train split
             from mnist_task import make_mnist_task
-            task = make_mnist_task(dim=256, seed=t["projection_seed"])
+            task = make_mnist_task(dim=width, seed=t["projection_seed"])
             means = np.stack([task.x_train[task.y_train == c].mean(axis=0)
                               for c in range(C)]).astype(np.float64)
         means_c = means - means.mean(axis=0)
-        T = np.linalg.qr(means_c.T)[0][:, :k]  # [256, k] task subspace basis
+        T = np.linalg.qr(means_c.T)[0][:, :k]  # [width, k] task subspace basis
 
         learned, inits = [], []
-        for npz_path in net_paths(run_id):
+        for npz_path in paths:
             d = np.load(npz_path)
             dW0 = d["w0"].astype(np.float64) - d["init_w0"].astype(np.float64)
             learned.append(top_left_svs(dW0, k))
@@ -92,7 +94,7 @@ def main() -> None:
             "seed_overlap_init": float(np.mean(pair_init)),
             "task_overlap_learned": float(np.mean(task_learned)),
             "task_overlap_init": float(np.mean(task_init)),
-            "chance": k / 256,
+            "chance": k / width,
         })
 
     print(f"{'run':<22} {'C':>4} {'k':>4} {'outcome':>10} "
