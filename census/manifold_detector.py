@@ -136,6 +136,43 @@ def _mp_upper_edge(n_samples: int, n_features: int, variance: float = 1.0) -> fl
     return variance * (1 + np.sqrt(gamma)) ** 2
 
 
+def _mp_median_factor(gamma: float, n_grid: int = 20_000) -> float:
+    """Median of the Marchenko-Pastur distribution at σ²=1, aspect γ ≤ 1.
+
+    Computed by numeric quadrature of the MP density over its support
+    [(1-√γ)², (1+√γ)²]. Used to turn an observed median eigenvalue into a
+    robust bulk-variance estimate: σ̂² = median(λ) / factor.
+    """
+    g = min(max(gamma, 1e-9), 1.0)
+    lo, hi = (1 - np.sqrt(g)) ** 2, (1 + np.sqrt(g)) ** 2
+    # substitute x = u²: removes the x^{-1/2} singularity at γ=1 (lo=0),
+    # density in u is sqrt((hi-u²)(u²-lo)) / (πγu), smooth on (√lo, √hi)
+    u = np.linspace(np.sqrt(lo) + 1e-9, np.sqrt(hi) - 1e-9, n_grid)
+    density = np.sqrt(np.maximum((hi - u * u) * (u * u - lo), 0.0)) / (np.pi * g * u)
+    cdf = np.cumsum(density)
+    cdf /= cdf[-1]
+    u_med = u[int(np.searchsorted(cdf, 0.5))]
+    return float(u_med * u_med)
+
+
+def estimate_mp_variance(eigenvalues: NDArray, n_samples: int,
+                         n_features: int) -> float:
+    """Robust bulk-variance estimate: median eigenvalue / MP median factor.
+
+    Scale-normalized alternative to a fixed analytic σ²: the median is
+    insensitive to a minority of spike (structure) eigenvalues, so this
+    recovers the bulk scale even when the overall weight scale has drifted
+    (weight decay, spectral growth) — see PROVENANCE.md and the wd≥0.3
+    finding. Breaks down if more than ~half the spectrum is structure.
+    """
+    eigs = np.asarray(eigenvalues, dtype=np.float64)
+    eigs = eigs[eigs > 0]
+    if len(eigs) == 0:
+        return 1.0
+    gamma = min(n_features / n_samples, 1.0)
+    return float(np.median(eigs)) / _mp_median_factor(gamma)
+
+
 # ---------------------------------------------------------------------------
 # Participation ratio
 # ---------------------------------------------------------------------------

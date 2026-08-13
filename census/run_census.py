@@ -31,7 +31,8 @@ import numpy as np
 
 import sys
 sys.path.insert(0, str(Path(__file__).parent))
-from manifold_detector import layer_manifold_census
+from manifold_detector import (_mp_upper_edge, _participation_ratio,
+                               estimate_mp_variance)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "train"))
@@ -50,16 +51,41 @@ def load_net(npz_path: Path) -> tuple[list[np.ndarray], list[np.ndarray]]:
 
 
 def census_weights(weights: list[np.ndarray]) -> list[dict]:
+    """Per-matrix spectral census with BOTH null floors:
+
+    - significant_dims: fixed analytic He null σ² = 2/fan_in (scale-anchored;
+      original behavior — breaks when the population's weight scale drifts,
+      e.g. weight decay)
+    - significant_dims_scaled: robust per-matrix bulk estimate
+      (median-eigenvalue MP fit) — scale-free shape count
+    - scale_ratio: estimated bulk σ² / analytic 2/fan_in (the scale axis,
+      reported separately from shape)
+    """
     fan_in = weights[0].shape[0]
-    res = layer_manifold_census(weights, noise_variance=2.0 / fan_in, center=False)
-    return [
-        {"layer": L.layer,
-         "significant_dims": L.significant_dims,
-         "effective_dim": round(L.effective_dim, 2),
-         "total_variance": round(L.total_variance, 6),
-         "top_eigenvalues": [round(e, 6) for e in L.top_eigenvalues[:10]]}
-        for L in res.layers
-    ]
+    analytic = 2.0 / fan_in
+    out = []
+    for layer, W in enumerate(weights):
+        W = np.asarray(W, dtype=np.float64)
+        n, d = W.shape
+        eigs = np.linalg.eigvalsh(W.T @ W / (n - 1))[::-1]
+        eigs = np.maximum(eigs, 0.0)
+        est = estimate_mp_variance(eigs, n, d)
+        scale_ratio = est / analytic
+        out.append({
+            "layer": layer,
+            "significant_dims": int(np.sum(eigs > _mp_upper_edge(n, d, analytic))),
+            "significant_dims_scaled": int(np.sum(eigs > _mp_upper_edge(n, d, est))),
+            "scale_ratio": round(scale_ratio, 4),
+            # MP counting assumes a random bulk exists. Strong weight decay
+            # ANNIHILATES the bulk (unused directions decay to ~0) rather than
+            # rescaling it — in that regime rank metrics (effective_dim), not
+            # MP counts, are the structure measure.
+            "bulk_regime": ("intact" if 0.25 <= scale_ratio <= 4.0 else "depleted"),
+            "effective_dim": round(_participation_ratio(eigs), 2),
+            "total_variance": round(float(np.sum(eigs)), 6),
+            "top_eigenvalues": [round(float(e), 6) for e in eigs[:10]],
+        })
+    return out
 
 
 def main() -> None:
@@ -101,17 +127,19 @@ def main() -> None:
 
     # Per-layer summary averaged over nets: init vs trained
     n_layers = len(next(iter(nets.values()))["init_census"])
-    print(f"\n{'layer':>5} {'sig(init)':>10} {'sig(trained)':>13} "
-          f"{'eff(init)':>10} {'eff(trained)':>13} {'drift':>7} {'specx':>7}")
+    print(f"\n{'layer':>5} {'sig(init)':>10} {'sig(trained)':>13} {'sigSC(tr)':>10} "
+          f"{'scale':>7} {'eff(init)':>10} {'eff(trained)':>13} {'drift':>7} {'specx':>7}")
     for l in range(n_layers):
         si = np.mean([n["init_census"][l]["significant_dims"] for n in nets.values()])
         st = np.mean([n["trained_census"][l]["significant_dims"] for n in nets.values()])
+        ss = np.mean([n["trained_census"][l]["significant_dims_scaled"] for n in nets.values()])
+        sc = np.mean([n["trained_census"][l]["scale_ratio"] for n in nets.values()])
         ei = np.mean([n["init_census"][l]["effective_dim"] for n in nets.values()])
         et = np.mean([n["trained_census"][l]["effective_dim"] for n in nets.values()])
         dr = np.mean([n["frobenius_drift"][l] for n in nets.values()])
         sr = np.mean([n["spectral_norm_ratio"][l] for n in nets.values()])
-        print(f"{l:>5} {si:>10.1f} {st:>13.1f} {ei:>10.1f} {et:>13.1f} "
-              f"{dr:>7.3f} {sr:>7.3f}")
+        print(f"{l:>5} {si:>10.1f} {st:>13.1f} {ss:>10.1f} {sc:>7.3f} "
+              f"{ei:>10.1f} {et:>13.1f} {dr:>7.3f} {sr:>7.3f}")
 
 
 if __name__ == "__main__":
