@@ -1,0 +1,126 @@
+{
+  "slice": "gmm, sep=3.0, 20k steps, no wd",
+  "rows": [
+    {
+      "run_id": "sweep_c2_head",
+      "C": 2,
+      "n": 20,
+      "converged_frac": 1.0,
+      "bayes": 0.9831,
+      "acc_mean": 0.982,
+      "gap_to_bayes_mean": 0.0011,
+      "gap_to_bayes_std": 0.0012
+    },
+    {
+      "run_id": "sweep_c3_head",
+      "C": 3,
+      "n": 20,
+      "converged_frac": 1.0,
+      "bayes": 0.9688,
+      "acc_mean": 0.966,
+      "gap_to_bayes_mean": 0.0028,
+      "gap_to_bayes_std": 0.0015
+    },
+    {
+      "run_id": "sweep_c5_head",
+      "C": 5,
+      "n": 20,
+      "converged_frac": 1.0,
+      "bayes": 0.945,
+      "acc_mean": 0.9412,
+      "gap_to_bayes_mean": 0.0038,
+      "gap_to_bayes_std": 0.0015
+    },
+    {
+      "run_id": "sweep_c8_head",
+      "C": 8,
+      "n": 20,
+      "converged_frac": 1.0,
+      "bayes": 0.917,
+      "acc_mean": 0.9124,
+      "gap_to_bayes_mean": 0.0046,
+      "gap_to_bayes_std": 0.0021
+    },
+    {
+      "run_id": "probe_d32_c10",
+      "C": 10,
+      "n": 3,
+      "converged_frac": 1.0,
+      "bayes": 0.901,
+      "acc_mean": 0.896,
+      "gap_to_bayes_mean": 0.005,
+      "gap_to_bayes_std": 0.0013
+    },
+    {
+      "run_id": "probe_d32_c10_head",
+      "C": 10,
+      "n": 20,
+      "converged_frac": 1.0,
+      "bayes": 0.901,
+      "acc_mean": 0.8965,
+      "gap_to_bayes_mean": 0.0045,
+      "gap_to_bayes_std": 0.0022
+    },
+    {
+      "run_id": "sweep_c15_head",
+      "C": 15,
+      "n": 20,
+      "converged_frac": 1.0,
+      "bayes": 0.8723,
+      "acc_mean": 0.8612,
+      "gap_to_bayes_mean": 0.0111,
+      "gap_to_bayes_std": 0.0027
+    },
+    {
+      "run_id": "sweep_c20_head",
+      "C": 20,
+      "n": 20,
+      "converged_frac": 1.0,
+      "bayes": 0.8477,
+      "acc_mean": 0.8332,
+      "gap_to_bayes_mean": 0.0145,
+      "gap_to_bayes_std": 0.0023
+    },
+    {
+      "run_id": "sweep_c25_head",
+      "C": 25,
+      "n": 20,
+      "converged_frac": 1.0,
+      "bayes": 0.8266,
+      "acc_mean": 0.8102,
+      "gap_to_bayes_mean": 0.0164,
+      "gap_to_bayes_std": 0.0026
+    },
+    {
+      "run_id": "sweep_c32_head",
+      "C": 32,
+      "n": 20,
+      "converged_frac": 0.95,
+      "bayes": 0.8,
+      "acc_mean": 0.7812,
+      "gap_to_bayes_mean": 0.0188,
+      "gap_to_bayes_std": 0.006
+    },
+    {
+      "run_id": "sweep_c40_head",
+      "C": 40,
+      "n": 20,
+      "converged_frac": 0.3,
+      "bayes": 0.7803,
+      "acc_mean": 0.7276,
+      "gap_to_bayes_mean": 0.0527,
+      "gap_to_bayes_std": 0.0245
+    },
+    {
+      "run_id": "sweep_c50_head",
+      "C": 50,
+      "n": 20,
+      "converged_frac": 0.0,
+      "bayes": 0.7586,
+      "acc_mean": 0.565,
+      "gap_to_bayes_mean": 0.1936,
+      "gap_to_bayes_std": 0.0351
+    }
+  ],
+  "written_utc": "2026-08-13 06:07 UTC"
+}
