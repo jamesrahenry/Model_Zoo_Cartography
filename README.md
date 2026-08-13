@@ -79,8 +79,9 @@ spec, ~20 seeds per config — GMM C ∈ {2,3,5,8,10,15,20,25,32,40,50},
 separation sweep at C=10 {1.5, 2.0, 3.0, 4.5, 6.0}, weight decay {0.01, 0.3,
 1.0}, whitened MNIST, two readout modes, a 60k-step C=50 family. Weights +
 provenance: HF dataset `james-ra-henry/MZC-Corpus` (private); local corpus is
-a prune-and-refetch cache (`train/corpus_io.py`). Key results (details in
-commit log and Hopper task t4b9971d):
+a prune-and-refetch cache (`train/corpus_io.py`). Key results — consolidated
+digest with instruments and data pointers in **[FINDINGS.md](FINDINGS.md)**
+(running record: Hopper task t4b9971d):
 
 - **L0 rank law, 20-seed exact**: input-layer significant dims = C−1 through
   C=32, at every separation (1.5–6.0), on GMM and MNIST alike. **Scale
