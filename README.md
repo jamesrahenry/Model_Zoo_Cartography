@@ -72,27 +72,34 @@ pending adaptations.
 
 ## Status
 
-*Updated: 2026-08-11 02:30 UTC.*
+*Updated: 2026-08-13 06:40 UTC.*
 
-Corpus: 27 trained nets at ARC's exact spec (depth-32 converges plain — no
-skip/norm needed): GMM families C ∈ {2, 5, 10, 25, 50} × 3 seeds (two readout
-modes at C=10, a 60k-step C=50 rerun, a weight-decay C=10 family) plus a
-whitened-MNIST family. Key results so far (details in commit log and Hopper
-task t4b9971d):
+Corpus (Phase A complete): **369 trained nets, 21 families** at ARC's exact
+spec, ~20 seeds per config — GMM C ∈ {2,3,5,8,10,15,20,25,32,40,50},
+separation sweep at C=10 {1.5, 2.0, 3.0, 4.5, 6.0}, weight decay {0.01, 0.3,
+1.0}, whitened MNIST, two readout modes, a 60k-step C=50 family. Weights +
+provenance: HF dataset `james-ra-henry/MZC-Corpus` (private); local corpus is
+a prune-and-refetch cache (`train/corpus_io.py`). Key results (details in
+commit log and Hopper task t4b9971d):
 
-- **L0 rank law**: input-layer significant dims = C−1 (the centered class-mean
-  simplex) for every converged family, GMM and MNIST alike.
-- **Rank-collapse arrest**: random nets' propagated rank decays smoothly to the
-  fixed point; trained nets crash to task rank at L0 and hold flat to L31.
+- **L0 rank law, 20-seed exact**: input-layer significant dims = C−1 through
+  C=32, at every separation (1.5–6.0), on GMM and MNIST alike. **Scale
+  caveat**: meaningful weight decay (≥0.3) shrinks weights below the
+  fixed-σ² MP floor and the counter reads 0 while the structure demonstrably
+  remains — the census needs a scale-normalized variant for decayed nets.
+- **Expressivity wall, measured**: convergence fraction 1.00 through C=25 →
+  0.95 (C=32) → 0.30 (C=40) → 0.00 (C=50); seed variance grows 10× at the
+  crossing. Mid-net activation code saturates at ~14 effective dims (~21 sig
+  dims) for every C ≥ 25 regardless of convergence.
+- **Rank-collapse arrest**: trained nets crash to task rank at L0 and hold
+  flat to L31; random nets decay smoothly to the fixed point.
 - **Weights carry the "where"**: noise-input activations on trained weights
-  already show the full structure signature; task input sharpens (~10%), the
-  higher-order weight×input interaction, but does not create it.
+  show the full structure signature; task input sharpens, not creates.
 - **Directional consistency**: same-task nets learn the same L0 subspace
-  (init controls exactly at isotropic chance); detects partial learning that
-  rank metrics miss.
+  (init controls at isotropic chance); detects partial learning rank misses.
+- **Sharing is coordinate-bound** (answering P4's cross-pollination question):
+  same-task twins overlap at exact k/d chance in raw activation eigenspace at
+  every depth — subspace sharing exists only where nets share coordinates
+  (input space / L0). See `notes/2026-08-13_mzc-eigenspace-overlap-reply.md`.
 - **Refit chain**: 128 state-keyed parameters fix mean-field's mid-net failure
-  on trained weights 10–17× held-out; edges (L0/L1, L31) remain the hard part;
-  corrections are population-specific (fail on partial learners).
-- **C=50 wall**: accuracy asymptotes below Bayes while L0 structure keeps
-  accreting — a mid-net expressivity limit (~14-dim activation bottleneck),
-  not an input-learning failure.
+  on trained weights 10–17× held-out; edges and partial learners remain open.
