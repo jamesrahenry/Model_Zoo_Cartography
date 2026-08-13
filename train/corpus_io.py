@@ -36,10 +36,11 @@ def net_paths(run_id: str) -> list[Path]:
         from huggingface_hub import hf_hub_download
         print(f"corpus_io: fetching {len(missing)} pruned net(s) for {run_id} from {HF_REPO}")
         for npz in missing:
-            got = hf_hub_download(HF_REPO, f"corpus/{run_id}/{npz.name}",
-                                  repo_type="dataset")
-            npz.parent.mkdir(parents=True, exist_ok=True)
-            npz.write_bytes(Path(got).read_bytes())
+            # local_dir download: file lands directly under corpus/ with no
+            # duplicate copy in the HF cache (matters at full-corpus scale)
+            hf_hub_download(HF_REPO, f"corpus/{run_id}/{npz.name}",
+                            repo_type="dataset",
+                            local_dir=str(CORPUS_DIR.parent))
     for j in jsons:
         paths.append(j.with_suffix(".npz"))
     return paths
