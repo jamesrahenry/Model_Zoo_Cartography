@@ -1,0 +1,84 @@
+{
+  "cos_threshold": 0.5,
+  "n_samples": 4096,
+  "max_nets": 6,
+  "runs": {
+    "sweep_c2_head": {
+      "C": 2,
+      "trained": {
+        "n_features_mean": 81.0,
+        "n_persistent_mean": 0.0,
+        "n_transient_mean": 81.0,
+        "depth_spanning_mean": 0.0,
+        "lifespan_median": 1.0,
+        "birth_hist_L0_2": 0.284
+      },
+      "init": {
+        "n_features_mean": 539.8,
+        "n_persistent_mean": 0.0,
+        "n_transient_mean": 539.8,
+        "depth_spanning_mean": 0.0,
+        "lifespan_median": 1.0,
+        "birth_hist_L0_2": 0.111
+      }
+    },
+    "probe_d32_c10_head": {
+      "C": 10,
+      "trained": {
+        "n_features_mean": 318.0,
+        "n_persistent_mean": 0.2,
+        "n_transient_mean": 317.0,
+        "depth_spanning_mean": 0.0,
+        "lifespan_median": 1.0,
+        "birth_hist_L0_2": 0.091
+      },
+      "init": {
+        "n_features_mean": 537.3,
+        "n_persistent_mean": 0.0,
+        "n_transient_mean": 537.3,
+        "depth_spanning_mean": 0.0,
+        "lifespan_median": 1.0,
+        "birth_hist_L0_2": 0.112
+      }
+    },
+    "sweep_c25_head": {
+      "C": 25,
+      "trained": {
+        "n_features_mean": 589.7,
+        "n_persistent_mean": 0.0,
+        "n_transient_mean": 589.7,
+        "depth_spanning_mean": 0.0,
+        "lifespan_median": 1.0,
+        "birth_hist_L0_2": 0.102
+      },
+      "init": {
+        "n_features_mean": 540.8,
+        "n_persistent_mean": 0.0,
+        "n_transient_mean": 540.8,
+        "depth_spanning_mean": 0.0,
+        "lifespan_median": 1.0,
+        "birth_hist_L0_2": 0.111
+      }
+    },
+    "mnist_d32": {
+      "C": 10,
+      "trained": {
+        "n_features_mean": 333.5,
+        "n_persistent_mean": 0.0,
+        "n_transient_mean": 333.3,
+        "depth_spanning_mean": 0.0,
+        "lifespan_median": 1.0,
+        "birth_hist_L0_2": 0.18
+      },
+      "init": {
+        "n_features_mean": 483.8,
+        "n_persistent_mean": 0.0,
+        "n_transient_mean": 483.3,
+        "depth_spanning_mean": 0.0,
+        "lifespan_median": 1.0,
+        "birth_hist_L0_2": 0.121
+      }
+    }
+  },
+  "written_utc": "2026-08-14 22:30 UTC"
+}
