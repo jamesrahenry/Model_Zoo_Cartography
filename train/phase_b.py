@@ -47,12 +47,25 @@ CONFIGS: list[tuple[str, list[str], int, float]] = [
     # B3 wall core at standard architecture/budget
     ("b3_c36",       ["--classes", "36"], 32, 35),
     ("b3_c44",       ["--classes", "44"], 32, 35),
+    # B1b (added mid-wave-1): locate the w=512 transition. C=64 STALLED at
+    # ~0.05 (hard plateau, never lifted off — a different failure mode from
+    # the soft wall at w=256, where partials reach 0.5-0.7). These probes
+    # determine whether w=512 shows the same soft wall somewhere in (10, 64)
+    # or a cliff straight to stall. 16 seeds each (transition location, not
+    # fine statistics).
+    ("b1b_w512_c32", ["--width", "512", "--classes", "32"], 16, 70),
+    ("b1b_w512_c44", ["--width", "512", "--classes", "44"], 16, 70),
+    ("b1b_w512_c56", ["--width", "512", "--classes", "56"], 16, 70),
 ]
+
+# b1b probes run 16 seeds (transition location, not fine statistics)
+SEEDS_PER_CONFIG = {"b1b_w512_c32": 16, "b1b_w512_c44": 16, "b1b_w512_c56": 16}
 
 
 def missing_seeds(run_id: str) -> list[int]:
     run_dir = CORPUS_DIR / run_id
-    return [s for s in SEEDS if not (run_dir / f"net_{s:04d}.json").exists()]
+    seeds = SEEDS[:SEEDS_PER_CONFIG.get(run_id, len(SEEDS))]
+    return [s for s in seeds if not (run_dir / f"net_{s:04d}.json").exists()]
 
 
 def run(cmd: list[str]) -> None:
