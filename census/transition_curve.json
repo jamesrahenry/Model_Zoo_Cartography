@@ -62,6 +62,16 @@
       "gap_to_bayes_std": 0.0022
     },
     {
+      "run_id": "sweep_c10_batched",
+      "C": 10,
+      "n": 32,
+      "converged_frac": 1.0,
+      "bayes": 0.901,
+      "acc_mean": 0.8961,
+      "gap_to_bayes_mean": 0.0049,
+      "gap_to_bayes_std": 0.002
+    },
+    {
       "run_id": "sweep_c15_head",
       "C": 15,
       "n": 20,
@@ -122,5 +132,19 @@
       "gap_to_bayes_std": 0.0351
     }
   ],
-  "written_utc": "2026-08-13 06:07 UTC"
+  "wall_fit": {
+    "c50": 38.21937731633531,
+    "width": 2.0120644732976527,
+    "c50_ci": [
+      36.49777223608707,
+      40.00000000798512
+    ],
+    "width_ci": [
+      0.4437565821916093,
+      2.787884186253279
+    ],
+    "n_informative": 2,
+    "n_boot": 2000
+  },
+  "written_utc": "2026-08-14 00:10 UTC"
 }

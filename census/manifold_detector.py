@@ -163,7 +163,17 @@ def estimate_mp_variance(eigenvalues: NDArray, n_samples: int,
     insensitive to a minority of spike (structure) eigenvalues, so this
     recovers the bulk scale even when the overall weight scale has drifted
     (weight decay, spectral growth) — see PROVENANCE.md and the wd≥0.3
-    finding. Breaks down if more than ~half the spectrum is structure.
+    finding.
+
+    Validity: 1.00–1.11 × truth on synthetic rescaled-Gaussian bulks at
+    scales 0.02–2.0 (NOT exact). Two known failure modes:
+    (1) more than ~half the spectrum is structure — the median lands in the
+        structured part;
+    (2) an ANNIHILATED bulk (strong weight decay: near-zero/dead rows) is not
+        a rescaled Gaussian bulk at all — on real wd=1 matrices this estimator
+        reports 29–82 "significant" dims for true structural rank ~7–9
+        (2026-08-13 external audit). Check `bulk_regime` first; in the
+        depleted regime use rank metrics (participation ratio), not MP counts.
     """
     eigs = np.asarray(eigenvalues, dtype=np.float64)
     eigs = eigs[eigs > 0]
