@@ -112,6 +112,16 @@
       "gap_to_bayes_std": 0.006
     },
     {
+      "run_id": "b3_c36",
+      "C": 36,
+      "n": 32,
+      "converged_frac": 0.406,
+      "bayes": 0.7909,
+      "acc_mean": 0.7487,
+      "gap_to_bayes_mean": 0.0422,
+      "gap_to_bayes_std": 0.0237
+    },
+    {
       "run_id": "sweep_c40_head",
       "C": 40,
       "n": 20,
@@ -120,6 +130,16 @@
       "acc_mean": 0.7276,
       "gap_to_bayes_mean": 0.0527,
       "gap_to_bayes_std": 0.0245
+    },
+    {
+      "run_id": "b3_c44",
+      "C": 44,
+      "n": 32,
+      "converged_frac": 0.0,
+      "bayes": 0.7727,
+      "acc_mean": 0.6816,
+      "gap_to_bayes_mean": 0.0911,
+      "gap_to_bayes_std": 0.0274
     },
     {
       "run_id": "sweep_c50_head",
@@ -133,18 +153,18 @@
     }
   ],
   "wall_fit": {
-    "c50": 38.21937731633531,
-    "width": 2.0120644732976527,
+    "c50": 36.22205493002835,
+    "width": 2.081957541748274,
     "c50_ci": [
-      36.49777223608707,
-      40.00000000798512
+      35.18357261140607,
+      37.31576274589255
     ],
     "width_ci": [
-      0.4437565821916093,
-      2.787884186253279
+      1.4942883594311713,
+      2.5984797543423523
     ],
-    "n_informative": 2,
+    "n_informative": 3,
     "n_boot": 2000
   },
-  "written_utc": "2026-08-14 00:10 UTC"
+  "written_utc": "2026-08-14 05:15 UTC"
 }
