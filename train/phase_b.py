@@ -56,10 +56,24 @@ CONFIGS: list[tuple[str, list[str], int, float]] = [
     ("b1b_w512_c32", ["--width", "512", "--classes", "32"], 16, 70),
     ("b1b_w512_c44", ["--width", "512", "--classes", "44"], 16, 70),
     ("b1b_w512_c56", ["--width", "512", "--classes", "56"], 16, 70),
+    # B1c (post-Wave-1): the standing prediction + the two confound arms.
+    # (i) w=64 crossing probe: prediction C50(64) ~ 18.5 (2.5 x ceiling 7.4)
+    ("b1c_w64_c18",  ["--width", "64", "--classes", "18"], 32, 10),
+    ("b1c_w64_c20",  ["--width", "64", "--classes", "20"], 32, 10),
+    ("b1c_w64_c22",  ["--width", "64", "--classes", "22"], 32, 10),
+    # (ii) lr-scaling arms: is the w=512 stall / depth frontier an lr artifact?
+    ("b1c_w512_c64_lr1e4", ["--width", "512", "--classes", "64",
+                            "--lr", "1e-4"], 16, 70),
+    ("b1c_w512_c64_lr3e5", ["--width", "512", "--classes", "64",
+                            "--lr", "3e-5"], 16, 70),
+    ("b1c_d48_c10_lr1e4",  ["--depth", "48", "--lr", "1e-4"], 16, 28),
+    ("b1c_d64_c10_lr1e4",  ["--depth", "64", "--lr", "1e-4"], 16, 50),
 ]
 
-# b1b probes run 16 seeds (transition location, not fine statistics)
-SEEDS_PER_CONFIG = {"b1b_w512_c32": 16, "b1b_w512_c44": 16, "b1b_w512_c56": 16}
+# probe/arm configs run 16 seeds (location, not fine statistics)
+SEEDS_PER_CONFIG = {"b1b_w512_c32": 16, "b1b_w512_c44": 16, "b1b_w512_c56": 16,
+                    "b1c_w512_c64_lr1e4": 16, "b1c_w512_c64_lr3e5": 16,
+                    "b1c_d48_c10_lr1e4": 16, "b1c_d64_c10_lr1e4": 16}
 
 
 def missing_seeds(run_id: str) -> list[int]:
