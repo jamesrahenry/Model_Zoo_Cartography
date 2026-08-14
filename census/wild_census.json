@@ -3,21 +3,21 @@
     "pythia-70m": {
       "L0_mlp_in": {
         "shape": [
-          512,
-          2048
+          2048,
+          512
         ],
-        "sig_scaled": 512,
-        "sig_shuffled_null": 512,
+        "sig_scaled": 4,
+        "sig_shuffled_null": 0,
         "eff_dim": 362.8,
-        "eff_dim_shuffled": 409.6,
-        "scale_vs_shuffled": 1.0476,
+        "eff_dim_shuffled": 410.0,
+        "scale_vs_shuffled": 1.0604,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          1460774748059991.8,
-          515550925023744.4,
-          368867637568068.6,
-          356765673452206.94,
-          323916223728115.94
+          4.38,
+          1.55,
+          1.11,
+          1.07,
+          0.97
         ]
       },
       "L0_mlp_out": {
@@ -41,21 +41,21 @@
       },
       "L1_mlp_in": {
         "shape": [
-          512,
-          2048
+          2048,
+          512
         ],
-        "sig_scaled": 512,
-        "sig_shuffled_null": 512,
+        "sig_scaled": 53,
+        "sig_shuffled_null": 0,
         "eff_dim": 212.2,
-        "eff_dim_shuffled": 409.0,
-        "scale_vs_shuffled": 0.9048,
+        "eff_dim_shuffled": 409.5,
+        "scale_vs_shuffled": 0.8155,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          2999783682409408.0,
-          1193224424286084.2,
-          1038855981856533.6,
-          965398321449008.0,
-          900961865922438.2
+          10.38,
+          4.13,
+          3.59,
+          3.34,
+          3.12
         ]
       },
       "L1_mlp_out": {
@@ -79,21 +79,21 @@
       },
       "L2_mlp_in": {
         "shape": [
-          512,
-          2048
+          2048,
+          512
         ],
-        "sig_scaled": 513,
-        "sig_shuffled_null": 512,
+        "sig_scaled": 49,
+        "sig_shuffled_null": 12,
         "eff_dim": 28.6,
-        "eff_dim_shuffled": 397.4,
-        "scale_vs_shuffled": 0.8322,
+        "eff_dim_shuffled": 397.2,
+        "scale_vs_shuffled": 0.7461,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          1.6371803479508374e+16,
-          824401676310697.5,
-          611984759340005.2,
-          601926262931226.0,
-          579821638263535.2
+          56.67,
+          2.85,
+          2.12,
+          2.08,
+          2.01
         ]
       },
       "L2_mlp_out": {
@@ -117,21 +117,21 @@
       },
       "L3_mlp_in": {
         "shape": [
-          512,
-          2048
+          2048,
+          512
         ],
-        "sig_scaled": 512,
-        "sig_shuffled_null": 512,
+        "sig_scaled": 70,
+        "sig_shuffled_null": 0,
         "eff_dim": 288.3,
-        "eff_dim_shuffled": 408.8,
-        "scale_vs_shuffled": 0.9849,
+        "eff_dim_shuffled": 409.3,
+        "scale_vs_shuffled": 0.8243,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          1329319109366277.2,
-          829297543070154.2,
-          659422100170948.6,
-          608177839558835.4,
-          593193659749801.5
+          4.88,
+          3.04,
+          2.42,
+          2.23,
+          2.18
         ]
       },
       "L3_mlp_out": {
@@ -155,21 +155,21 @@
       },
       "L4_mlp_in": {
         "shape": [
-          512,
-          2048
+          2048,
+          512
         ],
-        "sig_scaled": 512,
-        "sig_shuffled_null": 512,
+        "sig_scaled": 76,
+        "sig_shuffled_null": 0,
         "eff_dim": 227.5,
-        "eff_dim_shuffled": 409.1,
-        "scale_vs_shuffled": 0.973,
+        "eff_dim_shuffled": 409.2,
+        "scale_vs_shuffled": 0.798,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          2003443493117111.5,
-          1830592146252767.5,
-          834653468790838.4,
-          663973922207301.0,
-          606741805837654.6
+          7.57,
+          6.91,
+          3.15,
+          2.51,
+          2.29
         ]
       },
       "L4_mlp_out": {
@@ -193,21 +193,21 @@
       },
       "L5_mlp_in": {
         "shape": [
-          512,
-          2048
+          2048,
+          512
         ],
-        "sig_scaled": 512,
-        "sig_shuffled_null": 512,
+        "sig_scaled": 75,
+        "sig_shuffled_null": 0,
         "eff_dim": 219.1,
-        "eff_dim_shuffled": 408.8,
-        "scale_vs_shuffled": 0.8762,
+        "eff_dim_shuffled": 409.5,
+        "scale_vs_shuffled": 0.7435,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          2530324662757725.5,
-          1414485379127128.2,
-          1082172633732226.2,
-          958740186092142.8,
-          898331485535956.4
+          9.27,
+          5.18,
+          3.97,
+          3.51,
+          3.29
         ]
       },
       "L5_mlp_out": {
@@ -233,21 +233,21 @@
     "pythia-160m": {
       "L0_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 768,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 4,
+        "sig_shuffled_null": 0,
         "eff_dim": 514.7,
-        "eff_dim_shuffled": 614.2,
-        "scale_vs_shuffled": 1.0513,
+        "eff_dim_shuffled": 613.6,
+        "scale_vs_shuffled": 1.1006,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          1871377469184661.0,
-          411087366620175.1,
-          320941248827466.06,
-          306200778669516.4,
-          266904228602445.4
+          6.29,
+          1.38,
+          1.08,
+          1.03,
+          0.9
         ]
       },
       "L0_mlp_out": {
@@ -271,21 +271,21 @@
       },
       "L1_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 769,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 54,
+        "sig_shuffled_null": 1,
         "eff_dim": 289.0,
-        "eff_dim_shuffled": 613.7,
-        "scale_vs_shuffled": 0.8999,
+        "eff_dim_shuffled": 614.0,
+        "scale_vs_shuffled": 0.8306,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          2858579157236247.0,
-          1813938609817605.5,
-          1650981436203398.8,
-          1353880898562290.8,
-          1295205459795707.5
+          11.13,
+          7.06,
+          6.43,
+          5.27,
+          5.04
         ]
       },
       "L1_mlp_out": {
@@ -309,21 +309,21 @@
       },
       "L2_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 770,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 63,
+        "sig_shuffled_null": 0,
         "eff_dim": 148.4,
-        "eff_dim_shuffled": 613.1,
-        "scale_vs_shuffled": 0.8642,
+        "eff_dim_shuffled": 613.4,
+        "scale_vs_shuffled": 0.8076,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          7425618964621227.0,
-          1836343080103282.2,
-          1424947231521919.2,
-          974523524486461.6,
-          843196938510880.4
+          28.63,
+          7.08,
+          5.49,
+          3.76,
+          3.25
         ]
       },
       "L2_mlp_out": {
@@ -347,21 +347,21 @@
       },
       "L3_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 771,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 68,
+        "sig_shuffled_null": 2,
         "eff_dim": 88.8,
-        "eff_dim_shuffled": 611.9,
-        "scale_vs_shuffled": 0.8706,
+        "eff_dim_shuffled": 612.1,
+        "scale_vs_shuffled": 0.7897,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          1.0668281891038204e+16,
-          1549252927498597.8,
-          1259063174246309.0,
-          654750148787446.9,
-          618178666116010.1
+          41.95,
+          6.09,
+          4.95,
+          2.57,
+          2.43
         ]
       },
       "L3_mlp_out": {
@@ -385,21 +385,21 @@
       },
       "L4_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 768,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 90,
+        "sig_shuffled_null": 0,
         "eff_dim": 427.5,
-        "eff_dim_shuffled": 613.8,
-        "scale_vs_shuffled": 0.927,
+        "eff_dim_shuffled": 613.7,
+        "scale_vs_shuffled": 0.8374,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          1694434138797284.8,
-          833730152425218.8,
-          673863133122033.2,
-          583551519643811.2,
-          580498915907233.0
+          6.8,
+          3.35,
+          2.71,
+          2.34,
+          2.33
         ]
       },
       "L4_mlp_out": {
@@ -423,21 +423,21 @@
       },
       "L5_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 768,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 100,
+        "sig_shuffled_null": 1,
         "eff_dim": 412.0,
-        "eff_dim_shuffled": 614.4,
-        "scale_vs_shuffled": 0.9332,
+        "eff_dim_shuffled": 614.1,
+        "scale_vs_shuffled": 0.8162,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          1673150541622542.0,
-          911465638797787.0,
-          731931937992291.8,
-          680139675636733.2,
-          643611677101618.5
+          6.89,
+          3.75,
+          3.01,
+          2.8,
+          2.65
         ]
       },
       "L5_mlp_out": {
@@ -461,21 +461,21 @@
       },
       "L6_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 768,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 100,
+        "sig_shuffled_null": 0,
         "eff_dim": 406.4,
-        "eff_dim_shuffled": 613.7,
-        "scale_vs_shuffled": 0.9275,
+        "eff_dim_shuffled": 614.3,
+        "scale_vs_shuffled": 0.8136,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          1868710144042446.0,
-          789349839973429.6,
-          682638648984923.4,
-          666138183887642.1,
-          607594108312561.2
+          7.62,
+          3.22,
+          2.78,
+          2.72,
+          2.48
         ]
       },
       "L6_mlp_out": {
@@ -499,21 +499,21 @@
       },
       "L7_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 768,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 98,
+        "sig_shuffled_null": 0,
         "eff_dim": 398.2,
-        "eff_dim_shuffled": 614.1,
-        "scale_vs_shuffled": 0.9316,
+        "eff_dim_shuffled": 613.4,
+        "scale_vs_shuffled": 0.8077,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          1836505843993164.2,
-          947183664306112.5,
-          729383082574472.0,
-          688605285010076.6,
-          674177120064685.4
+          7.59,
+          3.92,
+          3.02,
+          2.85,
+          2.79
         ]
       },
       "L7_mlp_out": {
@@ -537,21 +537,21 @@
       },
       "L8_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 768,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 94,
+        "sig_shuffled_null": 0,
         "eff_dim": 388.2,
-        "eff_dim_shuffled": 614.4,
-        "scale_vs_shuffled": 0.9384,
+        "eff_dim_shuffled": 614.0,
+        "scale_vs_shuffled": 0.8186,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          2021963805965080.2,
-          920255650218194.6,
-          753696064863537.1,
-          667771993939331.8,
-          647570920893200.9
+          8.38,
+          3.81,
+          3.12,
+          2.77,
+          2.68
         ]
       },
       "L8_mlp_out": {
@@ -575,21 +575,21 @@
       },
       "L9_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 768,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 103,
+        "sig_shuffled_null": 0,
         "eff_dim": 380.7,
-        "eff_dim_shuffled": 613.6,
-        "scale_vs_shuffled": 0.946,
+        "eff_dim_shuffled": 614.3,
+        "scale_vs_shuffled": 0.8162,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          2043931530833635.0,
-          922342167055367.9,
-          707380892546793.5,
-          664098602474860.0,
-          650261502300400.9
+          8.5,
+          3.84,
+          2.94,
+          2.76,
+          2.7
         ]
       },
       "L9_mlp_out": {
@@ -613,21 +613,21 @@
       },
       "L10_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 768,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 111,
+        "sig_shuffled_null": 1,
         "eff_dim": 372.0,
-        "eff_dim_shuffled": 614.2,
-        "scale_vs_shuffled": 0.9325,
+        "eff_dim_shuffled": 613.6,
+        "scale_vs_shuffled": 0.7843,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          2025763135806225.0,
-          925185138742640.0,
-          839186466910471.9,
-          763404738763236.9,
-          722517242068478.0
+          8.66,
+          3.96,
+          3.59,
+          3.26,
+          3.09
         ]
       },
       "L10_mlp_out": {
@@ -651,21 +651,21 @@
       },
       "L11_mlp_in": {
         "shape": [
-          768,
-          3072
+          3072,
+          768
         ],
-        "sig_scaled": 768,
-        "sig_shuffled_null": 768,
+        "sig_scaled": 96,
+        "sig_shuffled_null": 0,
         "eff_dim": 375.3,
-        "eff_dim_shuffled": 613.7,
-        "scale_vs_shuffled": 0.8932,
+        "eff_dim_shuffled": 614.2,
+        "scale_vs_shuffled": 0.7866,
         "bulk_regime": "intact",
         "top5_over_edge": [
-          2048124338338664.5,
-          1283612677970832.2,
-          1058941230867640.4,
-          811175626886636.6,
-          728786903264154.0
+          8.31,
+          5.21,
+          4.3,
+          3.29,
+          2.96
         ]
       },
       "L11_mlp_out": {
@@ -690,5 +690,5 @@
     }
   },
   "null": "entry-shuffled copy per matrix",
-  "written_utc": "2026-08-14 22:30 UTC"
+  "written_utc": "2026-08-14 22:32 UTC"
 }
