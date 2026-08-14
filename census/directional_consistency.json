@@ -265,6 +265,17 @@
       "chance": 0.234375
     },
     {
+      "run_id": "b1c_w64_c18",
+      "C": 18,
+      "k": 17,
+      "outcomes": "converged",
+      "seed_overlap_learned": 0.4525563761802415,
+      "seed_overlap_init": 0.26551047988259496,
+      "task_overlap_learned": 0.6368938099554645,
+      "task_overlap_init": 0.2680357283222035,
+      "chance": 0.265625
+    },
+    {
       "run_id": "b1_w128_c20",
       "C": 20,
       "k": 19,
@@ -274,6 +285,17 @@
       "task_overlap_learned": 0.781174320943967,
       "task_overlap_init": 0.14669393359416844,
       "chance": 0.1484375
+    },
+    {
+      "run_id": "b1c_w64_c20",
+      "C": 20,
+      "k": 19,
+      "outcomes": "converged",
+      "seed_overlap_learned": 0.4331852962461483,
+      "seed_overlap_init": 0.2970660508456967,
+      "task_overlap_learned": 0.6069433882027152,
+      "task_overlap_init": 0.29632831694429856,
+      "chance": 0.296875
     },
     {
       "run_id": "sweep_c20_head",
@@ -419,5 +441,5 @@
       "chance": 0.123046875
     }
   ],
-  "written_utc": "2026-08-14 09:49 UTC"
+  "written_utc": "2026-08-14 13:33 UTC"
 }

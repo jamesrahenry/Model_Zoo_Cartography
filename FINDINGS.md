@@ -129,6 +129,14 @@ population (`--max-per-run 8`: 24 fit / 16 val / 8 transfer) — the bulk
 repair reproduces (L7/L15/L23: 0.68/0.85/0.89 → 0.058/0.086/0.123, ≈ 7–12×)
 and the edge failures reproduce (L0 worse than uncorrected). The original
 3-seed-era numbers stand as a smaller-population instance of the same result.
+
+**Edge fix (M1, 2026-08-14):** appending two indicator dims ([is_first,
+is_last], 160 params total) to the state basis repairs the edges with zero
+bulk cost — held-out spectrum error L0: 0.171 → 0.025 (≈ uncorrected 0.020,
+i.e. the harm is gone), L1: 0.093 (better than uncorrected), L31: 0.42 →
+0.34; bulk unchanged. The q-clock at the extreme edges remains slightly worse
+than uncorrected — spectrum is the fixed metric, q is not. Data:
+`null_baseline/refit_trained_edge_results.json` (`--edge-flags`).
 *Instruments: vendored `analytic_vacuum.py`, `null_baseline/refit_trained.py`;
 data: `null_baseline/refit_trained_results.json`.*
 
