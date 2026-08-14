@@ -60,27 +60,29 @@ def trajectory(weights: list[np.ndarray]) -> dict[str, list[float]]:
 
 
 def main() -> None:
-    # Establish architecture from the first corpus net.
-    first_run = CORPUS_DIR / args.run_ids[0]
-    first_npz = net_paths(args.run_ids[0])[0]
-    d = np.load(first_npz)
-    n_layers = sum(1 for k in d.files if k.startswith("init_w"))
-    width = d["init_w0"].shape[0]
-
-    print(f"null band: {args.n_null} fresh He nets at width {width} depth {n_layers}")
-    null_trajs = [trajectory(build_mlp(width, n_layers, seed=10_000 + i))
-                  for i in range(args.n_null)]
-    null_band = {
-        k: {"mean": np.mean([t[k] for t in null_trajs], axis=0).round(6).tolist(),
-            "std": np.std([t[k] for t in null_trajs], axis=0).round(6).tolist()}
-        for k in ("q", "abar", "asd", "rbar")
-    }
-
+    # The corpus is architecture-heterogeneous: read (width, depth) per run
+    # and keep one null band per architecture group.
+    null_bands: dict[str, dict] = {}
     runs = {}
+    run_arch = {}
     for run_id in args.run_ids:
-        run_dir = CORPUS_DIR / run_id
+        paths = net_paths(run_id)[:args.max_nets] if args.max_nets else net_paths(run_id)
+        d0 = np.load(paths[0])
+        n_layers = sum(1 for k in d0.files if k.startswith("init_w"))
+        width = int(d0["init_w0"].shape[0])
+        arch = f"w{width}_d{n_layers}"
+        run_arch[run_id] = arch
+        if arch not in null_bands:
+            print(f"null band {arch}: {args.n_null} fresh He nets")
+            null_trajs = [trajectory(build_mlp(width, n_layers, seed=10_000 + i))
+                          for i in range(args.n_null)]
+            null_bands[arch] = {
+                k: {"mean": np.mean([t[k] for t in null_trajs], axis=0).round(6).tolist(),
+                    "std": np.std([t[k] for t in null_trajs], axis=0).round(6).tolist()}
+                for k in ("q", "abar", "asd", "rbar")
+            }
         nets = {}
-        for npz_path in net_paths(run_id):
+        for npz_path in paths:
             d = np.load(npz_path)
             init = [d[f"init_w{i}"] for i in range(n_layers)]
             final = [d[f"w{i}"] for i in range(n_layers)]
@@ -92,8 +94,13 @@ def main() -> None:
     out = {
         "descriptors": "q=PR(Sigma_pre)/w, abar/asd=mean/std of mu/sigma, "
                        "rbar=mean |off-diag rho|; uncorrected Hermite chain from (0, I)",
-        "width": width, "depth": n_layers, "n_null": args.n_null,
-        "null_band": null_band,
+        "n_null": args.n_null,
+        "null_bands": null_bands,
+        "run_arch": run_arch,
+        # legacy single-band fields kept for consumers that predate
+        # heterogeneity (sweep_summary): the standard architecture's band
+        "width": 256, "depth": 32,
+        "null_band": null_bands.get("w256_d32"),
         "runs": runs,
         "written_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
     }
@@ -101,28 +108,21 @@ def main() -> None:
     out_path.write_text(json.dumps(out, indent=2))
     print(f"\nwrote {out_path}\n")
 
-    # Summary: q (rank-collapse clock) at selected depths, trained vs band.
-    sel = [0, 1, 2, 4, 8, 16, 24, 31]
-    sel = [l for l in sel if l < n_layers]
-    hdr = " ".join(f"L{l:<7}" for l in sel)
-    print(f"{'q trajectory':<28} {hdr}")
-    nm = null_band["q"]["mean"]; ns = null_band["q"]["std"]
-    print(f"{'null mean':<28} " + " ".join(f"{nm[l]:<8.4f}" for l in sel))
-    print(f"{'null std':<28} " + " ".join(f"{ns[l]:<8.4f}" for l in sel))
+    # Summary: final-layer q vs the run's OWN architecture band.
+    print(f"\n{'run':<22} {'arch':>10} {'q(final)':>9} {'null':>8} {'z':>7}")
     for run_id, nets in runs.items():
-        tq = np.mean([[n['trained']['q'][l] for l in sel] for n in nets.values()], axis=0)
-        iq = np.mean([[n['init']['q'][l] for l in sel] for n in nets.values()], axis=0)
-        print(f"{run_id + ' init':<28} " + " ".join(f"{v:<8.4f}" for v in iq))
-        print(f"{run_id + ' trained':<28} " + " ".join(f"{v:<8.4f}" for v in tq))
-        # sigma distance from the null band at final layer
-        lf = sel[-1]
-        z = (tq[-1] - nm[lf]) / (ns[lf] + 1e-12)
-        print(f"{'':<28} final-layer q: {z:+.1f} sigma from null band")
+        arch = run_arch[run_id]
+        band = null_bands[arch]["q"]
+        lf = len(next(iter(nets.values()))["trained"]["q"]) - 1
+        tq = float(np.mean([n["trained"]["q"][lf] for n in nets.values()]))
+        z = (tq - band["mean"][lf]) / (band["std"][lf] + 1e-12)
+        print(f"{run_id:<22} {arch:>10} {tq:>9.4f} {band['mean'][lf]:>8.4f} {z:>+7.1f}")
 
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     p.add_argument("--run-id", dest="run_ids", action="append", required=True)
     p.add_argument("--n-null", type=int, default=20)
+    p.add_argument("--max-nets", type=int, default=None)
     args = p.parse_args()
     main()
