@@ -51,12 +51,18 @@ from chain_state_keyed import (DEPTH, N_BASIS, NMF, NOF, NVF, W_DIM, corrections
 # where pure state-keying actively hurt) ----
 
 def basis_dim() -> int:
-    return N_BASIS + 2 if args.edge_flags else N_BASIS
+    if args.basis == "const":
+        return 1
+    return N_BASIS + 2 if args.basis == "edge" else N_BASIS
 
 
 def ext_basis(Spre, a, rho, l: int, depth: int) -> np.ndarray:
+    if args.basis == "const":
+        # factor-before-you-fit rung: per-feature CONSTANT coefficients
+        # (16 params total) — no state dependence at all
+        return np.array([1.0])
     g = state_basis(Spre, a, rho)
-    if not args.edge_flags:
+    if args.basis != "edge":
         return g
     return np.concatenate([g, [1.0 if l == 0 else 0.0,
                                1.0 if l == depth - 1 else 0.0]])
@@ -90,9 +96,22 @@ sys.path.insert(0, str(REPO_ROOT / "train"))
 from corpus_io import net_paths
 CORPUS_DIR = REPO_ROOT / "corpus"
 
-FIT_RUNS = ["sweep_c2_head", "sweep_c5_head", "sweep_c25_head"]
-VAL_RUNS = ["probe_d32_c10", "probe_d32_c10_head"]
-TRANSFER_RUNS = ["sweep_c50_head"]
+# --population converged (default): the original design.
+# --population mixed (M2): partial learners join the FIT set — tests whether
+# one correction family can serve both regimes.
+POPULATIONS = {
+    "converged": {
+        "fit": ["sweep_c2_head", "sweep_c5_head", "sweep_c25_head"],
+        "val": ["probe_d32_c10", "probe_d32_c10_head"],
+        "transfer": ["sweep_c50_head"],
+    },
+    "mixed": {
+        "fit": ["sweep_c2_head", "sweep_c5_head", "sweep_c25_head",
+                "sweep_c40_head", "sweep_c50_head"],
+        "val": ["probe_d32_c10", "probe_d32_c10_head"],
+        "transfer": ["b3_c44", "sweep_c50_head_60k"],
+    },
+}
 
 
 def load_trained(run_ids: list[str]) -> list[tuple[str, np.ndarray]]:
@@ -167,9 +186,10 @@ def metrics(nets, probes, truths, theta) -> dict:
 
 def main() -> None:
     t0 = time.time()
-    fit_nets = load_trained(FIT_RUNS)
-    val_nets = load_trained(VAL_RUNS)
-    tra_nets = load_trained(TRANSFER_RUNS)
+    pop = POPULATIONS[args.population]
+    fit_nets = load_trained(pop["fit"])
+    val_nets = load_trained(pop["val"])
+    tra_nets = load_trained(pop["transfer"])
     print(f"fit {len(fit_nets)}, val {len(val_nets)}, transfer {len(tra_nets)}")
 
     def prep(nets, tag):
@@ -268,9 +288,15 @@ def main() -> None:
     # ---- final evaluation ----
     results = {}
     for tag, nets, probes, truths in [("val_c10", val_nets, val_p, val_t),
-                                      ("transfer_c50", tra_nets, tra_p, tra_t)]:
+                                      ("transfer", tra_nets, tra_p, tra_t)]:
         results[tag] = {"uncorrected": metrics(nets, probes, truths, zero_theta()),
                         "refit": metrics(nets, probes, truths, theta)}
+    # transfer eval printed too when mixed
+    print("\n=== transfer set: eigenspectrum median rel err (top 20) ===")
+    sel2 = [0, 1, 3, 7, 15, 23, 31]
+    for k in ("uncorrected", "refit"):
+        v = results["transfer"][k]["eig_relerr_top20"]
+        print(f"{k:<12} " + " ".join(f"{v[l]:<8.4f}" for l in sel2))
 
     sel = [0, 1, 3, 7, 15, 23, 31]
     print("\n=== held-out C=10 (6 nets): eigenspectrum median rel err (top 20) ===")
@@ -289,11 +315,11 @@ def main() -> None:
 
     n_params = (NMF + NVF + NOF) * basis_dim()
     out = {
-        "population": {"fit": FIT_RUNS, "val": VAL_RUNS, "transfer": TRANSFER_RUNS,
+        "population": {**pop, "name": args.population,
                        "max_per_run": args.max_per_run},
         "config": {"n_mc": args.n_mc, "n_probe": args.n_probe,
                    "n_iter": args.n_iter, "n_params": n_params,
-                   "edge_flags": args.edge_flags},
+                   "basis": args.basis},
         "results": results,
         "theta_b64": base64.b64encode(struct.pack(
             "<%dd" % n_params,
@@ -312,8 +338,9 @@ if __name__ == "__main__":
     p.add_argument("--n-probe", type=int, default=4096)
     p.add_argument("--n-iter", type=int, default=4)
     p.add_argument("--max-per-run", type=int, default=8)
-    p.add_argument("--edge-flags", action="store_true",
-                   help="append [is_first, is_last] to the state basis (M1)")
+    p.add_argument("--basis", default="state",
+                   choices=["const", "state", "edge"],
+                   help="const=16 params (factor rung), state=128, edge=160")
     p.add_argument("--out-name", default="refit_trained_results.json")
     args = p.parse_args()
     main()
