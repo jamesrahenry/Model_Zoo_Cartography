@@ -42,9 +42,48 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
 from chain_state_keyed import (DEPTH, N_BASIS, NMF, NOF, NVF, W_DIM, corrections,
-                               fresh_acc, mean_features, probe_cumulants,
-                               solve_theta, state_basis, step_np, tcross_feats,
-                               var_features, zero_theta)
+                               mean_features, probe_cumulants, state_basis,
+                               step_np, tcross_feats, var_features)
+
+
+# ---- parametric-basis machinery (B = 8, or 10 with --edge-flags: the M1
+# edge-aware variant appends [is_first, is_last] indicator dims — the layers
+# where pure state-keying actively hurt) ----
+
+def basis_dim() -> int:
+    return N_BASIS + 2 if args.edge_flags else N_BASIS
+
+
+def ext_basis(Spre, a, rho, l: int, depth: int) -> np.ndarray:
+    g = state_basis(Spre, a, rho)
+    if not args.edge_flags:
+        return g
+    return np.concatenate([g, [1.0 if l == 0 else 0.0,
+                               1.0 if l == depth - 1 else 0.0]])
+
+
+def zero_theta():
+    B = basis_dim()
+    return (np.zeros((NMF, B)), np.zeros((NVF, B)), np.zeros((NOF, B)))
+
+
+def fresh_acc():
+    B = basis_dim()
+    return {"m_xtx": np.zeros((NMF * B,) * 2), "m_xty": np.zeros(NMF * B),
+            "v_xtx": np.zeros((NVF * B,) * 2), "v_xty": np.zeros(NVF * B),
+            "o_xtx": np.zeros((NOF * B,) * 2), "o_xty": np.zeros(NOF * B)}
+
+
+def solve_theta(acc, ridge=1e-9):
+    B = basis_dim()
+
+    def solve(xtx, xty, nf):
+        A = xtx + ridge * np.trace(xtx) / max(len(xtx), 1) * np.eye(len(xtx))
+        return np.linalg.solve(A, xty).reshape(nf, B)
+
+    return (solve(acc["m_xtx"], acc["m_xty"], NMF),
+            solve(acc["v_xtx"], acc["v_xty"], NVF),
+            solve(acc["o_xtx"], acc["o_xty"], NOF))
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "train"))
@@ -93,7 +132,7 @@ def roll_eval(W: np.ndarray, probe, theta) -> tuple[list, list, list]:
         Fm = mean_features(a, sig_pre, k3, k4)
         Fv = var_features(a, sig_pre, k3, k4)
         Fo = tcross_feats(mu_pre, sig_pre, Spre, kiij, a, rho)
-        g = state_basis(Spre, a, rho)
+        g = ext_basis(Spre, a, rho, l, W.shape[0])
         dm, dv, dS = corrections(theta, g, Fm, Fv, Fo)
         m = m_hat + dm
         S = S_hat + dS
@@ -158,15 +197,15 @@ def main() -> None:
             Fm = mean_features(a, sig_pre, k3, k4)
             Fv = var_features(a, sig_pre, k3, k4)
             Fo = tcross_feats(mu_pre, sig_pre, Spre, kiij, a, rho)
-            g = state_basis(Spre, a, rho)
+            g = ext_basis(Spre, a, rho, l, DEPTH)
             tm = fit_t[t]["mean"][l]
             tS = fit_t[t]["M11"][l] - np.outer(tm, tm)
-            Xm = (Fm[:, :, None] * g[None, None, :]).reshape(W_DIM, NMF * N_BASIS)
+            Xm = (Fm[:, :, None] * g[None, None, :]).reshape(W_DIM, NMF * basis_dim())
             acc["m_xtx"] += Xm.T @ Xm; acc["m_xty"] += Xm.T @ (tm - m_hat)
-            Xv = (Fv[:, :, None] * g[None, None, :]).reshape(W_DIM, NVF * N_BASIS)
+            Xv = (Fv[:, :, None] * g[None, None, :]).reshape(W_DIM, NVF * basis_dim())
             acc["v_xtx"] += Xv.T @ Xv; acc["v_xty"] += Xv.T @ (np.diag(tS) - np.diag(S_hat))
             Fo_iu = np.stack([f[iu] for f in Fo], axis=1)
-            Xo = (Fo_iu[:, :, None] * g[None, None, :]).reshape(len(iu[0]), NOF * N_BASIS)
+            Xo = (Fo_iu[:, :, None] * g[None, None, :]).reshape(len(iu[0]), NOF * basis_dim())
             acc["o_xtx"] += Xo.T @ Xo; acc["o_xty"] += Xo.T @ (tS - S_hat)[iu]
             cache.append((m_hat, S_hat, Fm, Fv, Fo, g))
         theta = solve_theta(acc)
@@ -198,15 +237,15 @@ def main() -> None:
                 Fm = mean_features(a, sig_pre, k3, k4)
                 Fv = var_features(a, sig_pre, k3, k4)
                 Fo = tcross_feats(mu_pre, sig_pre, Spre, kiij, a, rho)
-                g = state_basis(Spre, a, rho)
+                g = ext_basis(Spre, a, rho, l, DEPTH)
                 tm = fit_t[t]["mean"][l]
                 tS = fit_t[t]["M11"][l] - np.outer(tm, tm)
-                Xm = (Fm[:, :, None] * g[None, None, :]).reshape(W_DIM, NMF * N_BASIS)
+                Xm = (Fm[:, :, None] * g[None, None, :]).reshape(W_DIM, NMF * basis_dim())
                 acc["m_xtx"] += Xm.T @ Xm; acc["m_xty"] += Xm.T @ (tm - m_hat)
-                Xv = (Fv[:, :, None] * g[None, None, :]).reshape(W_DIM, NVF * N_BASIS)
+                Xv = (Fv[:, :, None] * g[None, None, :]).reshape(W_DIM, NVF * basis_dim())
                 acc["v_xtx"] += Xv.T @ Xv; acc["v_xty"] += Xv.T @ (np.diag(tS) - np.diag(S_hat))
                 Fo_iu = np.stack([f[iu] for f in Fo], axis=1)
-                Xo = (Fo_iu[:, :, None] * g[None, None, :]).reshape(len(iu[0]), NOF * N_BASIS)
+                Xo = (Fo_iu[:, :, None] * g[None, None, :]).reshape(len(iu[0]), NOF * basis_dim())
                 acc["o_xtx"] += Xo.T @ Xo; acc["o_xty"] += Xo.T @ (tS - S_hat)[iu]
                 dm, dv, dS = corrections(best_theta, g, Fm, Fv, Fo)
                 m = m_hat + dm
@@ -248,12 +287,13 @@ def main() -> None:
         v = results["val_c10"][k]["mean_mse"]
         print(f"{k:<12} " + " ".join(f"{v[l]:<8.2e}" for l in sel))
 
-    n_params = (NMF + NVF + NOF) * N_BASIS
+    n_params = (NMF + NVF + NOF) * basis_dim()
     out = {
         "population": {"fit": FIT_RUNS, "val": VAL_RUNS, "transfer": TRANSFER_RUNS,
                        "max_per_run": args.max_per_run},
         "config": {"n_mc": args.n_mc, "n_probe": args.n_probe,
-                   "n_iter": args.n_iter, "n_params": n_params},
+                   "n_iter": args.n_iter, "n_params": n_params,
+                   "edge_flags": args.edge_flags},
         "results": results,
         "theta_b64": base64.b64encode(struct.pack(
             "<%dd" % n_params,
@@ -261,7 +301,7 @@ def main() -> None:
         "written_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "runtime_s": round(time.time() - t0, 1),
     }
-    out_path = Path(__file__).with_name("refit_trained_results.json")
+    out_path = Path(__file__).with_name(args.out_name)
     out_path.write_text(json.dumps(out, indent=1))
     print(f"\nwrote {out_path} ({time.time()-t0:.0f}s total)")
 
@@ -272,5 +312,8 @@ if __name__ == "__main__":
     p.add_argument("--n-probe", type=int, default=4096)
     p.add_argument("--n-iter", type=int, default=4)
     p.add_argument("--max-per-run", type=int, default=8)
+    p.add_argument("--edge-flags", action="store_true",
+                   help="append [is_first, is_last] to the state basis (M1)")
+    p.add_argument("--out-name", default="refit_trained_results.json")
     args = p.parse_args()
     main()
