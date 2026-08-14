@@ -70,33 +70,47 @@ Median z across all 21 families: +2.3 (14/21 above the band at z>1). Not
 The corrected statement: **training replaces the depth-driven terminal rank
 with a task-code-driven one**, above or below the random fixed point as the
 task demands.
+
+*Wave-1 cross-architecture update (2026-08-14, per-architecture null bands):*
+the two-sided law generalizes. Narrow nets arrest hardest (w=64: z = +5.6 to
++11.2 — their task code is large relative to their random terminal rank);
+w=128: +5.4 to +7.2; shallow nets sit far below their band (d=8: −7.5 — the
+8-layer random band never collapses far, and the trained code undercuts it);
+optimization-failed families (w=512, d≥48) read at/below band, consistent
+with the q-clock measuring committed structure only.
 *Instrument: `null_baseline/state_trajectory.py` (+ vendored
 `chain_state_keyed.py`); data: `null_baseline/state_trajectories.json`.*
 
 ## F3. Weights carry the *where*; input sharpens the *what*
-*(⚠ quantitative claims withdrawn 2026-08-13 pending census recalibration)*
+*(rewritten 2026-08-14 from the recalibrated census — init-anchored
+exceedance floor, regenerated over all 36 families, 8 nets each)*
 
 **What stands (algebraic + within-net):** task inputs match pure-noise inputs
 in mean AND covariance by construction, so the paired noise-vs-task comparison
 is confound-free; trained-weight activations under pure noise already carry
-the qualitative structure signature (low-dimensional, depth-persistent, vs
-init nets collapsing toward the random fixed point), and task input tightens
-it modestly. Location and persistence of activation structure are
-weight-determined; the weight × input interaction contributes sharpening.
+the qualitative structure signature, and task input tightens it modestly.
+Location and persistence of activation structure are weight-determined.
 
-**What is withdrawn:** the "exactly C significant dims at L0–L24" and "flat
-L1–L31, eff dim ≈ C+1" specifics. The audit showed exact-C holds only at
-C = 10/15 (at C=50 the count is ~25 low — the same ceiling F6 documents, an
-internal contradiction as previously written), and depth profiles are U-shaped
-at C ≥ 20 and monotonically decaying on MNIST. **Root cause:** the activation
-census self-calibrates its MP floor per layer (the exact scale-comparability
-trap `manifold_detector.py`'s docstring warns about, and which the *weight*
-census fixes with an explicit null) — the activation census never got the
-same fix. Recalibration (explicit or init-anchored floor) and regeneration of
-`activation_census.json` are queued; dimension-count claims should not be
-cited until then.
-*Instrument: `census/run_activation_census.py`; data:
-`census/activation_census.json` (pre-recalibration).*
+**The recalibrated quantitative picture has two depth regimes:**
+
+- **Early layers** (init activations still diffuse → the matched exceedance
+  null is clean): anchored significant dims at L1 read **C−1 to C** for
+  C ≤ 20 (2.0/3.0/5.0/7.4/9.0/14.0/19.0), compress at the ceiling (20.0 at
+  C=25, 19.6 at C=32), and collapse with the wall (13.8 at C=40). The
+  early-activation rank law mirrors F1's weight law.
+- **Mid/deep layers**: the exceedance count reads ≈ 0 everywhere — and that
+  is itself the finding: **init activations at depth are MORE concentrated
+  than trained ones** (random rank collapse), so trained structure at depth
+  is not "spikier than init" but *less collapsed* than init — the
+  activation-side view of F2's arrest. The right deep statistic is the
+  trained/init effective-dim ratio, not any exceedance count.
+
+Instrument lesson (audit follow-through): the self-calibrating floor's counts
+(the retracted "exactly C at L0–L24") conflated these regimes; the anchored
+floor is valid exactly where init is diffuse, and inverts where init has
+collapsed. Both counts + the anchor are now recorded per layer.
+*Instrument: `census/run_activation_census.py`
+(`significant_dims_anchored`); data: `census/activation_census.json`.*
 
 ## F4. Quantitative prediction needs population-fitted corrections
 
@@ -110,11 +124,11 @@ than uncorrected on the C=50 transfer set) — corrections are population- and
 regime-specific, exactly as ARC's write-up §8 predicted. All polish iterations
 were rejected on held-out data (a verified internal self-consistency check;
 the audit independently reproduced the full fit + gate + eval bit-for-bit).
-⚠ Reproducibility note: the committed results were generated when the local
-corpus held 3 seeds/run (9 fit / 6 val / 3 transfer nets); the current code
-path auto-downloads 20 seeds/run and would fit a different population —
-regeneration against the full population, or pinning the original net IDs, is
-queued.
+Reproducibility (closed 2026-08-14): regenerated on an explicit, recorded
+population (`--max-per-run 8`: 24 fit / 16 val / 8 transfer) — the bulk
+repair reproduces (L7/L15/L23: 0.68/0.85/0.89 → 0.058/0.086/0.123, ≈ 7–12×)
+and the edge failures reproduce (L0 worse than uncorrected). The original
+3-seed-era numbers stand as a smaller-population instance of the same result.
 *Instruments: vendored `analytic_vacuum.py`, `null_baseline/refit_trained.py`;
 data: `null_baseline/refit_trained_results.json`.*
 
@@ -150,10 +164,24 @@ code approaches a **~14-effective-dim (~21 significant) ceiling gradually**
 not — a converged C=25 net routes 25 classes through a ~14-dim code. Tripling
 the budget at C=50 moves accuracy 0.56→0.69 while L0 structure keeps accreting
 — the wall is mid-network expressivity, not input learning or step count.
-**Registered prediction (2026-08-13, pre-Phase-B, audit-verified as genuinely
-pre-registered): C₅₀(w) = 2.7 × ceiling(w)** — under test; early Wave-1
-returns already complicate it (wall scales sublinearly in width; w=512/C=64
-stalls outright rather than walling softly).
+**Registered prediction verdict (2026-08-14, Wave 1 complete).** With the
+fill-ins the wall fit is **C₅₀ = 36.2 [35.2, 37.3], width 2.1 [1.5, 2.6]**
+(committed fit + bootstrap; "sharp" survives the audit's CI concern). The
+prediction C₅₀(w) = k × ceiling(w): at the two cleanly-trained widths the
+measured ratios are **2.54 (w=128: C₅₀ ≈ 29.5 / ceiling 11.6)** and **2.53
+(w=256: 36.2 / 14.3)** — the law holds with the constant revised 2.7 → ~2.5
+(the 2.7 came from the pre-fill-in C₅₀). Ceiling scales sublinearly,
+≈ w^0.5 (7.4 / 11.6 / 14.3 at w = 64/128/256). Standing falsifiable
+prediction: **C₅₀(64) ≈ 2.5 × 7.4 ≈ 18.5** (its C=16 probe converged 32/32,
+consistent; the crossing probe is queued). Two boundaries the law does NOT
+cover: w=512 is optimization-confounded at fixed lr (bimodal at C=32 sliding
+to total stall at C=64 — a *different failure mode* than the soft wall; needs
+per-width lr scaling before its wall is measurable), and depth has its own
+trainability frontier at fixed lr/budget (converges d ≤ 32, partial d=48,
+stalled d=64 — at C=10, where d=32 is trivial). In every failure family the
+L0 task subspace still accretes (alignment 0.38–0.89 of converged levels
+while accuracy sits at chance): **learning proceeds at the input edge even
+when the pipe fails.**
 *Data: `census/transition_curve.json`, `census/c_sweep_summary.json`; note:
 `notes/2026-08-13_wall-model-and-separation-axis.md`.*
 
