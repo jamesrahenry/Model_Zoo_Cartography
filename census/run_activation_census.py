@@ -75,21 +75,37 @@ def empirical_q(z: np.ndarray) -> float:
     return float(np.trace(S) ** 2 / (z.shape[1] * np.sum(S * S) + 1e-300))
 
 
-def forward_census(weights: list[np.ndarray], x: np.ndarray) -> list[dict]:
+def forward_census(weights: list[np.ndarray], x: np.ndarray,
+                   anchor_fracs: list[float] | None = None) -> list[dict]:
+    """Per-layer activation census.
+
+    anchor_fracs: per-layer thresholds (max eigenvalue FRACTION of the same
+    net's init activations on the same inputs). When given, adds
+    significant_dims_anchored = #dims whose variance fraction exceeds
+    anything the init net produces at that layer — a scale-free, matched
+    exceedance null (the F3 audit fix; the plain significant_dims field keeps
+    the self-calibrating MP floor, which is NOT comparable across scales).
+    Anchored counts are capped at the stored top-20 eigenvalues.
+    """
     per_layer = []
     h = np.asarray(x, dtype=np.float64)
     for l, W in enumerate(weights):
         z = h @ np.asarray(W, dtype=np.float64)
         h = np.maximum(z, 0.0)
         cen = _layer_census(h, l, {}, n_top_eigenvalues=20)
-        per_layer.append({
+        entry = {
             "layer": l,
             "q_pre": round(empirical_q(z), 6),
             "eff_dim": round(cen.effective_dim, 2),
             "significant_dims": cen.significant_dims,
+            "total_variance": round(cen.total_variance, 8),
             "dead_frac": round(float((h.max(axis=0) == 0.0).mean()), 4),
             "top_eigenvalues": [round(e, 8) for e in cen.top_eigenvalues],
-        })
+        }
+        if anchor_fracs is not None:
+            fracs = np.array(cen.top_eigenvalues) / max(cen.total_variance, 1e-300)
+            entry["significant_dims_anchored"] = int(np.sum(fracs > anchor_fracs[l]))
+        per_layer.append(entry)
     return per_layer
 
 
@@ -116,7 +132,7 @@ def main() -> None:
     for run_id in args.run_ids:
         run_dir = CORPUS_DIR / run_id
         nets = {}
-        for npz_path in net_paths(run_id):
+        for npz_path in net_paths(run_id)[:args.max_nets]:
             name = npz_path.stem
             d = np.load(npz_path)
             n_layers = sum(1 for k in d.files if k.startswith("init_w"))
@@ -132,13 +148,22 @@ def main() -> None:
             x_task = x_task.astype(np.float64)
 
             entry = {}
-            for fam, ws in (("init", init), ("trained", trained)):
-                noise_c = forward_census(ws, x_noise)
-                entry[fam] = {
-                    "noise": noise_c,
-                    "task": forward_census(ws, x_task),
-                    "vacuum_vs_noise": vacuum_compare(ws, noise_c),
-                }
+            # init first: its per-layer max eigenvalue fractions anchor the
+            # trained net's exceedance null (same inputs, same net's own init)
+            init_noise = forward_census(init, x_noise)
+            init_task = forward_census(init, x_task)
+            entry["init"] = {"noise": init_noise, "task": init_task,
+                             "vacuum_vs_noise": vacuum_compare(init, init_noise)}
+            anchors_noise = [L["top_eigenvalues"][0] / max(L["total_variance"], 1e-300)
+                             for L in init_noise]
+            anchors_task = [L["top_eigenvalues"][0] / max(L["total_variance"], 1e-300)
+                            for L in init_task]
+            tr_noise = forward_census(trained, x_noise, anchor_fracs=anchors_noise)
+            entry["trained"] = {
+                "noise": tr_noise,
+                "task": forward_census(trained, x_task, anchor_fracs=anchors_task),
+                "vacuum_vs_noise": vacuum_compare(trained, tr_noise),
+            }
             nets[name] = entry
             print(f"{run_id}/{name} done", flush=True)
         results[run_id] = nets
@@ -150,7 +175,7 @@ def main() -> None:
         "runs": results,
         "written_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
     }
-    out_path = CENSUS_DIR / "activation_census.json"
+    out_path = CENSUS_DIR / args.out_name
     out_path.write_text(json.dumps(out, indent=2))
     print(f"\nwrote {out_path}\n")
 
@@ -181,6 +206,7 @@ def main() -> None:
             ("eff_dim vacuum(trained)", avgv("trained", "eff_dim_pred")),
             ("sig_dims trained/noise",  avg("trained", "noise", "significant_dims")),
             ("sig_dims trained/task",   avg("trained", "task", "significant_dims")),
+            ("sigANCH trained/task",    avg("trained", "task", "significant_dims_anchored")),
             ("dead_frac trained/task",  avg("trained", "task", "dead_frac")),
             ("vac_relerr init/noise",   avgv("init", "eig_relerr_median_top20")),
             ("vac_relerr trained/noise", avgv("trained", "eig_relerr_median_top20")),
@@ -194,5 +220,9 @@ if __name__ == "__main__":
     p.add_argument("--run-id", dest="run_ids", action="append", required=True)
     p.add_argument("--n-samples", type=int, default=4096)
     p.add_argument("--sample-seed", type=int, default=42)
+    p.add_argument("--max-nets", type=int, default=None,
+                   help="census only the first N nets per run (statistics cap)")
+    p.add_argument("--out-name", default="activation_census.json",
+                   help="output filename under census/ (parallel shards)")
     args = p.parse_args()
     main()

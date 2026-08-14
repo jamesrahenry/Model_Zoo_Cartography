@@ -57,9 +57,13 @@ TRANSFER_RUNS = ["sweep_c50_head"]
 
 
 def load_trained(run_ids: list[str]) -> list[tuple[str, np.ndarray]]:
+    """Population is EXPLICIT: the first --max-per-run nets (seed order) of
+    each run. The original committed results used what was then a 3-seed
+    local corpus (audit: reproducibility gap); regenerations must state
+    max_per_run in the output."""
     nets = []
     for run_id in run_ids:
-        for npz_path in net_paths(run_id):
+        for npz_path in net_paths(run_id)[:args.max_per_run]:
             d = np.load(npz_path)
             n_layers = sum(1 for k in d.files if k.startswith("init_w"))
             W = np.stack([d[f"w{i}"].astype(np.float64) for i in range(n_layers)])
@@ -246,7 +250,8 @@ def main() -> None:
 
     n_params = (NMF + NVF + NOF) * N_BASIS
     out = {
-        "population": {"fit": FIT_RUNS, "val": VAL_RUNS, "transfer": TRANSFER_RUNS},
+        "population": {"fit": FIT_RUNS, "val": VAL_RUNS, "transfer": TRANSFER_RUNS,
+                       "max_per_run": args.max_per_run},
         "config": {"n_mc": args.n_mc, "n_probe": args.n_probe,
                    "n_iter": args.n_iter, "n_params": n_params},
         "results": results,
@@ -266,5 +271,6 @@ if __name__ == "__main__":
     p.add_argument("--n-mc", type=int, default=16384)
     p.add_argument("--n-probe", type=int, default=4096)
     p.add_argument("--n-iter", type=int, default=4)
+    p.add_argument("--max-per-run", type=int, default=8)
     args = p.parse_args()
     main()
