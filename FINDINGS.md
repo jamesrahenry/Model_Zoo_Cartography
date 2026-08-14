@@ -179,17 +179,27 @@ prediction C₅₀(w) = k × ceiling(w): at the two cleanly-trained widths the
 measured ratios are **2.54 (w=128: C₅₀ ≈ 29.5 / ceiling 11.6)** and **2.53
 (w=256: 36.2 / 14.3)** — the law holds with the constant revised 2.7 → ~2.5
 (the 2.7 came from the pre-fill-in C₅₀). Ceiling scales sublinearly,
-≈ w^0.5 (7.4 / 11.6 / 14.3 at w = 64/128/256). Standing falsifiable
-prediction: **C₅₀(64) ≈ 2.5 × 7.4 ≈ 18.5** (its C=16 probe converged 32/32,
-consistent; the crossing probe is queued). Two boundaries the law does NOT
-cover: w=512 is optimization-confounded at fixed lr (bimodal at C=32 sliding
-to total stall at C=64 — a *different failure mode* than the soft wall; needs
-per-width lr scaling before its wall is measurable), and depth has its own
-trainability frontier at fixed lr/budget (converges d ≤ 32, partial d=48,
-stalled d=64 — at C=10, where d=32 is trivial). In every failure family the
-L0 task subspace still accretes (alignment 0.38–0.89 of converged levels
-while accuracy sits at chance): **learning proceeds at the input edge even
-when the pipe fails.**
+≈ w^0.5 (7.4 / 11.6 / 14.3 at w = 64/128/256).
+
+**Prediction outcome (2026-08-14, crossing measured): FALSIFIED at w=64.**
+C₅₀(64) ≈ 28 (C=25: 26/32 converged; C=28: 17/32), ceiling(64) ≈ 8.1 at the
+crossing → **ratio 3.5**, vs 2.54 (w=128) and 2.53 (w=256). The wall is not a
+constant multiple of the mid-net code ceiling across widths — the two-width
+agreement was not a law, and narrow nets route disproportionately many
+classes through relatively little code. Both quantities remain individually
+sharp; their relationship is open (candidates: PR underestimates usable code
+rank at small width, or the wall mechanism is not purely the ceiling).
+
+**The fixed-lr "boundaries" were largely artifacts (lr arms, 2026-08-14):**
+the w=512/C=64 total stall (0.05) becomes 16/16 partial at 0.43 at lr=1e-4
+(non-monotone in lr — 3e-5 gives 0.40; what remains vs Bayes 0.73 is
+wall-or-budget, needs a tuned sweep), and the depth frontier dissolves —
+d=48 at lr=1e-4 converges **16/16 at 0.894** (fixed-lr: 28/32 partial at
+0.54); d=64 reaches 0.865 mean (5 converged + 11 near-miss partials, vs 0.19
+stall). Fixed-hyperparameter trainability boundaries must not be read as
+architectural limits. In every failure family the L0 task subspace still
+accretes (alignment 0.38–0.89 of converged levels while accuracy sits at
+chance): **learning proceeds at the input edge even when the pipe fails.**
 *Data: `census/transition_curve.json`, `census/c_sweep_summary.json`; note:
 `notes/2026-08-13_wall-model-and-separation-axis.md`.*
 

@@ -89,6 +89,28 @@
       "chance": 0.140625
     },
     {
+      "run_id": "b1c_d48_c10_lr1e4",
+      "C": 10,
+      "k": 9,
+      "outcomes": "converged",
+      "seed_overlap_learned": 0.7785765831367466,
+      "seed_overlap_init": 0.03460579677973785,
+      "task_overlap_learned": 0.8826662254282351,
+      "task_overlap_init": 0.03392239764637008,
+      "chance": 0.03515625
+    },
+    {
+      "run_id": "b1c_d64_c10_lr1e4",
+      "C": 10,
+      "k": 9,
+      "outcomes": "converged,partial",
+      "seed_overlap_learned": 0.6799442333590217,
+      "seed_overlap_init": 0.03460579677973785,
+      "task_overlap_learned": 0.8244791443022872,
+      "task_overlap_init": 0.03392239764637008,
+      "chance": 0.03515625
+    },
+    {
       "run_id": "b2_d16_c10",
       "C": 10,
       "k": 9,
@@ -309,6 +331,17 @@
       "chance": 0.07421875
     },
     {
+      "run_id": "b1c_w64_c22",
+      "C": 22,
+      "k": 21,
+      "outcomes": "converged",
+      "seed_overlap_learned": 0.43171754182637173,
+      "seed_overlap_init": 0.3281612414433786,
+      "task_overlap_learned": 0.5921435451267453,
+      "task_overlap_init": 0.32841150428329424,
+      "chance": 0.328125
+    },
+    {
       "run_id": "sweep_c25_head",
       "C": 25,
       "k": 24,
@@ -439,7 +472,29 @@
       "task_overlap_learned": 0.3749925009988737,
       "task_overlap_init": 0.12345658981501628,
       "chance": 0.123046875
+    },
+    {
+      "run_id": "b1c_w512_c64_lr1e4",
+      "C": 64,
+      "k": 63,
+      "outcomes": "partial",
+      "seed_overlap_learned": 0.40194064639899374,
+      "seed_overlap_init": 0.12309986997174,
+      "task_overlap_learned": 0.61713547756824,
+      "task_overlap_init": 0.1237565504055607,
+      "chance": 0.123046875
+    },
+    {
+      "run_id": "b1c_w512_c64_lr3e5",
+      "C": 64,
+      "k": 63,
+      "outcomes": "partial",
+      "seed_overlap_learned": 0.5927400044740357,
+      "seed_overlap_init": 0.12309986997174,
+      "task_overlap_learned": 0.7648242842676306,
+      "task_overlap_init": 0.1237565504055607,
+      "chance": 0.123046875
     }
   ],
-  "written_utc": "2026-08-14 13:33 UTC"
+  "written_utc": "2026-08-14 16:46 UTC"
 }
