@@ -68,6 +68,12 @@ CONFIGS: list[tuple[str, list[str], int, float]] = [
                             "--lr", "3e-5"], 16, 70),
     ("b1c_d48_c10_lr1e4",  ["--depth", "48", "--lr", "1e-4"], 16, 28),
     ("b1c_d64_c10_lr1e4",  ["--depth", "64", "--lr", "1e-4"], 16, 50),
+    # B4: second real-data family (whitened Fashion-MNIST, same pipeline)
+    ("b4_fashion_d32",     ["--task", "fashion"], 32, 12),
+    # B5: weight-decay knee — where does bulk_regime flip? (have 0.01, 0.3, 1.0)
+    ("b5_wd003",           ["--classes", "10", "--weight-decay", "0.03"], 32, 35),
+    ("b5_wd01",            ["--classes", "10", "--weight-decay", "0.1"], 32, 35),
+    ("b5_wd02",            ["--classes", "10", "--weight-decay", "0.2"], 32, 35),
 ]
 
 # probe/arm configs run 16 seeds (location, not fine statistics)

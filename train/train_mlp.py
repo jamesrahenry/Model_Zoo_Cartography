@@ -184,7 +184,8 @@ def main() -> None:
                              separation=args.separation, seed=args.task_seed)
     else:
         from mnist_task import make_mnist_task
-        task = make_mnist_task(dim=args.width, seed=args.task_seed)
+        task = make_mnist_task(dim=args.width, seed=args.task_seed,
+                               dataset=args.task)
     print(f"task: {task.describe()}")
 
     for seed in args.seeds:
@@ -245,7 +246,7 @@ def main() -> None:
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     p.add_argument("--run-id", required=True)
-    p.add_argument("--task", default="gmm", choices=["gmm", "mnist"])
+    p.add_argument("--task", default="gmm", choices=["gmm", "mnist", "fashion"])
     p.add_argument("--width", type=int, default=256)
     p.add_argument("--depth", type=int, default=32)
     p.add_argument("--classes", type=int, default=10)

@@ -64,9 +64,10 @@ def main() -> None:
             task = make_gmm_task(dim=width, n_classes=C, separation=t["separation"],
                                  seed=t["task_seed"])
             means = task.means
-        else:  # mnist_whitened: class means of the whitened train split
+        else:  # *_whitened: class means of the whitened train split
             from mnist_task import make_mnist_task
-            task = make_mnist_task(dim=width, seed=t["projection_seed"])
+            task = make_mnist_task(dim=width, seed=t["projection_seed"],
+                                   dataset=t["family"].removesuffix("_whitened"))
             means = np.stack([task.x_train[task.y_train == c].mean(axis=0)
                               for c in range(C)]).astype(np.float64)
         means_c = means - means.mean(axis=0)

@@ -31,6 +31,7 @@ class MNISTTask:
     dim: int
     n_classes: int
     seed: int
+    dataset: str
     bayes_accuracy: float  # proxy ceiling, not exact — see module docstring
     x_train: NDArray
     y_train: NDArray
@@ -47,7 +48,7 @@ class MNISTTask:
         return self.x_test[idx], self.y_test[idx]
 
     def describe(self) -> dict:
-        return {"family": "mnist_whitened", "n_classes": self.n_classes,
+        return {"family": f"{self.dataset}_whitened", "n_classes": self.n_classes,
                 "projection_seed": self.seed,
                 "bayes_accuracy": self.bayes_accuracy,
                 "bayes_is_proxy": True,
@@ -56,11 +57,14 @@ class MNISTTask:
                     "Gaussian projection + ZCA); non-Gaussian marginals"}
 
 
-def make_mnist_task(dim: int = 256, seed: int = 0) -> MNISTTask:
-    from torchvision.datasets import MNIST  # deferred: torch-family import
+def make_mnist_task(dim: int = 256, seed: int = 0,
+                    dataset: str = "mnist") -> MNISTTask:
+    from torchvision.datasets import MNIST, FashionMNIST  # deferred import
 
-    train = MNIST(str(DATA_ROOT), train=True, download=True)
-    test = MNIST(str(DATA_ROOT), train=False, download=True)
+    cls = {"mnist": MNIST, "fashion": FashionMNIST}[dataset]
+    root = str(DATA_ROOT.parent / dataset)
+    train = cls(root, train=True, download=True)
+    test = cls(root, train=False, download=True)
     xtr = train.data.numpy().reshape(-1, 784).astype(np.float64) / 255.0
     ytr = train.targets.numpy().astype(np.int64)
     xte = test.data.numpy().reshape(-1, 784).astype(np.float64) / 255.0
@@ -78,7 +82,8 @@ def make_mnist_task(dim: int = 256, seed: int = 0) -> MNISTTask:
     def transform(x: NDArray) -> NDArray:
         return (((x - mu) @ P) @ zca).astype(np.float32)
 
-    return MNISTTask(dim=dim, n_classes=10, seed=seed, bayes_accuracy=0.985,
+    return MNISTTask(dim=dim, n_classes=10, seed=seed, dataset=dataset,
+                     bayes_accuracy=0.985,
                      x_train=transform(xtr), y_train=ytr,
                      x_test=transform(xte), y_test=yte)
 
