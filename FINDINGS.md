@@ -227,6 +227,18 @@ depleted. Corollary via the
 separation axis: L0 structural **rank** is task geometry (C−1 always); L0
 structural **amplitude** (spike mass, bulk depletion) follows training
 economics, peaking at intermediate difficulty.
+
+**The knee, located (B5, 2026-08-14):** the fixed-floor C−1 law survives to
+wd = 0.1 (bulk scale already down to 0.32×) and fails abruptly between
+wd = 0.1 and 0.2 — between ~0.6 and ~1.2 nats of total decay (lr·wd·steps).
+Bulk depletion itself is smooth across the whole range; the census failure is
+the sharp thing. Accuracy moves < 0.008 across three orders of magnitude of
+bulk scale (0.896 at wd=0 → 0.888 at wd=1.0): **the random bulk is
+functionally inert** — same function, same performance, completely different
+weight statistics; a census that scores bulk presence as "structure" measures
+optimizer hygiene, not learning. Fashion-MNIST (B4): the L0 rank law reads
+8.25 ≈ C−1 on a second real dataset (proxy-Bayes labeling caveat applies to
+both real-data families).
 *Instrument: `census/manifold_detector.py::estimate_mp_variance`; note:
 `notes/2026-08-13_wall-model-and-separation-axis.md`.*
 
