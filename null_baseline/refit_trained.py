@@ -341,6 +341,8 @@ if __name__ == "__main__":
     p.add_argument("--basis", default="state",
                    choices=["const", "state", "edge"],
                    help="const=16 params (factor rung), state=128, edge=160")
+    p.add_argument("--population", default="converged",
+                   choices=list(POPULATIONS.keys()))
     p.add_argument("--out-name", default="refit_trained_results.json")
     args = p.parse_args()
     main()
