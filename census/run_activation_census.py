@@ -60,11 +60,13 @@ def get_task(t: dict, width: int):
             _TASK_CACHE[key] = make_gmm_task(
                 dim=width, n_classes=t["n_classes"],
                 separation=t["separation"], seed=t["task_seed"])
-    elif t["family"] == "mnist_whitened":
+    elif t["family"].endswith("_whitened"):
         from mnist_task import make_mnist_task
-        key = ("mnist", width, t["projection_seed"])
+        ds = t["family"].removesuffix("_whitened")
+        key = (ds, width, t["projection_seed"])
         if key not in _TASK_CACHE:
-            _TASK_CACHE[key] = make_mnist_task(dim=width, seed=t["projection_seed"])
+            _TASK_CACHE[key] = make_mnist_task(dim=width, seed=t["projection_seed"],
+                                               dataset=ds)
     else:
         raise ValueError(f"unknown task family {t['family']}")
     return _TASK_CACHE[key]
