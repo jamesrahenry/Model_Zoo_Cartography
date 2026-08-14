@@ -309,6 +309,17 @@
       "chance": 0.2109375
     },
     {
+      "run_id": "b1b_w512_c32",
+      "C": 32,
+      "k": 31,
+      "outcomes": "converged,partial,stalled",
+      "seed_overlap_learned": 0.47862356696009345,
+      "seed_overlap_init": 0.06085890457804514,
+      "task_overlap_learned": 0.6881443930497548,
+      "task_overlap_init": 0.06102164254232158,
+      "chance": 0.060546875
+    },
+    {
       "run_id": "sweep_c32_head",
       "C": 32,
       "k": 31,
@@ -340,6 +351,17 @@
       "task_overlap_learned": 0.7922977081719791,
       "task_overlap_init": 0.1528806502957493,
       "chance": 0.15234375
+    },
+    {
+      "run_id": "b1b_w512_c44",
+      "C": 44,
+      "k": 43,
+      "outcomes": "partial,stalled",
+      "seed_overlap_learned": 0.2563923065207408,
+      "seed_overlap_init": 0.08415462601734429,
+      "task_overlap_learned": 0.48359042505499894,
+      "task_overlap_init": 0.08464587118829218,
+      "chance": 0.083984375
     },
     {
       "run_id": "b3_c44",
@@ -375,6 +397,17 @@
       "chance": 0.19140625
     },
     {
+      "run_id": "b1b_w512_c56",
+      "C": 56,
+      "k": 55,
+      "outcomes": "partial,stalled",
+      "seed_overlap_learned": 0.20483942615158604,
+      "seed_overlap_init": 0.10756287049165829,
+      "task_overlap_learned": 0.40382853249504536,
+      "task_overlap_init": 0.10731786156006848,
+      "chance": 0.107421875
+    },
+    {
       "run_id": "b1_w512_c64",
       "C": 64,
       "k": 63,
@@ -386,5 +419,5 @@
       "chance": 0.123046875
     }
   ],
-  "written_utc": "2026-08-14 05:14 UTC"
+  "written_utc": "2026-08-14 09:49 UTC"
 }
