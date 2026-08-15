@@ -1,0 +1,47 @@
+{
+  "n_nets": 200,
+  "difficulty": "log state_keyed final MSE",
+  "features": {
+    "atyp_q": {
+      "spearman_vs_logmse": 0.081,
+      "p": 0.25659,
+      "tail_vs_rest_effect_size": -0.071
+    },
+    "atyp_abar": {
+      "spearman_vs_logmse": 0.121,
+      "p": 0.08786,
+      "tail_vs_rest_effect_size": 0.304
+    },
+    "atyp_asd": {
+      "spearman_vs_logmse": 0.139,
+      "p": 0.04992,
+      "tail_vs_rest_effect_size": 0.224
+    },
+    "atyp_rbar": {
+      "spearman_vs_logmse": 0.1,
+      "p": 0.15945,
+      "tail_vs_rest_effect_size": 0.094
+    },
+    "eff_mean": {
+      "spearman_vs_logmse": 0.01,
+      "p": 0.89118,
+      "tail_vs_rest_effect_size": 0.175
+    },
+    "eff_min": {
+      "spearman_vs_logmse": -0.082,
+      "p": 0.25119,
+      "tail_vs_rest_effect_size": 0.106
+    },
+    "sig_total": {
+      "spearman_vs_logmse": 0.03,
+      "p": 0.67636,
+      "tail_vs_rest_effect_size": -0.029
+    },
+    "spec_max": {
+      "spearman_vs_logmse": -0.044,
+      "p": 0.53809,
+      "tail_vs_rest_effect_size": 0.054
+    }
+  },
+  "written_utc": "2026-08-15 03:05 UTC"
+}
