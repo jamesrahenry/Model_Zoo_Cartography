@@ -228,6 +228,234 @@
           1.83,
           1.66
         ]
+      },
+      "L0_mlp_in:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 409.6,
+        "eff_dim_shuffled": 409.2,
+        "scale_vs_shuffled": 0.9985,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.97,
+          0.96,
+          0.96
+        ]
+      },
+      "L0_mlp_out:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 409.1,
+        "eff_dim_shuffled": 409.6,
+        "scale_vs_shuffled": 0.9981,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.99,
+          0.98,
+          0.97,
+          0.96
+        ]
+      },
+      "L1_mlp_in:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 409.6,
+        "eff_dim_shuffled": 409.2,
+        "scale_vs_shuffled": 0.9976,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.98,
+          0.98,
+          0.97,
+          0.96,
+          0.96
+        ]
+      },
+      "L1_mlp_out:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 409.4,
+        "eff_dim_shuffled": 409.4,
+        "scale_vs_shuffled": 0.9909,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.99,
+          0.98,
+          0.97,
+          0.96
+        ]
+      },
+      "L2_mlp_in:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 410.1,
+        "eff_dim_shuffled": 409.6,
+        "scale_vs_shuffled": 0.9994,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.98,
+          0.98,
+          0.96,
+          0.95,
+          0.94
+        ]
+      },
+      "L2_mlp_out:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 409.3,
+        "eff_dim_shuffled": 409.6,
+        "scale_vs_shuffled": 0.9997,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.97,
+          0.96,
+          0.96
+        ]
+      },
+      "L3_mlp_in:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 409.5,
+        "eff_dim_shuffled": 409.9,
+        "scale_vs_shuffled": 0.9954,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.98,
+          0.97,
+          0.96,
+          0.95
+        ]
+      },
+      "L3_mlp_out:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 409.2,
+        "eff_dim_shuffled": 409.1,
+        "scale_vs_shuffled": 1.0002,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.97,
+          0.97,
+          0.96,
+          0.96
+        ]
+      },
+      "L4_mlp_in:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 409.4,
+        "eff_dim_shuffled": 409.8,
+        "scale_vs_shuffled": 0.9995,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.97,
+          0.96,
+          0.95
+        ]
+      },
+      "L4_mlp_out:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 409.5,
+        "eff_dim_shuffled": 409.3,
+        "scale_vs_shuffled": 0.9963,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.98,
+          0.97,
+          0.97,
+          0.96
+        ]
+      },
+      "L5_mlp_in:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 409.8,
+        "eff_dim_shuffled": 409.4,
+        "scale_vs_shuffled": 1.0034,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.99,
+          0.98,
+          0.97,
+          0.96
+        ]
+      },
+      "L5_mlp_out:reinit": {
+        "shape": [
+          2048,
+          512
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 1,
+        "eff_dim": 409.2,
+        "eff_dim_shuffled": 409.7,
+        "scale_vs_shuffled": 0.9977,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.99,
+          0.97,
+          0.96,
+          0.95
+        ]
       }
     },
     "pythia-160m": {
@@ -239,8 +467,8 @@
         "sig_scaled": 4,
         "sig_shuffled_null": 0,
         "eff_dim": 514.7,
-        "eff_dim_shuffled": 613.6,
-        "scale_vs_shuffled": 1.1006,
+        "eff_dim_shuffled": 614.4,
+        "scale_vs_shuffled": 1.1009,
         "bulk_regime": "intact",
         "top5_over_edge": [
           6.29,
@@ -256,10 +484,10 @@
           768
         ],
         "sig_scaled": 3,
-        "sig_shuffled_null": 0,
+        "sig_shuffled_null": 1,
         "eff_dim": 655.6,
-        "eff_dim_shuffled": 613.9,
-        "scale_vs_shuffled": 1.071,
+        "eff_dim_shuffled": 614.6,
+        "scale_vs_shuffled": 1.0725,
         "bulk_regime": "intact",
         "top5_over_edge": [
           2.63,
@@ -275,10 +503,10 @@
           768
         ],
         "sig_scaled": 54,
-        "sig_shuffled_null": 1,
+        "sig_shuffled_null": 0,
         "eff_dim": 289.0,
-        "eff_dim_shuffled": 614.0,
-        "scale_vs_shuffled": 0.8306,
+        "eff_dim_shuffled": 614.1,
+        "scale_vs_shuffled": 0.8266,
         "bulk_regime": "intact",
         "top5_over_edge": [
           11.13,
@@ -294,10 +522,10 @@
           768
         ],
         "sig_scaled": 85,
-        "sig_shuffled_null": 1,
+        "sig_shuffled_null": 0,
         "eff_dim": 371.5,
-        "eff_dim_shuffled": 614.4,
-        "scale_vs_shuffled": 0.8349,
+        "eff_dim_shuffled": 613.9,
+        "scale_vs_shuffled": 0.8337,
         "bulk_regime": "intact",
         "top5_over_edge": [
           10.26,
@@ -313,10 +541,10 @@
           768
         ],
         "sig_scaled": 63,
-        "sig_shuffled_null": 0,
+        "sig_shuffled_null": 1,
         "eff_dim": 148.4,
-        "eff_dim_shuffled": 613.4,
-        "scale_vs_shuffled": 0.8076,
+        "eff_dim_shuffled": 613.3,
+        "scale_vs_shuffled": 0.8086,
         "bulk_regime": "intact",
         "top5_over_edge": [
           28.63,
@@ -332,10 +560,10 @@
           768
         ],
         "sig_scaled": 72,
-        "sig_shuffled_null": 0,
+        "sig_shuffled_null": 1,
         "eff_dim": 401.3,
-        "eff_dim_shuffled": 614.4,
-        "scale_vs_shuffled": 0.8485,
+        "eff_dim_shuffled": 613.8,
+        "scale_vs_shuffled": 0.8516,
         "bulk_regime": "intact",
         "top5_over_edge": [
           6.68,
@@ -351,10 +579,10 @@
           768
         ],
         "sig_scaled": 68,
-        "sig_shuffled_null": 2,
+        "sig_shuffled_null": 1,
         "eff_dim": 88.8,
         "eff_dim_shuffled": 612.1,
-        "scale_vs_shuffled": 0.7897,
+        "scale_vs_shuffled": 0.7902,
         "bulk_regime": "intact",
         "top5_over_edge": [
           41.95,
@@ -372,8 +600,8 @@
         "sig_scaled": 84,
         "sig_shuffled_null": 1,
         "eff_dim": 426.6,
-        "eff_dim_shuffled": 613.7,
-        "scale_vs_shuffled": 0.8562,
+        "eff_dim_shuffled": 613.4,
+        "scale_vs_shuffled": 0.8559,
         "bulk_regime": "intact",
         "top5_over_edge": [
           5.92,
@@ -391,8 +619,8 @@
         "sig_scaled": 90,
         "sig_shuffled_null": 0,
         "eff_dim": 427.5,
-        "eff_dim_shuffled": 613.7,
-        "scale_vs_shuffled": 0.8374,
+        "eff_dim_shuffled": 614.3,
+        "scale_vs_shuffled": 0.836,
         "bulk_regime": "intact",
         "top5_over_edge": [
           6.8,
@@ -410,8 +638,8 @@
         "sig_scaled": 83,
         "sig_shuffled_null": 0,
         "eff_dim": 413.9,
-        "eff_dim_shuffled": 614.2,
-        "scale_vs_shuffled": 0.8313,
+        "eff_dim_shuffled": 614.4,
+        "scale_vs_shuffled": 0.8336,
         "bulk_regime": "intact",
         "top5_over_edge": [
           5.44,
@@ -427,10 +655,10 @@
           768
         ],
         "sig_scaled": 100,
-        "sig_shuffled_null": 1,
+        "sig_shuffled_null": 0,
         "eff_dim": 412.0,
-        "eff_dim_shuffled": 614.1,
-        "scale_vs_shuffled": 0.8162,
+        "eff_dim_shuffled": 613.8,
+        "scale_vs_shuffled": 0.8135,
         "bulk_regime": "intact",
         "top5_over_edge": [
           6.89,
@@ -448,8 +676,8 @@
         "sig_scaled": 102,
         "sig_shuffled_null": 1,
         "eff_dim": 295.1,
-        "eff_dim_shuffled": 614.1,
-        "scale_vs_shuffled": 0.7923,
+        "eff_dim_shuffled": 613.4,
+        "scale_vs_shuffled": 0.7927,
         "bulk_regime": "intact",
         "top5_over_edge": [
           14.46,
@@ -467,8 +695,8 @@
         "sig_scaled": 100,
         "sig_shuffled_null": 0,
         "eff_dim": 406.4,
-        "eff_dim_shuffled": 614.3,
-        "scale_vs_shuffled": 0.8136,
+        "eff_dim_shuffled": 613.7,
+        "scale_vs_shuffled": 0.8122,
         "bulk_regime": "intact",
         "top5_over_edge": [
           7.62,
@@ -484,10 +712,10 @@
           768
         ],
         "sig_scaled": 99,
-        "sig_shuffled_null": 0,
+        "sig_shuffled_null": 1,
         "eff_dim": 242.9,
-        "eff_dim_shuffled": 613.4,
-        "scale_vs_shuffled": 0.758,
+        "eff_dim_shuffled": 614.4,
+        "scale_vs_shuffled": 0.7554,
         "bulk_regime": "intact",
         "top5_over_edge": [
           15.66,
@@ -503,10 +731,10 @@
           768
         ],
         "sig_scaled": 98,
-        "sig_shuffled_null": 0,
+        "sig_shuffled_null": 1,
         "eff_dim": 398.2,
-        "eff_dim_shuffled": 613.4,
-        "scale_vs_shuffled": 0.8077,
+        "eff_dim_shuffled": 614.2,
+        "scale_vs_shuffled": 0.8103,
         "bulk_regime": "intact",
         "top5_over_edge": [
           7.59,
@@ -522,10 +750,10 @@
           768
         ],
         "sig_scaled": 92,
-        "sig_shuffled_null": 0,
+        "sig_shuffled_null": 1,
         "eff_dim": 262.3,
-        "eff_dim_shuffled": 613.5,
-        "scale_vs_shuffled": 0.7775,
+        "eff_dim_shuffled": 613.7,
+        "scale_vs_shuffled": 0.7761,
         "bulk_regime": "intact",
         "top5_over_edge": [
           11.26,
@@ -543,8 +771,8 @@
         "sig_scaled": 94,
         "sig_shuffled_null": 0,
         "eff_dim": 388.2,
-        "eff_dim_shuffled": 614.0,
-        "scale_vs_shuffled": 0.8186,
+        "eff_dim_shuffled": 614.3,
+        "scale_vs_shuffled": 0.8174,
         "bulk_regime": "intact",
         "top5_over_edge": [
           8.38,
@@ -562,8 +790,8 @@
         "sig_scaled": 88,
         "sig_shuffled_null": 0,
         "eff_dim": 340.8,
-        "eff_dim_shuffled": 614.3,
-        "scale_vs_shuffled": 0.8072,
+        "eff_dim_shuffled": 613.6,
+        "scale_vs_shuffled": 0.8077,
         "bulk_regime": "intact",
         "top5_over_edge": [
           8.49,
@@ -579,10 +807,10 @@
           768
         ],
         "sig_scaled": 103,
-        "sig_shuffled_null": 0,
+        "sig_shuffled_null": 1,
         "eff_dim": 380.7,
-        "eff_dim_shuffled": 614.3,
-        "scale_vs_shuffled": 0.8162,
+        "eff_dim_shuffled": 614.7,
+        "scale_vs_shuffled": 0.8173,
         "bulk_regime": "intact",
         "top5_over_edge": [
           8.5,
@@ -600,8 +828,8 @@
         "sig_scaled": 67,
         "sig_shuffled_null": 0,
         "eff_dim": 378.2,
-        "eff_dim_shuffled": 613.8,
-        "scale_vs_shuffled": 0.8517,
+        "eff_dim_shuffled": 614.1,
+        "scale_vs_shuffled": 0.8508,
         "bulk_regime": "intact",
         "top5_over_edge": [
           7.7,
@@ -617,10 +845,10 @@
           768
         ],
         "sig_scaled": 111,
-        "sig_shuffled_null": 1,
+        "sig_shuffled_null": 0,
         "eff_dim": 372.0,
-        "eff_dim_shuffled": 613.6,
-        "scale_vs_shuffled": 0.7843,
+        "eff_dim_shuffled": 614.1,
+        "scale_vs_shuffled": 0.7817,
         "bulk_regime": "intact",
         "top5_over_edge": [
           8.66,
@@ -638,8 +866,8 @@
         "sig_scaled": 53,
         "sig_shuffled_null": 0,
         "eff_dim": 456.5,
-        "eff_dim_shuffled": 614.4,
-        "scale_vs_shuffled": 0.9021,
+        "eff_dim_shuffled": 613.6,
+        "scale_vs_shuffled": 0.9051,
         "bulk_regime": "intact",
         "top5_over_edge": [
           6.73,
@@ -657,8 +885,8 @@
         "sig_scaled": 96,
         "sig_shuffled_null": 0,
         "eff_dim": 375.3,
-        "eff_dim_shuffled": 614.2,
-        "scale_vs_shuffled": 0.7866,
+        "eff_dim_shuffled": 614.1,
+        "scale_vs_shuffled": 0.7899,
         "bulk_regime": "intact",
         "top5_over_edge": [
           8.31,
@@ -674,10 +902,10 @@
           768
         ],
         "sig_scaled": 57,
-        "sig_shuffled_null": 0,
+        "sig_shuffled_null": 1,
         "eff_dim": 391.4,
-        "eff_dim_shuffled": 614.4,
-        "scale_vs_shuffled": 0.8865,
+        "eff_dim_shuffled": 613.8,
+        "scale_vs_shuffled": 0.8877,
         "bulk_regime": "intact",
         "top5_over_edge": [
           10.32,
@@ -686,9 +914,465 @@
           1.95,
           1.82
         ]
+      },
+      "L0_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 613.8,
+        "eff_dim_shuffled": 613.9,
+        "scale_vs_shuffled": 1.0009,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.99,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L0_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 613.8,
+        "eff_dim_shuffled": 614.4,
+        "scale_vs_shuffled": 0.9998,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L1_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 1,
+        "sig_shuffled_null": 1,
+        "eff_dim": 614.0,
+        "eff_dim_shuffled": 614.0,
+        "scale_vs_shuffled": 1.0026,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.99,
+          0.99,
+          0.97,
+          0.97
+        ]
+      },
+      "L1_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.9,
+        "eff_dim_shuffled": 614.5,
+        "scale_vs_shuffled": 1.0027,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.99,
+          0.98,
+          0.97,
+          0.96
+        ]
+      },
+      "L2_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.2,
+        "eff_dim_shuffled": 614.6,
+        "scale_vs_shuffled": 0.9981,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.98,
+          0.98,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L2_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.5,
+        "eff_dim_shuffled": 614.4,
+        "scale_vs_shuffled": 1.0012,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.99,
+          0.98,
+          0.97,
+          0.96
+        ]
+      },
+      "L3_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 1,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.1,
+        "eff_dim_shuffled": 614.2,
+        "scale_vs_shuffled": 0.9976,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.01,
+          0.99,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L3_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.5,
+        "eff_dim_shuffled": 614.5,
+        "scale_vs_shuffled": 0.9948,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.98,
+          0.97,
+          0.96
+        ]
+      },
+      "L4_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 1,
+        "sig_shuffled_null": 0,
+        "eff_dim": 613.7,
+        "eff_dim_shuffled": 614.3,
+        "scale_vs_shuffled": 0.9998,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.98,
+          0.98,
+          0.98,
+          0.96
+        ]
+      },
+      "L4_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.6,
+        "eff_dim_shuffled": 614.2,
+        "scale_vs_shuffled": 1.0,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L5_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.3,
+        "eff_dim_shuffled": 613.7,
+        "scale_vs_shuffled": 1.0009,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.97,
+          0.97,
+          0.96
+        ]
+      },
+      "L5_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 1,
+        "eff_dim": 614.5,
+        "eff_dim_shuffled": 614.0,
+        "scale_vs_shuffled": 0.9984,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L6_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 1,
+        "eff_dim": 614.7,
+        "eff_dim_shuffled": 614.5,
+        "scale_vs_shuffled": 1.0004,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.99,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L6_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.4,
+        "eff_dim_shuffled": 614.2,
+        "scale_vs_shuffled": 1.0034,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.99,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L7_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 1,
+        "eff_dim": 614.0,
+        "eff_dim_shuffled": 613.9,
+        "scale_vs_shuffled": 0.9965,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.99,
+          0.98,
+          0.98,
+          0.97
+        ]
+      },
+      "L7_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.3,
+        "eff_dim_shuffled": 614.4,
+        "scale_vs_shuffled": 1.001,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.98,
+          0.98,
+          0.97
+        ]
+      },
+      "L8_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.4,
+        "eff_dim_shuffled": 613.9,
+        "scale_vs_shuffled": 1.0002,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          1.0,
+          0.98,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L8_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.6,
+        "eff_dim_shuffled": 613.8,
+        "scale_vs_shuffled": 1.0012,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.98,
+          0.97,
+          0.96
+        ]
+      },
+      "L9_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.4,
+        "eff_dim_shuffled": 614.0,
+        "scale_vs_shuffled": 1.001,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.97,
+          0.97,
+          0.97,
+          0.96
+        ]
+      },
+      "L9_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 613.9,
+        "eff_dim_shuffled": 614.4,
+        "scale_vs_shuffled": 0.9988,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.99,
+          0.98,
+          0.98,
+          0.97
+        ]
+      },
+      "L10_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 1,
+        "eff_dim": 613.6,
+        "eff_dim_shuffled": 613.4,
+        "scale_vs_shuffled": 1.0041,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.99,
+          0.98,
+          0.97,
+          0.96
+        ]
+      },
+      "L10_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 613.8,
+        "eff_dim_shuffled": 614.6,
+        "scale_vs_shuffled": 1.0002,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L11_mlp_in:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 0,
+        "eff_dim": 614.1,
+        "eff_dim_shuffled": 614.5,
+        "scale_vs_shuffled": 1.0019,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.99,
+          0.98,
+          0.97,
+          0.97
+        ]
+      },
+      "L11_mlp_out:reinit": {
+        "shape": [
+          3072,
+          768
+        ],
+        "sig_scaled": 0,
+        "sig_shuffled_null": 1,
+        "eff_dim": 614.5,
+        "eff_dim_shuffled": 614.5,
+        "scale_vs_shuffled": 1.0024,
+        "bulk_regime": "intact",
+        "top5_over_edge": [
+          0.99,
+          0.98,
+          0.98,
+          0.97,
+          0.96
+        ]
       }
     }
   },
   "null": "entry-shuffled copy per matrix",
-  "written_utc": "2026-08-14 22:32 UTC"
+  "written_utc": "2026-08-16 16:24 UTC"
 }

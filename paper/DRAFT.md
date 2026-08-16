@@ -22,9 +22,10 @@ rank, above or below the random fixed point as the task demands; (3)
 coordinate-bound sharing — same-task twins share nothing in raw hidden-space
 eigenbases at any depth yet carry the same depth code up to rotation
 (Procrustes-recovered overlap 0.90+ vs 0.035 chance, graded by task overlap);
-(4) a sharp capacity wall in class count (logistic width ≈ 2 classes) whose
-relationship to the mid-network code ceiling we pre-registered as
-proportional and then falsified at small width; and (5) functional inertness
+(4) a sharp class-count wall (logistic width ≈ 2 classes) whose relationship
+to the mid-network code ceiling we pre-registered as proportional, falsified
+at small width, and resolved as a compute frontier logarithmic in width
+(C₅₀ ≈ 28→39 across widths 64→512) and budget; and (5) functional inertness
 of the random weight bulk — accuracy moves < 1% while weight decay sweeps the
 bulk over three orders of magnitude of scale, implying that spectral censuses
 which score bulk presence as structure measure optimizer hygiene, not
@@ -105,18 +106,28 @@ rotations. Consequence for representational-convergence claims: convergence
 is real, rotation-hidden, and task-graded; metrics must be rotation-invariant
 or input-anchored.
 
-### 4.4 The capacity wall, and a falsified pre-registration
-Convergence fraction vs C at fixed budget is a sharp transition (w=256:
-C₅₀ = 36.2 [35.2, 37.3], logistic width 2.1 [1.5, 2.6]; seed variance ×10 at
-the crossing; Bayes gap linear in C below it). The mid-net activation code
-saturates (~14 eff dims at w=256) for every C ≥ 25, converged or not. We
-pre-registered C₅₀(w) = 2.7 × ceiling(w); with fill-in data the constant
-revised to ~2.5 and held at w=128/256 (2.54/2.53) — and *failed* at w=64
-(measured C₅₀ ≈ 28, ceiling ≈ 8.1, ratio 3.5). The wall and the ceiling are
-separately sharp; their relationship is open. Fixed-lr failures at w=512 and
-d ≥ 48 initially presented as walls and dissolved under lr scaling — a
-standing warning that fixed-hyperparameter trainability boundaries are not
-architectural limits.
+### 4.4 The class-count wall: pre-registered, falsified, then resolved as a
+### logarithmic compute frontier
+
+Convergence fraction vs C at fixed budget is a sharp logistic transition at
+every width (logistic width ~1.5–2.2 classes; seed variance ×10 at the
+crossing; Bayes gap linear in C below it). We pre-registered
+C₅₀(w) = 2.7 × ceiling(w) — proportionality between the wall and the mid-net
+activation-code ceiling — and **falsified it**: the constant held at
+w=128/256 (2.54/2.53) and failed at w=64 (ratio 3.5). The resolution, from
+per-width lr-tuned sweeps, is that the wall is not capacity-proportional at
+all but a **compute frontier, approximately logarithmic in both width and
+budget**: C₅₀ = 27.8 / 32.3 / 36.2 / 38.8 at w = 64/128/256/512 (~+3.7
+classes per width doubling), sliding ~+10 classes per tripling of steps
+(w=512, C=48: 0% → 88% converged at 3× budget). The ceiling grows comparably
+slowly in width (8.1/11.6/14.3), which is why the falsified proportionality
+appeared to hold at two widths. Whether a budget-independent asymptote exists
+is under test (10× budget arms). Every "hard boundary" we encountered at
+fixed hyperparameters — a w=512 stall, a depth-48/64 trainability frontier —
+dissolved under lr and budget scaling (d=64: from total stall to 14/16
+converged), while in every failure family the input layer's task-subspace
+alignment kept accreting at chance-level accuracy. Fixed-hyperparameter
+trainability boundaries must not be read as architectural limits.
 
 ### 4.5 The random bulk is functionally inert
 Weight decay sweeps the bulk from 1.0× to 0.000× of its He scale while
