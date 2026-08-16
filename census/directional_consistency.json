@@ -111,6 +111,17 @@
       "chance": 0.03515625
     },
     {
+      "run_id": "b1d_d64_lr1e4_60k",
+      "C": 10,
+      "k": 9,
+      "outcomes": "converged,partial",
+      "seed_overlap_learned": 0.7557139077383715,
+      "seed_overlap_init": 0.03460579677973785,
+      "task_overlap_learned": 0.869361894248329,
+      "task_overlap_init": 0.03392239764637008,
+      "chance": 0.03515625
+    },
+    {
       "run_id": "b2_d16_c10",
       "C": 10,
       "k": 9,
@@ -408,6 +419,17 @@
       "chance": 0.2109375
     },
     {
+      "run_id": "b1d_w64_c30",
+      "C": 30,
+      "k": 29,
+      "outcomes": "converged,partial",
+      "seed_overlap_learned": 0.4826281803901214,
+      "seed_overlap_init": 0.453081429710392,
+      "task_overlap_learned": 0.5822192218104737,
+      "task_overlap_init": 0.45664407852713673,
+      "chance": 0.453125
+    },
+    {
       "run_id": "b1b_w512_c32",
       "C": 32,
       "k": 31,
@@ -417,6 +439,61 @@
       "task_overlap_learned": 0.6881443930497548,
       "task_overlap_init": 0.06102164254232158,
       "chance": 0.060546875
+    },
+    {
+      "run_id": "b1d_w128_c32",
+      "C": 32,
+      "k": 31,
+      "outcomes": "converged,partial",
+      "seed_overlap_learned": 0.5259995132550879,
+      "seed_overlap_init": 0.24220280264989832,
+      "task_overlap_learned": 0.7059785171093429,
+      "task_overlap_init": 0.2433646708125506,
+      "chance": 0.2421875
+    },
+    {
+      "run_id": "b1d_w512_c32_lr1e4",
+      "C": 32,
+      "k": 31,
+      "outcomes": "converged",
+      "seed_overlap_learned": 0.7015507253396362,
+      "seed_overlap_init": 0.06064780663313788,
+      "task_overlap_learned": 0.836776557458043,
+      "task_overlap_init": 0.06171352511223985,
+      "chance": 0.060546875
+    },
+    {
+      "run_id": "b1d_w512_c32_lr3e5",
+      "C": 32,
+      "k": 31,
+      "outcomes": "partial",
+      "seed_overlap_learned": 0.6011365419186498,
+      "seed_overlap_init": 0.06064780663313788,
+      "task_overlap_learned": 0.7737222406175676,
+      "task_overlap_init": 0.06171352511223985,
+      "chance": 0.060546875
+    },
+    {
+      "run_id": "b1d_w512_c32_t1e-4",
+      "C": 32,
+      "k": 31,
+      "outcomes": "converged",
+      "seed_overlap_learned": 0.7018982943179608,
+      "seed_overlap_init": 0.06085890457804514,
+      "task_overlap_learned": 0.8367502299471896,
+      "task_overlap_init": 0.06102164254232158,
+      "chance": 0.060546875
+    },
+    {
+      "run_id": "b1d_w64_c32",
+      "C": 32,
+      "k": 31,
+      "outcomes": "converged,partial",
+      "seed_overlap_learned": 0.5058698900401092,
+      "seed_overlap_init": 0.4844012838396389,
+      "task_overlap_learned": 0.5896282961009796,
+      "task_overlap_init": 0.48262380570964847,
+      "chance": 0.484375
     },
     {
       "run_id": "sweep_c32_head",
@@ -430,6 +507,17 @@
       "chance": 0.12109375
     },
     {
+      "run_id": "b1d_w128_c36",
+      "C": 36,
+      "k": 35,
+      "outcomes": "converged,partial",
+      "seed_overlap_learned": 0.4988877939154473,
+      "seed_overlap_init": 0.2731537178371072,
+      "task_overlap_learned": 0.6780437400192387,
+      "task_overlap_init": 0.27178370127893864,
+      "chance": 0.2734375
+    },
+    {
       "run_id": "b3_c36",
       "C": 36,
       "k": 35,
@@ -439,6 +527,17 @@
       "task_overlap_learned": 0.8059247986672777,
       "task_overlap_init": 0.13618228810153982,
       "chance": 0.13671875
+    },
+    {
+      "run_id": "b1d_w512_c40_t1e-4",
+      "C": 40,
+      "k": 39,
+      "outcomes": "converged,partial",
+      "seed_overlap_learned": 0.6693151473726744,
+      "seed_overlap_init": 0.07638175302401778,
+      "task_overlap_learned": 0.8164515885250261,
+      "task_overlap_init": 0.07538736577088018,
+      "chance": 0.076171875
     },
     {
       "run_id": "sweep_c40_head",
@@ -474,6 +573,28 @@
       "chance": 0.16796875
     },
     {
+      "run_id": "b1d_w512_c48_60k",
+      "C": 48,
+      "k": 47,
+      "outcomes": "converged,partial",
+      "seed_overlap_learned": 0.7128951943781657,
+      "seed_overlap_init": 0.09199421996061605,
+      "task_overlap_learned": 0.8427993330161064,
+      "task_overlap_init": 0.09186880708848551,
+      "chance": 0.091796875
+    },
+    {
+      "run_id": "b1d_w512_c48_t1e-4",
+      "C": 48,
+      "k": 47,
+      "outcomes": "partial",
+      "seed_overlap_learned": 0.5667974551545126,
+      "seed_overlap_init": 0.09199421996061605,
+      "task_overlap_learned": 0.7480627256712181,
+      "task_overlap_init": 0.09186880708848551,
+      "chance": 0.091796875
+    },
+    {
       "run_id": "sweep_c50_head",
       "C": 50,
       "k": 49,
@@ -503,6 +624,17 @@
       "seed_overlap_learned": 0.20483942615158604,
       "seed_overlap_init": 0.10756287049165829,
       "task_overlap_learned": 0.40382853249504536,
+      "task_overlap_init": 0.10731786156006848,
+      "chance": 0.107421875
+    },
+    {
+      "run_id": "b1d_w512_c56_t1e-4",
+      "C": 56,
+      "k": 55,
+      "outcomes": "partial",
+      "seed_overlap_learned": 0.46336436094094574,
+      "seed_overlap_init": 0.10756287049165829,
+      "task_overlap_learned": 0.6716023328334494,
       "task_overlap_init": 0.10731786156006848,
       "chance": 0.107421875
     },
@@ -538,7 +670,40 @@
       "task_overlap_learned": 0.7648242842676306,
       "task_overlap_init": 0.1237565504055607,
       "chance": 0.123046875
+    },
+    {
+      "run_id": "b1d_w512_c64_60k",
+      "C": 64,
+      "k": 63,
+      "outcomes": "partial",
+      "seed_overlap_learned": 0.5883363828370348,
+      "seed_overlap_init": 0.12309986997174,
+      "task_overlap_learned": 0.7613298584094179,
+      "task_overlap_init": 0.1237565504055607,
+      "chance": 0.123046875
+    },
+    {
+      "run_id": "b1d_w512_c64_t1e-4",
+      "C": 64,
+      "k": 63,
+      "outcomes": "partial",
+      "seed_overlap_learned": 0.40194064639899374,
+      "seed_overlap_init": 0.12309986997174,
+      "task_overlap_learned": 0.61713547756824,
+      "task_overlap_init": 0.1237565504055607,
+      "chance": 0.123046875
+    },
+    {
+      "run_id": "b1d_w512_c72_t1e-4",
+      "C": 72,
+      "k": 71,
+      "outcomes": "partial",
+      "seed_overlap_learned": 0.35012210203724997,
+      "seed_overlap_init": 0.13855642085821,
+      "task_overlap_learned": 0.5653611773900378,
+      "task_overlap_init": 0.1377248801432902,
+      "chance": 0.138671875
     }
   ],
-  "written_utc": "2026-08-14 22:01 UTC"
+  "written_utc": "2026-08-16 01:39 UTC"
 }

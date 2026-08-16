@@ -190,6 +190,29 @@ classes through relatively little code. Both quantities remain individually
 sharp; their relationship is open (candidates: PR underestimates usable code
 rank at small width, or the wall mechanism is not purely the ceiling).
 
+**The wall is a compute frontier, logarithmic in width (weekend sweep,
+2026-08-15/16).** With per-width lr tuning, the crossing at fixed 20k budget
+is sharp at every width and grows ~logarithmically:
+
+| w | C₅₀ (20k, tuned lr) |
+|---|---|
+| 64 | 27.8 [27.2, 28.5] |
+| 128 | 32.3 [31.2, 33.4] |
+| 256 | 36.2 [35.2, 37.3] |
+| 512 | 38.8 [37.5, 39.3] |
+
+≈ +3.7 classes per width doubling — nothing like proportional to capacity.
+Budget shifts it too: at w=512, 3× steps moves the crossing from ~39 past 48
+(88% converged at C=48/60k) but not to 64; at w=256, 3× steps did not rescue
+C=50 — both consistent with a crossing that slides ~+10 classes per budget
+tripling. The mid-net code ceiling grows similarly slowly (8.1/11.6/14.3 at
+w=64/128/256), which is why the falsified proportionality *looked* right at
+two widths. Unified reading: at these scales the class-count wall is an
+optimization/compute frontier (≈ logarithmic in width and budget), not a hard
+capacity limit; whether a budget-independent asymptote exists needs 200k+
+arms (A10-scale). The depth frontier fully dissolves with lr + budget: d=64
+at lr 1e-4 / 60k converges 14/16 at 0.882.
+
 **The fixed-lr "boundaries" were largely artifacts (lr arms, 2026-08-14):**
 the w=512/C=64 total stall (0.05) becomes 16/16 partial at 0.43 at lr=1e-4
 (non-monotone in lr — 3e-5 gives 0.40; what remains vs Bayes 0.73 is
