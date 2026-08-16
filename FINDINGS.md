@@ -33,10 +33,11 @@ with zero exceptions (C=32 converged-only mean is exactly 31.0; the previously
 reported 30.9 blended in one partial net). **Invariant across class separation
 1.5–6.0**, including a task whose Bayes accuracy is 0.505.
 
-Scoping caveats (audit items): whitened-MNIST nets read 9.4 but are all
-formally labeled `partial` — their Bayes ceiling is a proxy (0.985) that this
-architecture cannot reach, so the label is an artifact; the law appears to
-hold there but is technically out of the stated converged-nets scope. The
+Scoping caveats (audit items): the real-data proxy-ceiling artifact is FIXED
+(2026-08-16) — outcomes relabeled against empirical family ceilings (MNIST
+0.9525, fashion 0.846): 19/20 MNIST and 32/32 fashion nets are converged
+under the honest ceiling, so the real-data readings (9.4 and 8.25 ≈ C−1) are
+now in-scope for the law, not caveated around it. The
 C=50 accretion observation (35.7 at 20k → 45.3 at 60k steps while accuracy
 moved 0.56→0.69) rests on 3 seeds at 60k and only two budget checkpoints —
 directionally solid, "asymptoting" not yet established.

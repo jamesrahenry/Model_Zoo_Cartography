@@ -92,15 +92,26 @@ def main() -> None:
         print(f"loading {hf_id}...", flush=True)
         model = AutoModelForCausalLM.from_pretrained(hf_id,
                                                      torch_dtype=torch.float32)
+        variants = {"trained": model}
+        if args.reinit:
+            # the model's own initializer (GPT-NeoX init from config) — the
+            # matched "zero learned structure" baseline for wild models
+            from transformers import AutoConfig
+            torch.manual_seed(0)
+            variants["reinit"] = AutoModelForCausalLM.from_config(
+                AutoConfig.from_pretrained(hf_id))
         layers = {}
-        for i, block in enumerate(model.gpt_neox.layers):
-            for tag, lin in (("mlp_in", block.mlp.dense_h_to_4h),
-                             ("mlp_out", block.mlp.dense_4h_to_h)):
-                W = lin.weight.detach().numpy().T.astype(np.float64)  # (in, out)
-                layers[f"L{i}_{tag}"] = matrix_census(W, rng)
-                print(f"  {name} L{i} {tag} done", flush=True)
+        for variant, m in variants.items():
+            for i, block in enumerate(m.gpt_neox.layers):
+                for tag, lin in (("mlp_in", block.mlp.dense_h_to_4h),
+                                 ("mlp_out", block.mlp.dense_4h_to_h)):
+                    W = lin.weight.detach().numpy().T.astype(np.float64)
+                    layers[f"L{i}_{tag}" + ("" if variant == "trained"
+                                            else ":reinit")] = \
+                        matrix_census(W, rng)
+            print(f"  {name} {variant} done", flush=True)
         results[name] = layers
-        del model
+        del model, variants
 
     out_path = CENSUS_DIR / "wild_census.json"
     out_path.write_text(json.dumps(
@@ -123,5 +134,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     p.add_argument("--model", dest="models", action="append",
                    choices=list(MODELS.keys()), required=True)
+    p.add_argument("--reinit", action="store_true",
+                   help="also census the model's own random init (matched null)")
     args = p.parse_args()
     main()
