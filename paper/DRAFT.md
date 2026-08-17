@@ -160,8 +160,11 @@ serves both regimes. A 16-parameter constant-coefficient rung captures only
 
 ### 4.7 First contact with wild models
 On pythia-70m/160m MLP blocks (no init anchor; scaled floor + entry-shuffled
-empirical nulls): per-matrix structure profiles of 4–102 significant dims
-against 0–5 shuffled-null counts, with depth-dependent profiles. The
+empirical nulls): per-matrix structure profiles of 3–111 significant dims
+against 0–12 shuffled-null counts, with depth-dependent profiles; the models'
+own reinitializations read 0–1 significant dims everywhere — spectrally
+indistinguishable from the shuffle null, validating entry-shuffling as a
+universal wild-model baseline requiring no knowledge of the init scheme. The
 instrument-validity rules learned on the controlled corpus (orientation,
 regime flags, null choice) transferred directly, catching one artifact via
 the shuffle null on first use.
