@@ -9,8 +9,9 @@
 > census already fixes), all other precision/scoping fixes applied inline. Known-open items are
 > marked ⚠ in place.
 
-*Covers program start (2026-08-10) through Phase A and its analysis. Corpus: 401
-trained nets / 22 families on `james-ra-henry/MZC-Corpus` (private HF dataset).
+*Covers program start (2026-08-10) through Phase B, the lr/budget arms, and
+the wild-model first contact (last swept 2026-08-17). Corpus: 1,569 trained
+nets / 69 families on `james-ra-henry/MZC-Corpus` (private HF dataset).
 Running record: Hopper task `t4b9971d`. Phase B Wave 1 (width/depth/wall sweeps)
 running as of this revision.*
 
