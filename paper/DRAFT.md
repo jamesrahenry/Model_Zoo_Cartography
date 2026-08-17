@@ -7,30 +7,23 @@
 ## Abstract (draft)
 
 Where does training leave a signature in a deep network, relative to the
-statistical skeleton the same architecture has at initialization? We train a
-controlled population of ~1,570 bias-free ReLU MLPs at a fixed He-Gaussian
-specification (widths 64–512, depths 8–64) on classification tasks whose
-aggregate input distribution matches the analytic null premise `N(0, I)`
-exactly, with class count, class separation, real-data family, optimizer, and
-weight decay as recorded axes. Against matched analytic and empirical nulls we
-find: (1) an exact input-rank law — the input weight matrix of every converged
-net carries precisely C−1 significant dimensions, the rank of the class-mean
-simplex, invariant to width, class separation, and dataset (240/240 nets,
-per-net); (2) a two-sided terminal-rank law — training replaces the
-architecture's depth-driven rank collapse with a task-code-driven terminal
-rank, above or below the random fixed point as the task demands; (3)
-coordinate-bound sharing — same-task twins share nothing in raw hidden-space
-eigenbases at any depth yet carry the same depth code up to rotation
-(Procrustes-recovered overlap 0.90+ vs 0.035 chance, graded by task overlap);
-(4) a sharp class-count wall (logistic width ≈ 2 classes) whose relationship
-to the mid-network code ceiling we pre-registered as proportional, falsified
-at small width, and resolved as a compute frontier logarithmic in width
-(C₅₀ ≈ 28→39 across widths 64→512) and budget; and (5) functional inertness
-of the random weight bulk — accuracy moves < 1% while weight decay sweeps the
-bulk over three orders of magnitude of scale, implying that spectral censuses
-which score bulk presence as structure measure optimizer hygiene, not
-learning. We release the corpus (weights + full training provenance), the
-audited instruments, and the negative results.
+statistical skeleton the same architecture has at initialization? We train
+~1,570 bias-free ReLU MLPs at a fixed He-Gaussian specification on
+classification tasks whose aggregate input distribution matches the analytic
+null premise `N(0, I)` exactly, and census the population against matched
+analytic and empirical nulls. The headline is an exact law: the input weight
+matrix of every converged net carries precisely C−1 significant dimensions —
+the rank of the class-mean simplex — invariant to width, class separation,
+and dataset, verified per-net with zero exceptions. Deeper in the network the
+learned code is real but rotation-hidden: same-task twins share no
+eigenvectors in raw coordinates at any depth yet carry the same code up to a
+fitted rotation. And the random weight bulk that censuses often score as
+structure is functionally inert: accuracy moves under 1% while weight decay
+sweeps the bulk across three orders of magnitude of scale. We map where these
+signatures break — a class-count frontier logarithmic in width and compute,
+whose capacity-proportional form we pre-registered and falsified — and
+release the corpus with full per-net training provenance, the audited
+instruments, and the negative results.
 
 ## 1. Motivation
 
