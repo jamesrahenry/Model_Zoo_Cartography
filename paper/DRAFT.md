@@ -121,8 +121,12 @@ budget**: C₅₀ = 27.8 / 32.3 / 36.2 / 38.8 at w = 64/128/256/512 (~+3.7
 classes per width doubling), sliding ~+10 classes per tripling of steps
 (w=512, C=48: 0% → 88% converged at 3× budget). The ceiling grows comparably
 slowly in width (8.1/11.6/14.3), which is why the falsified proportionality
-appeared to hold at two widths. Whether a budget-independent asymptote exists
-is under test (10× budget arms). Every "hard boundary" we encountered at
+appeared to hold at two widths. Ten-times budget arms show the slide
+*continuing*: crossings reach ≈ 61 (w=512) and ≈ 50 (w=256) at 200k steps —
+tasks unreachable at 3× budget converge at 10× — with mildly diminishing
+log-returns (+10 then +4 classes per budget tripling at w=256) hinting at,
+but not demonstrating, saturation beyond the tested decade. Every "hard
+boundary" we encountered at
 fixed hyperparameters — a w=512 stall, a depth-48/64 trainability frontier —
 dissolved under lr and budget scaling (d=64: from total stall to 14/16
 converged), while in every failure family the input layer's task-subspace
@@ -139,7 +143,14 @@ structure measure (the robust estimator provably breaks there — documented,
 not patched over).
 
 ### 4.6 Quantitative skeleton prediction needs population-fitted corrections
-The k=2 mean-field chain predicts random-net activation spectra to 3–7%
+A companion random-ensemble measurement (published separately as
+`analytic_vs_sampling/` in the ARC replication repo) grounds the baseline:
+the uncorrected chain's error is *depth-flat once the state trajectory
+saturates* (constant to <2% across d=24→48 at w=256, 48 nets/cell) and beats
+FLOP-matched Monte Carlo at a crossover depth that rises monotonically with
+width — the analytic skeleton is a stable object to correct against at any
+depth. On trained weights the picture changes: the k=2 mean-field chain
+predicts random-net activation spectra to 3–7%
 through 32 layers but degrades to 80%+ by L16 on trained weights. A
 state-keyed correction (ARC's machinery, 160 params with edge indicators)
 refit on the trained population repairs the bulk 7–12× held-out across task
@@ -172,5 +183,10 @@ An external adversarial audit of the first findings digest found two findings
 wrong as stated (stale pilot numbers; a self-calibrating floor) and five
 oversold precisions; all were rewritten from current data, the falsified
 pre-registration is reported as falsified, and every instrument's failure
-modes are documented in-repo. The corpus, instruments, per-net provenance,
-and audit note ship with the paper.
+modes are documented in-repo. A recurring statistical lesson enforced
+throughout: per-net error quantities in this regime are heavy-tailed (both
+Monte-Carlo and analytic-closure errors; max/median 10–22× at depth), so
+small-sample mean-based comparisons flip sign under reseeding — medians with
+bootstrap intervals are the reporting standard, with per-net records
+committed. The corpus, instruments, per-net provenance, and audit note ship
+with the paper.
