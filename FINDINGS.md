@@ -12,8 +12,7 @@
 *Covers program start (2026-08-10) through Phase B, the lr/budget arms, and
 the wild-model first contact (last swept 2026-08-17). Corpus: 1,569 trained
 nets / 69 families on `james-ra-henry/MZC-Corpus` (private HF dataset).
-Running record: Hopper task `t4b9971d`. Phase B Wave 1 (width/depth/wall sweeps)
-running as of this revision.*
+Running record: Hopper task `t4b9971d`. All planned local phases complete.*
 
 MZC trains populations of MLPs at the ARC White-Box Challenge Phase-1
 architecture (depth 32, width 256, He-Gaussian `N(0, 2/fan_in)`, bias-free,
