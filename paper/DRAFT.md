@@ -1,6 +1,6 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.1 — 2026-08-15 03:02 UTC. James Henry. Numbers reference FINDINGS.md
+*Draft v0.2 — 2026-08-17 20:18 UTC (v0.1: 2026-08-15). James Henry. Numbers reference FINDINGS.md
 (F1–F7) and the committed analysis JSONs; corpus at
 `james-ra-henry/MZC-Corpus` (flips public with this paper).*
 
@@ -8,7 +8,7 @@
 
 Where does training leave a signature in a deep network, relative to the
 statistical skeleton the same architecture has at initialization? We train a
-controlled population of ~1,100 bias-free ReLU MLPs at a fixed He-Gaussian
+controlled population of ~1,570 bias-free ReLU MLPs at a fixed He-Gaussian
 specification (widths 64–512, depths 8–64) on classification tasks whose
 aggregate input distribution matches the analytic null premise `N(0, I)`
 exactly, with class count, class separation, real-data family, optimizer, and
@@ -55,9 +55,9 @@ analytic null in everything except training. We built it.
   accuracy computed exactly per task), plus whitened MNIST and Fashion-MNIST
   (784→d seeded projection + ZCA; real higher moments, matched second
   moments).
-- Axes: width {64, 128, 256, 512}, depth {8..64}, budget {20k, 60k}, weight
-  decay {0..1.0}, learning rate arms, two readout modes, ≥16–32 seeds per
-  configuration; ~1,100 nets, 50+ families, every net with full provenance
+- Axes: width {64, 128, 256, 512}, depth {8..64}, budget {20k, 60k, 200k},
+  weight decay {0..1.0}, learning rate arms, two readout modes, 16–32 seeds
+  per configuration; ~1,570 nets, 69 families, every net with full provenance
   (task, hyperparameters, seeds, outcome label vs exact Bayes, trajectory).
 - Infrastructure: batched-stack trainer (32 nets/process, init bit-identical
   to the sequential reference, 64 s/net on a laptop GPU); upload-verify-prune
