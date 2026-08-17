@@ -72,14 +72,16 @@ pending adaptations.
 
 ## Status
 
-*Updated: 2026-08-13 06:40 UTC.*
+*Updated: 2026-08-17 20:25 UTC. All planned local phases complete.*
 
-Corpus (Phase A complete): **369 trained nets, 21 families** at ARC's exact
-spec, ~20 seeds per config — GMM C ∈ {2,3,5,8,10,15,20,25,32,40,50},
-separation sweep at C=10 {1.5, 2.0, 3.0, 4.5, 6.0}, weight decay {0.01, 0.3,
-1.0}, whitened MNIST, two readout modes, a 60k-step C=50 family. Weights +
-provenance: HF dataset `james-ra-henry/MZC-Corpus` (private); local corpus is
-a prune-and-refetch cache (`train/corpus_io.py`). Key results — consolidated
+Corpus: **1,569 trained nets, 69 families** — widths 64–512, depths 8–64,
+GMM C ∈ {2..72} with separation and weight-decay sweeps, whitened MNIST and
+Fashion-MNIST, budgets 20k–200k steps, lr arms, two readout modes, 16–32
+seeds per config. Weights + provenance: HF dataset
+`james-ra-henry/MZC-Corpus` (private; flips public with the paper); local
+corpus is a prune-and-refetch cache (`train/corpus_io.py`). Paper draft:
+`paper/DRAFT.md` (v0.2). Public spin-off: the analytic-vs-sampling crossover
+map, in the ARC replication repo. Key results — consolidated
 digest with instruments and data pointers in **[FINDINGS.md](FINDINGS.md)**
 (running record: Hopper task t4b9971d):
 
