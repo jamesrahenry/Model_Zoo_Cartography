@@ -210,8 +210,12 @@ tripling. The mid-net code ceiling grows similarly slowly (8.1/11.6/14.3 at
 w=64/128/256), which is why the falsified proportionality *looked* right at
 two widths. Unified reading: at these scales the class-count wall is an
 optimization/compute frontier (≈ logarithmic in width and budget), not a hard
-capacity limit; whether a budget-independent asymptote exists needs 200k+
-arms (A10-scale). The depth frontier fully dissolves with lr + budget: d=64
+capacity limit. **10× budget arms (2026-08-17):** the slide continues to 200k
+steps — the crossing reaches ≈ 61 at w=512 (C=64: 2/16 converged, i.e. at
+the crossing) and ≈ 50 at w=256 (C=50: 9/16 converged, where 20k/60k gave
+zero) — with mildly diminishing log-returns (w=256: +10 classes for the first
+budget tripling, +4 for the next). No hard asymptote within 10× budget;
+the deceleration hints at saturation another decade out, untested. The depth frontier fully dissolves with lr + budget: d=64
 at lr 1e-4 / 60k converges 14/16 at 0.882.
 
 **The fixed-lr "boundaries" were largely artifacts (lr arms, 2026-08-14):**
