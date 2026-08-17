@@ -36,7 +36,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from chain_state_keyed import step_np
 from stage1_validate import build_mlp
 
-OUT = Path(__file__).with_name("crossover_map.json")
+OUT = Path(__file__).with_name("crossover_map.json")  # overridden by --out
 
 WIDTHS = [64, 128, 256, 512, 1024]
 DEPTHS = [4, 8, 12, 16, 24, 32, 48]
@@ -68,6 +68,11 @@ def mc_final_mean(Ws, n: int, device, gen) -> np.ndarray:
 
 
 def main() -> None:
+    global DEPTHS, OUT
+    if args.depths:
+        DEPTHS = args.depths
+    if args.out:
+        OUT = Path(__file__).with_name(args.out)
     import torch
     device = "cuda" if torch.cuda.is_available() else "cpu"
     gen = torch.Generator(device=device).manual_seed(0)
@@ -92,6 +97,12 @@ def main() -> None:
                 "mse_sampling_10x": float(np.mean(mse_s10)),
                 "n_matched": n_match,
                 "ratio": float(np.mean(mse_a) / np.mean(mse_s)),
+                # per-net records + median stats: per-net MSEs are heavy-tailed
+                # (MC max/median 10-22x at depth), so mean-based cell ratios
+                # are unstable at small K — medians are the robust headline
+                "per_net_analytic": [float(v) for v in mse_a],
+                "per_net_sampling": [float(v) for v in mse_s],
+                "ratio_median": float(np.median(mse_a) / np.median(mse_s)),
             }
             cells[f"w{w}_d{d}"] = cell
             winner = "ANALYTIC" if cell["ratio"] < 1 else "sampling"
@@ -121,5 +132,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     p.add_argument("--k-nets", type=int, default=12)
     p.add_argument("--n-truth", type=int, default=2_000_000)
+    p.add_argument("--depths", type=int, nargs="+", default=None)
+    p.add_argument("--out", default=None)
     args = p.parse_args()
     main()
