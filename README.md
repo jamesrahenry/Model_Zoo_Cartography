@@ -72,7 +72,7 @@ pending adaptations.
 
 ## Status
 
-*Updated: 2026-08-17 20:25 UTC. All planned local phases complete.*
+*Updated: 2026-08-18 20:45 UTC. All planned local phases complete; paper in external review.*
 
 Corpus: **1,569 trained nets, 69 families** — widths 64–512, depths 8–64,
 GMM C ∈ {2..72} with separation and weight-decay sweeps, whitened MNIST and
@@ -80,8 +80,9 @@ Fashion-MNIST, budgets 20k–200k steps, lr arms, two readout modes, 16–32
 seeds per config. Weights + provenance: HF dataset
 `james-ra-henry/MZC-Corpus` (private; flips public with the paper); local
 corpus is a prune-and-refetch cache (`train/corpus_io.py`). Paper draft:
-`paper/DRAFT.md` (v0.4 — full §1/§5/§6, six figures from committed data via
-`paper/make_figures.py`). Public spin-offs: the analytic-vs-sampling crossover
+`paper/DRAFT.md` (v0.12 — one-thesis scope structure, seven figures from
+committed data via `paper/make_figures.py`, all references verified, three
+external review passes absorbed). Public spin-offs: the analytic-vs-sampling crossover
 map and the trained-network state-keyed refit
 (`trained_refit/`), both in the ARC replication repo. Key results — consolidated
 digest with instruments and data pointers in **[FINDINGS.md](FINDINGS.md)**
@@ -106,8 +107,10 @@ digest with instruments and data pointers in **[FINDINGS.md](FINDINGS.md)**
   same-task twins overlap at exact k/d chance in raw activation eigenspace at
   every depth — subspace sharing exists only where nets share coordinates
   (input space / L0). See `notes/2026-08-13_mzc-eigenspace-overlap-reply.md`.
-- **Refit chain**: 128 state-keyed parameters fix mean-field's mid-net failure
-  on trained weights 10–17× held-out; edges and partial learners remain open.
+- **Refit chain**: 128 state-keyed parameters repair mean-field's mid-net
+  failure on trained weights ~7–12× on validation (which also gates polish —
+  see FINDINGS F4); edge indicator dims fix L0/L1; partial-learner transfer
+  remains the honest open failure.
 
 ## Data
 
