@@ -68,6 +68,7 @@ of the activation geometry (location, rank, persistence, identity) are already
 fixed by the weights, and which require input to materialize?
 
 This work bridges two research lines.
+
 Moment-propagation estimators for random-weight networks provide an *analytic
 null*: what a given architecture looks like with zero learned structure,
 computable from the specification, no forward passes. The concrete instance is
@@ -83,9 +84,7 @@ structure mining in trained models finds low-dimensional, depth-persistent
 activation geometry, but with no matched untrained population to diff against
 it cannot say which parts are learned rather than architectural.
 
-We built the missing object: 1,569 trained nets at the challenge's exact
-Phase-1 architecture, matched to the analytic null in everything except
-training. We find that weights alone determine the location, rank, and persistence of structure; the weight-input interaction establishes the code's identity (which remains rotation-hidden); and quantitative prediction requires population-fitted corrections.
+We built 1,569 trained nets at the challenge's exact Phase-1 architecture, matched to the analytic null in everything except training. We find that weights alone determine the location, rank, and persistence of structure; the weight-input interaction establishes the code's identity (which remains rotation-hidden); and quantitative prediction requires population-fitted corrections.
 
 ## 2. The corpus
 
@@ -117,8 +116,10 @@ first two read weights only — zero forward passes; the next three read
 activations on controlled inputs; the last three are correction, tracking,
 and wild-model machinery.
 
-**3.1 Weight census** (`census/manifold_detector.py`, vendored from the AMC
-line). Per-layer eigenspectrum census of the weight matrices themselves.
+**3.1 Weight census** (`census/manifold_detector.py`; vendored from our
+earlier activation-structure tooling — the label-free structure-mining line
+of §1 — with source and adaptations recorded in `PROVENANCE.md`). Per-layer
+eigenspectrum census of the weight matrices themselves.
 For a layer's uncentered second-moment spectrum {λᵢ}, the Marchenko–Pastur
 bulk edge is λ₊ = σ²(1 + √γ)², γ the matrix aspect ratio [Marchenko & Pastur
 1967]; **significant dims** = #{λᵢ > λ₊}. Two floors are always reported:
@@ -183,8 +184,9 @@ population's final-layer error — the validation set therefore participates
 in model selection; the C=50 population is reserved untouched for transfer
 evaluation (§4.7).
 
-**3.7 Transport-corrected feature tracking** (`census/feature_tracker.py`,
-vendored from the AMC line). Matches activation eigenfeatures layer-to-layer,
+**3.7 Transport-corrected feature tracking** (`census/feature_tracker.py`;
+vendored from the same structure-mining tooling as §3.1, provenance in
+`PROVENANCE.md`). Matches activation eigenfeatures layer-to-layer,
 raw and after linear transport through the layer map. In this corpus it is
 chiefly a calibrated negative result: chain-level feature continuity in plain
 MLPs is not recoverable under raw or transported matching — only through
@@ -359,7 +361,8 @@ demonstrably remains (bottom).*
 
 ### 4.7 Quantitative skeleton prediction needs population-fitted corrections
 A companion random-ensemble measurement (published separately as
-`analytic_vs_sampling/` in the ARC replication repo) grounds the baseline:
+`analytic_vs_sampling/` in our public replication of the challenge estimator
+[ARC Challenge 2026]) grounds the baseline:
 the uncorrected chain's error is *depth-flat once the state trajectory
 saturates* (constant to <2% across d=24→48 at w=256, 48 nets/cell) and beats
 FLOP-matched Monte Carlo at a crossover depth that rises monotonically with
@@ -608,8 +611,7 @@ with the paper.
 ## 9. References
 
 *(Every entry verified 2026-08-18 against arXiv metadata, publisher pages, or
-the Rosetta bundle's audited citation ledger
-(`papers/shared/citations_master.md`) — none written from memory. In-text
+a previously audited internal citation ledger — none written from memory. In-text
 keys: Wu et al. 2026 is Wilson Wu (challenge backbone); Wu & Hilton 2024 is
 Gabriel Wu.)*
 
