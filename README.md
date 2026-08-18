@@ -106,3 +106,15 @@ digest with instruments and data pointers in **[FINDINGS.md](FINDINGS.md)**
   (input space / L0). See `notes/2026-08-13_mzc-eigenspace-overlap-reply.md`.
 - **Refit chain**: 128 state-keyed parameters fix mean-field's mid-net failure
   on trained weights 10–17× held-out; edges and partial learners remain open.
+
+## Testing
+
+`tests/` covers the pure-numpy/torch instrumentation (census, null baseline,
+task construction, architecture) with synthetic data and no GPU required —
+see `tests/README.md`. `pip install -r tests/requirements.txt && pytest`.
+
+## License
+
+MIT — see `LICENSE`. Vendored code (`PROVENANCE.md`) is compatibly licensed
+(all source repos are authored by jamesrahenry; `arc-whitebox-replication` is
+additionally MIT).

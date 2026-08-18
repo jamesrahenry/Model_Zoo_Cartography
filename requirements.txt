@@ -1,0 +1,14 @@
+# Runtime dependencies for MZC (training, census, and null-baseline code).
+#
+# torch: install the CPU build unless you have a CUDA box, it's much smaller
+# and faster to fetch:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+# then `pip install -r requirements.txt` to fill in the rest without
+# re-resolving torch from the default (CUDA) index.
+numpy
+torch
+torchvision   # only needed for train/mnist_task.py (MNIST / Fashion-MNIST)
+pyarrow       # null_baseline/chain_state_keyed.py, chain_port_refit*.py
+huggingface_hub  # train/corpus_io.py — corpus upload/download
+
+# For running the test suite too, see tests/requirements.txt.
