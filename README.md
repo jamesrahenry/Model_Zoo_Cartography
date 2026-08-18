@@ -81,8 +81,9 @@ seeds per config. Weights + provenance: HF dataset
 `james-ra-henry/MZC-Corpus` (private; flips public with the paper); local
 corpus is a prune-and-refetch cache (`train/corpus_io.py`). Paper draft:
 `paper/DRAFT.md` (v0.4 — full §1/§5/§6, six figures from committed data via
-`paper/make_figures.py`). Public spin-off: the analytic-vs-sampling crossover
-map, in the ARC replication repo. Key results — consolidated
+`paper/make_figures.py`). Public spin-offs: the analytic-vs-sampling crossover
+map and the trained-network state-keyed refit
+(`trained_refit/`), both in the ARC replication repo. Key results — consolidated
 digest with instruments and data pointers in **[FINDINGS.md](FINDINGS.md)**
 (running record: Hopper task t4b9971d):
 
