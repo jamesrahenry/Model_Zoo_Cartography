@@ -1,8 +1,15 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.11 — 2026-08-18 17:45 UTC (v0.10–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+*Draft v0.12 — 2026-08-18 20:05 UTC (v0.11–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
 2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
 analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
+v0.12: scope restructure per external (human) review — one thesis (stated in §1 and
+§5.1), rotation-hiding and population-corrections reframed as its two boundaries, the
+lens named once in the abstract and once in §5.1, §5.3+5.4 merged under an Implications
+umbrella ("places the thesis lands, not contributions"), outlook renumbered §5.5→§5.4,
+§5.2 gains the operational-vs-theory forward note; surviving "held-out gate" in §5.1
+relabeled. Refit machinery spun off as a companion note in the challenge-replication
+repo (same precedent as the crossover map).
 v0.11: repair pass over the committed external (Gemini) edit: §5.1 grammar, §4.2
 "two-sided" restored with the chain caveat balanced (matched comparison + activation-side
 corroboration), §5.2 opener de-filled, abstract dataset-invariance scoped (a fix Gemini
@@ -58,7 +65,9 @@ sweeps the bulk across three orders of magnitude of scale. We map where these
 signatures break — a class-count frontier logarithmic in width and compute,
 whose capacity-proportional form we pre-registered and falsified — and
 release the corpus with full per-net training provenance, the audited
-instruments, and the negative results.
+instruments, and the negative results. Throughout, the contribution is the
+reading itself: a trained network treated as a measured deviation from the
+analytically computable null its architecture defines at initialization.
 
 ## 1. Motivation
 
@@ -84,7 +93,18 @@ structure mining in trained models finds low-dimensional, depth-persistent
 activation geometry, but with no matched untrained population to diff against
 it cannot say which parts are learned rather than architectural.
 
-We built 1,569 trained nets at the challenge's exact Phase-1 architecture, matched to the analytic null in everything except training. We find that weights alone determine the location, rank, and persistence of structure; the weight-input interaction establishes the code's identity (which remains rotation-hidden); and quantitative prediction requires population-fitted corrections.
+We built 1,569 trained nets at the challenge's exact Phase-1 architecture,
+matched to the analytic null in everything except training. The thesis this
+population supports: **training leaves a low-rank, analytically measurable
+signature in the weights that predicts where representation will form,
+before inference runs** (§4.1–4.3). The remaining results map that thesis's
+boundaries: the signature fixes where structure lives but not which
+directions carry it — coordinate identity is rotation-hidden and needs an
+anchor (§4.4); quantitative spectrum prediction holds only under
+population-fitted corrections (§4.7); and the class-count frontier and the
+inert weight bulk locate where the instruments themselves stop reading
+(§4.5, §4.6). What follows downstream (§5.3) is implication, not additional
+contribution.
 
 ## 2. The corpus
 
@@ -126,7 +146,7 @@ bulk edge is λ₊ = σ²(1 + √γ)², γ the matrix aspect ratio [Marchenko & 
 the *fixed analytic* floor σ² = 2/fan_in, exact because the He init scheme is
 known by construction (the matched-corpus instrument, §4.1); and a *robust
 estimate* σ̂² = median(λ)/m(γ), m the MP median factor, for models whose init
-is unknown (§5.5). Alongside: effective dimension via participation ratio
+is unknown (§5.4). Alongside: effective dimension via participation ratio
 PR = (Σλᵢ)²/Σλᵢ², and a `bulk_regime` flag (intact/depleted) that gates which
 reading is meaningful — under strong weight decay the bulk falls *below* any
 floor and MP counting is undefined (§4.6).
@@ -203,7 +223,7 @@ copy — identical marginal entry distribution and scale, structure destroyed �
 is censused as that matrix's own null, requiring no knowledge of the init
 scheme. Validated on first contact: the wild models' own reinitializations
 read 0–1 significant dims, spectrally indistinguishable from the shuffle
-(§5.5); the shuffle null also caught an orientation artifact on first use.
+(§5.4); the shuffle null also caught an orientation artifact on first use.
 
 ## 4. Results
 
@@ -396,8 +416,8 @@ L0/L1 harm at zero bulk cost.*
 
 ### 5.1 The answer
 
-Location, rank, and persistence of activation structure are
-weight-determined. The input layer holds the task's class
+One thesis, two measured boundaries. The thesis: location, rank, and
+persistence of activation structure are weight-determined. The input layer holds the task's class
 geometry as an exact integer (§4.1); analytic propagation of the weights —
 zero forward passes — predicts the terminal rank of the activation code
 (§4.2); and trained weights driven by pure noise already produce the full
@@ -405,19 +425,25 @@ qualitative structure signature, which task input tightens but does not
 create (§4.3). To first order, a trained net's activation geometry is a
 property of its weights that inference reveals rather than creates.
 
-The identity of the learned code is real and shared across
+First boundary: the identity of the learned code is real and shared across
 same-task nets, but only up to rotation (§4.4): raw hidden-space eigenbases
 overlap at chance at every depth while Procrustes-recovered overlap reads
 0.90–0.99 for twins against 0.38 for init controls. So *where* structure lives is
 predictable from weights; *which directions* carry it is not even well-posed
 without an anchor — the input coordinates, or a fitted rotation.
 
-The analytic chain
+Second boundary: the analytic chain
 predicts random-net spectra to a few percent through 32 layers but degrades
 to 80%+ on trained weights; a 160-parameter state-keyed correction refit on
 the trained population repairs the bulk ~7–12× on validation — and fails on
 populations from other training regimes (§4.7). No trained-network estimator comes for free; a population-specific one costs
-~10² parameters, a modest matched population, and a held-out gate.
+~10² parameters, a modest matched population, a validation gate, and an
+untouched transfer check.
+
+The durable contribution is the lens rather than any single number: a
+trained network read as a measured deviation from the analytically
+computable null its architecture defines. The corpus and the instrument
+catalog exist to make that reading exact.
 
 ### 5.2 Reading weights versus running the model
 
@@ -462,7 +488,18 @@ useful — a model can be checked against its architecture's null from the
 weights file alone, before deployment, without choosing an input
 distribution, and without being permitted or able to run it.
 
-### 5.3 For analytic estimation on real models
+The four distinctions this section leans on — weight-encoded,
+execution-required, coordinate-dependent, basis-invariant — are stated
+operationally throughout. Why training produces invariants with exactly this
+structure is deliberately left open: this paper's job is the cartography,
+not the theory of it.
+
+### 5.3 Implications
+
+Nothing in this section is a contribution of this paper; these are the
+places the thesis and its boundaries land.
+
+#### For analytic estimation on real models
 
 The ARC White-Box Estimation Challenge scores analytic prediction on random
 nets as a tractable proxy for the estimation problems that matter in
@@ -488,7 +525,7 @@ over:
   fixed analytic where the init is known, entry-shuffled where it is not
   (§3.8) — plus a per-matrix flag saying which regime the reading came from.
 
-### 5.4 For weight-space auditing and representational convergence
+#### For weight-space auditing and representational convergence
 
 For weight-only model auditing: task-relevant rank is readable from weights
 alone, but amplitude is not learning (§4.6) — an auditor that scores spectral
@@ -503,7 +540,7 @@ overlap with rotation-recoverable, task-graded identity — is measurable with
 the same paired instruments, and is where this result asks to be tested
 next.
 
-### 5.5 Outlook: wild models
+### 5.4 Outlook: wild models
 
 While the above results rely on a matched corpus, preliminary tests indicate these instruments transfer to wild models. First contact with
 pythia-70m/160m MLP blocks (no init anchor, so scaled floor plus
@@ -597,7 +634,7 @@ separable by construction (real-data families partially address this); the
 Bayes proxy mislabels real-data outcomes; the wall is characterized as a
 compute frontier (§4.5) but its mechanism — and its relation to the code
 ceiling — is unresolved; correction scope across optimizers and objectives is
-unmeasured (AdamW wild models are first-contact only, §5.5). The next
+unmeasured (AdamW wild models are first-contact only, §5.4). The next
 falsifiable step mirrors this paper's method: pre-register what the census
 should read on a wild model given its claimed training, then check.
 
