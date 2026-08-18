@@ -1,8 +1,13 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.8 — 2026-08-18 16:45 UTC (v0.7–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+*Draft v0.9 — 2026-08-18 17:15 UTC (v0.8–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
 2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
 analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
+v0.9: second literature sweep on the refined claims — seven prior-art citations added
+and folded into §6 (Thamm/Staats/Rosenow RMT-on-weights as closest census antecedent;
+Neural Feature Ansatz; intermediate neural collapse ×2; weight-decay low-rank bias ×2;
+relative representations), all verified same-day; the class-count wall and the
+matched-population-vs-analytic-null design surfaced no prior art.
 v0.8: every reference verified against arXiv/publisher records or the bundle's audited
 ledger — no entry is from memory; corrections: Huh "Position:" prefix, Wu et al. 2026
 real title, Ainsworth title casing, journal details for MP/JMLR/NatComms/PNAS/Neal.
@@ -514,25 +519,39 @@ application [Wu & Hilton 2024]. We inherit that machinery unchanged and
 invert its role: on trained networks the propagated skeleton is the null, and
 deviation from it is the measurement (§4.2, §4.7).
 
-**Random-matrix analyses of trained weights.** Martin & Mahoney read training
-signatures in the weight spectra of wild models — heavy-tailed
-self-regularization, and quality prediction with no access to data [Martin &
-Mahoney 2021; Martin, Peng & Mahoney 2021]. Our design is complementary: they diagnose
-in the wild, where the init scheme and training history are unknown; we hold
-everything fixed except training, which buys an *exact analytic* MP floor
-(σ² = 2/fan_in known by construction) and integer-exact laws — plus a
-caution their setting inherits: spectral *amplitude* tracks optimizer
-economics, not learning (§4.6), so a census that scores bulk mass measures
-hygiene. The wd knee locates where amplitude-based reading breaks.
+**Training signatures in weight matrices.** The closest antecedent to the
+weight census is Thamm, Staats & Rosenow [2022], who compare trained-network
+weight spectra against random-matrix predictions and find the bulk still
+conforming to Marchenko–Pastur after training, with learned information
+confined to the largest singular values — RMT comparison as a way to *locate*
+learning. Martin & Mahoney read training signatures in wild models' spectra —
+heavy-tailed self-regularization, quality prediction with no access to data
+[Martin & Mahoney 2021; Martin, Peng & Mahoney 2021]. The Neural Feature
+Ansatz [Radhakrishnan et al. 2024] supplies the mechanism by which task
+structure enters weight Grams: WᵀW tracks the average gradient outer product.
+The matched corpus adds to all three what their settings cannot supply: an
+*exact analytic* floor (σ² = 2/fan_in known by construction, no
+self-calibration), a population in which the deviation is an integer measured
+per net — the C−1 law — and a functional test: sweeping the bulk across three
+orders of magnitude at fixed accuracy shows the random remainder is inert, so
+spectral amplitude tracks optimizer economics, not learning (§4.6). The wd
+knee locates where amplitude-based reading breaks — a validity boundary the
+diagnostic settings inherit.
 
 **Simplex geometry and neural collapse.** Neural collapse [Papyan et al.
 2020] finds last-layer features of converged classifiers collapsing to the
 C−1-dimensional simplex ETF — an *output-side, activation-space,
-terminal-phase* phenomenon. The input-rank law (§4.1) is its input-edge,
-weight-space counterpart: the class-mean simplex rank imprints in W₀ under
-the analytic floor — and it accretes *before* convergence, at chance-level
-accuracy (§4.1, §4.5), so simplex geometry at the input edge is not a
-terminal-phase effect.
+terminal-phase* phenomenon — and has since been traced into intermediate
+layers [Rangamani et al. 2023; Parker et al. 2023], where collapsed layers
+carry low-rank weights. Relatedly, SGD with weight decay provably biases
+weight rank down [Galanti et al. 2022; Zangrando et al. 2024]. The input-rank
+law (§4.1) is the input-edge, weight-space counterpart: the class-mean
+simplex rank imprints in W₀ under the analytic floor — and it accretes
+*before* convergence, at chance-level accuracy (§4.1, §4.5), so simplex
+geometry at the input edge is not a terminal-phase effect. §4.6 gives the
+low-rank-bias line a measurement it implies but has not run: the decayed bulk
+is functionally inert, and the census floor fails at a locatable knee while
+the structure persists.
 
 **Representational similarity and convergence.** The alignment literature
 [Li et al. 2016; Raghu et al. 2017 (SVCCA); Kornblith et al. 2019 (CKA)] and
@@ -543,7 +562,10 @@ population sharpens both claims into a measurement (§4.4): with task, data,
 architecture, and init distribution all matched, raw eigenspace overlap is
 *exactly* chance at every depth, while a fitted rotation recovers 0.90–0.99,
 graded by task overlap — convergence is real, strictly rotation-hidden, and
-task-graded.
+task-graded. Anchor-based "relative representations" [Moschella et al. 2023]
+operationalize the same prescription from the engineering side: comparisons
+made relative to fixed anchor samples are invariant to latent isometries,
+which is §4.4's input-anchored reading as a design principle.
 
 **Model zoos and weight-space learning.** Populations of trained nets exist
 as datasets for meta-learning — model zoos [Schürholt et al. 2022], accuracy
@@ -595,6 +617,9 @@ Gabriel Wu.)*
   Models modulo Permutation Symmetries. ICLR 2023 (oral). arXiv:2209.04836.
 - Christiano, P., Neyman, E., & Xu, M. (2022). Formalizing the presumption of
   independence. arXiv:2211.06738.
+- Galanti, T., Siegel, Z. S., Gupte, A., & Poggio, T. (2022). SGD and
+  Weight Decay Secretly Minimize the Rank of Your Neural Network.
+  arXiv:2206.05794.
 - Huh, M., Cheung, B., Wang, T., & Isola, P. (2024). Position: The Platonic
   Representation Hypothesis. ICML 2024. arXiv:2405.07987.
 - Jacot, A., Gabriel, F., & Hongler, C. (2018). Neural Tangent Kernel:
@@ -618,17 +643,32 @@ Gabriel Wu.)*
 - Martin, C. H., Peng, T. S., & Mahoney, M. W. (2021). Predicting trends in
   the quality of state-of-the-art neural networks without access to training
   or testing data. Nature Communications 12, 4122. arXiv:2002.06716.
+- Moschella, L., Maiorca, V., Fumero, M., Norelli, A., Locatello, F., &
+  Rodolà, E. (2023). Relative representations enable zero-shot latent space
+  communication. ICLR 2023 (oral). arXiv:2209.15430.
 - Neal, R. M. (1996). Bayesian Learning for Neural Networks. Lecture Notes
   in Statistics 118. Springer.
 - Papyan, V., Han, X. Y., & Donoho, D. L. (2020). Prevalence of Neural
   Collapse during the terminal phase of deep learning training. PNAS
   117(40), 24652–24663. arXiv:2008.08186.
+- Parker, L., Onal, E., Stengel, A., & Intrater, J. (2023). Neural Collapse
+  in the Intermediate Hidden Layers of Classification Neural Networks.
+  arXiv:2308.02760.
 - Poole, B., Lahiri, S., Raghu, M., Sohl-Dickstein, J., & Ganguli, S.
   (2016). Exponential expressivity in deep neural networks through transient
   chaos. NeurIPS 29 (NIPS 2016). arXiv:1606.05340.
+- Radhakrishnan, A., Beaglehole, D., Pandit, P., & Belkin, M. (2024).
+  Mechanism of feature learning in deep fully connected networks and kernel
+  machines that recursively learn features. arXiv:2212.13881. Published as
+  "Mechanism for feature learning in neural networks and
+  backpropagation-free machine learning models," Science (2024),
+  doi:10.1126/science.adi5639.
 - Raghu, M., Gilmer, J., Yosinski, J., & Sohl-Dickstein, J. (2017). SVCCA:
   Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics
   and Interpretability. NeurIPS 30 (NIPS 2017). arXiv:1706.05806.
+- Rangamani, A., Lindegaard, M., Galanti, T., & Poggio, T. A. (2023).
+  Feature learning in deep classifiers through Intermediate Neural Collapse.
+  ICML 2023, PMLR 202, 28729–28745.
 - Ross, S., Gordon, G. J., & Bagnell, J. A. (2011). A Reduction of Imitation
   Learning and Structured Prediction to No-Regret Online Learning. AISTATS
   2011. arXiv:1011.0686.
@@ -639,6 +679,9 @@ Gabriel Wu.)*
 - Schürholt, K., Taskiran, D., Knyazev, B., Giró-i-Nieto, X., & Borth, D.
   (2022). Model Zoos: A Dataset of Diverse Populations of Neural Network
   Models. NeurIPS 2022, Datasets and Benchmarks Track. arXiv:2209.14764.
+- Thamm, M., Staats, M., & Rosenow, B. (2022). Random matrix analysis of
+  deep neural network weight matrices. Physical Review E 106, 054124.
+  arXiv:2203.14661.
 - Unterthiner, T., Keysers, D., Gelly, S., Bousquet, O., & Tolstikhin, I.
   (2020). Predicting Neural Network Accuracy from Weights. arXiv:2002.11448.
 - Wu, G., & Hilton, J. (2024). Estimating the Probabilities of Rare Outputs
@@ -646,3 +689,6 @@ Gabriel Wu.)*
 - Wu, W., Lecomte, V., Winer, M., Robinson, G., Hilton, J., & Christiano, P.
   (2026). Estimating the expected output of wide random MLPs more
   efficiently than sampling. arXiv:2605.05179.
+- Zangrando, E., Deidda, P., Brugiapaglia, S., Guglielmi, N., & Tudisco, F.
+  (2024). Provable Emergence of Deep Neural Collapse and Low-Rank Bias in
+  L²-Regularized Nonlinear Networks. arXiv:2402.03991.
