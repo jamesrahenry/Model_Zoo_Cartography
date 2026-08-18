@@ -1,8 +1,11 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.7 — 2026-08-18 16:20 UTC (v0.6–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+*Draft v0.8 — 2026-08-18 16:45 UTC (v0.7–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
 2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
 analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
+v0.8: every reference verified against arXiv/publisher records or the bundle's audited
+ledger — no entry is from memory; corrections: Huh "Position:" prefix, Wu et al. 2026
+real title, Ainsworth title casing, journal details for MP/JMLR/NatComms/PNAS/Neal.
 v0.7: new §5.2 "Reading weights versus running the model" (three access levels, the
 paired blind spots, the analytic bridge as a result); old §5.2–5.4 now §5.3–5.5; a
 forward test direction added to §5.4 with no reliance on companion work — this paper
@@ -576,8 +579,11 @@ with the paper.
 
 ## 9. References
 
-*(Draft list — every arXiv ID and venue below needs a verification pass
-before submission; entries marked ⚠ are cited from memory.)*
+*(Every entry verified 2026-08-18 against arXiv metadata, publisher pages, or
+the Rosetta bundle's audited citation ledger
+(`papers/shared/citations_master.md`) — none written from memory. In-text
+keys: Wu et al. 2026 is Wilson Wu (challenge backbone); Wu & Hilton 2024 is
+Gabriel Wu.)*
 
 - ARC White-Box Estimation Challenge (2026). Competition organized by the
   Alignment Research Center on AIcrowd.
@@ -585,46 +591,58 @@ before submission; entries marked ⚠ are cited from memory.)*
   Warm-up June 10–17; Phase 1 June 18–July 31; Phase 2 August 1–September 19,
   2026. Accessed 2026-08-18; archived at
   https://web.archive.org/web/20260818152858/https://www.aicrowd.com/challenges/arc-white-box-estimation-challenge-2026.
-- Ainsworth, Hayase, Srinivasa (2023). Git Re-Basin: Merging models modulo
-  permutation symmetries. ICLR. ⚠
-- Christiano, Neyman, Xu (2022). Formalizing the presumption of independence.
-  arXiv:2211.06738. ⚠
-- Huh, Cheung, Wang, Isola (2024). The Platonic Representation Hypothesis.
-  ICML. ⚠
-- Jacot, Gabriel, Hongler (2018). Neural Tangent Kernel: Convergence and
-  generalization in neural networks. NeurIPS. ⚠
-- Kornblith, Norouzi, Lee, Hinton (2019). Similarity of neural network
-  representations revisited (CKA). ICML. ⚠
-- Lee, Bahri, Novak, Schoenholz, Pennington, Sohl-Dickstein (2018). Deep
-  neural networks as Gaussian processes. ICLR. ⚠
-- Li, Yosinski, Clune, Lipson, Hopcroft (2016). Convergent learning: Do
-  different neural networks learn the same representations? ICLR. ⚠
-- Marchenko, Pastur (1967). Distribution of eigenvalues for some sets of
-  random matrices. Mat. Sb.
-- Martin, Mahoney (2021). Implicit self-regularization in deep neural
-  networks: Evidence from random matrix theory. JMLR 22. ⚠
-- Martin, Peng, Mahoney (2021). Predicting trends in the quality of
-  state-of-the-art neural networks without access to training or testing
-  data. Nature Communications 12. ⚠
-- Neal (1996). Bayesian Learning for Neural Networks. Springer.
-- Papyan, Han, Donoho (2020). Prevalence of neural collapse during the
-  terminal phase of deep learning training. PNAS 117. ⚠
-- Poole, Lahiri, Raghu, Sohl-Dickstein, Ganguli (2016). Exponential
-  expressivity in deep neural networks through transient chaos. NeurIPS. ⚠
-- Raghu, Gilmer, Yosinski, Sohl-Dickstein (2017). SVCCA: Singular vector
-  canonical correlation analysis for deep learning dynamics and
-  interpretability. NeurIPS. ⚠
-- Ross, Gordon, Bagnell (2011). A reduction of imitation learning and
-  structured prediction to no-regret online learning (DAgger). AISTATS. ⚠
-- Schoenholz, Gilmer, Ganguli, Sohl-Dickstein (2017). Deep information
-  propagation. ICLR. ⚠
-- Schönemann (1966). A generalized solution of the orthogonal Procrustes
-  problem. Psychometrika 31.
-- Schürholt, Taskiran, Knyazev, Giró-i-Nieto, Borth (2022). Model zoos: A
-  dataset of diverse populations of neural network models. NeurIPS D&B. ⚠
-- Unterthiner, Keysers, Gelly, Bousquet, Tolstikhin (2020). Predicting neural
-  network accuracy from weights. arXiv:2002.11448. ⚠
-- Wu, Hilton (2024). Estimating the probabilities of rare outputs in language
-  models. arXiv:2410.13211. ⚠
-- Wu, Lecomte, Winer, Robinson, Hilton, Christiano (2026). [Challenge
-  backbone paper.] arXiv:2605.05179.
+- Ainsworth, S. K., Hayase, J., & Srinivasa, S. (2023). Git Re-Basin: Merging
+  Models modulo Permutation Symmetries. ICLR 2023 (oral). arXiv:2209.04836.
+- Christiano, P., Neyman, E., & Xu, M. (2022). Formalizing the presumption of
+  independence. arXiv:2211.06738.
+- Huh, M., Cheung, B., Wang, T., & Isola, P. (2024). Position: The Platonic
+  Representation Hypothesis. ICML 2024. arXiv:2405.07987.
+- Jacot, A., Gabriel, F., & Hongler, C. (2018). Neural Tangent Kernel:
+  Convergence and Generalization in Neural Networks. NeurIPS 31, 8571–8580.
+  arXiv:1806.07572.
+- Kornblith, S., Norouzi, M., Lee, H., & Hinton, G. (2019). Similarity of
+  Neural Network Representations Revisited. ICML 2019, PMLR 97, 3519–3529.
+- Lee, J., Bahri, Y., Novak, R., Schoenholz, S. S., Pennington, J., &
+  Sohl-Dickstein, J. (2018). Deep Neural Networks as Gaussian Processes.
+  ICLR 2018. arXiv:1711.00165.
+- Li, Y., Yosinski, J., Clune, J., Lipson, H., & Hopcroft, J. (2016).
+  Convergent Learning: Do different neural networks learn the same
+  representations? ICLR 2016. arXiv:1511.07543.
+- Marchenko, V. A., & Pastur, L. A. (1967). Distribution of eigenvalues for
+  some sets of random matrices. Matematicheskii Sbornik 72(114)(4), 507–536.
+  English translation: Mathematics of the USSR-Sbornik 1(4), 457–483.
+- Martin, C. H., & Mahoney, M. W. (2021). Implicit Self-Regularization in
+  Deep Neural Networks: Evidence from Random Matrix Theory and Implications
+  for Learning. Journal of Machine Learning Research 22(165), 1–73.
+  arXiv:1810.01075.
+- Martin, C. H., Peng, T. S., & Mahoney, M. W. (2021). Predicting trends in
+  the quality of state-of-the-art neural networks without access to training
+  or testing data. Nature Communications 12, 4122. arXiv:2002.06716.
+- Neal, R. M. (1996). Bayesian Learning for Neural Networks. Lecture Notes
+  in Statistics 118. Springer.
+- Papyan, V., Han, X. Y., & Donoho, D. L. (2020). Prevalence of Neural
+  Collapse during the terminal phase of deep learning training. PNAS
+  117(40), 24652–24663. arXiv:2008.08186.
+- Poole, B., Lahiri, S., Raghu, M., Sohl-Dickstein, J., & Ganguli, S.
+  (2016). Exponential expressivity in deep neural networks through transient
+  chaos. NeurIPS 29 (NIPS 2016). arXiv:1606.05340.
+- Raghu, M., Gilmer, J., Yosinski, J., & Sohl-Dickstein, J. (2017). SVCCA:
+  Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics
+  and Interpretability. NeurIPS 30 (NIPS 2017). arXiv:1706.05806.
+- Ross, S., Gordon, G. J., & Bagnell, J. A. (2011). A Reduction of Imitation
+  Learning and Structured Prediction to No-Regret Online Learning. AISTATS
+  2011. arXiv:1011.0686.
+- Schoenholz, S. S., Gilmer, J., Ganguli, S., & Sohl-Dickstein, J. (2017).
+  Deep Information Propagation. ICLR 2017. arXiv:1611.01232.
+- Schönemann, P. H. (1966). A generalized solution of the orthogonal
+  Procrustes problem. Psychometrika 31(1), 1–10.
+- Schürholt, K., Taskiran, D., Knyazev, B., Giró-i-Nieto, X., & Borth, D.
+  (2022). Model Zoos: A Dataset of Diverse Populations of Neural Network
+  Models. NeurIPS 2022, Datasets and Benchmarks Track. arXiv:2209.14764.
+- Unterthiner, T., Keysers, D., Gelly, S., Bousquet, O., & Tolstikhin, I.
+  (2020). Predicting Neural Network Accuracy from Weights. arXiv:2002.11448.
+- Wu, G., & Hilton, J. (2024). Estimating the Probabilities of Rare Outputs
+  in Language Models. arXiv:2410.13211.
+- Wu, W., Lecomte, V., Winer, M., Robinson, G., Hilton, J., & Christiano, P.
+  (2026). Estimating the expected output of wide random MLPs more
+  efficiently than sampling. arXiv:2605.05179.
