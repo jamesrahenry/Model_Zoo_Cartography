@@ -149,7 +149,7 @@ def fig2():
 
     ax.set_yscale("log")
     ax.set_xlim(0, 38.5)
-    ax.set_xticks(range(0, 32, 4))
+    ax.set_xticks(list(range(0, 29, 4)) + [31])
     ax.set_xlabel("layer")
     ax.set_ylabel("q = PR(Σ_pre) / w   (from weights alone)")
     ax.set_title("Training replaces the depth-driven terminal rank with a "
@@ -161,8 +161,68 @@ def fig2():
     plt.close(fig)
 
 
-# ---------------------------------------------------------------- Fig 3: F5
+# ---------------------------------------------------------------- Fig 3: F3
 def fig3():
+    d = load("census/activation_census.json")["runs"]
+    c_fams = {2: "sweep_c2_head", 3: "sweep_c3_head", 5: "sweep_c5_head",
+              8: "sweep_c8_head", 10: "sweep_c10_batched", 15: "sweep_c15_head",
+              20: "sweep_c20_head", 25: "sweep_c25_head", 32: "sweep_c32_head"}
+
+    def l1_anchored(fam, cond):
+        vals = [net["trained"][cond][1]["significant_dims_anchored"]
+                for net in d[fam].values()]
+        return np.mean(vals)
+
+    fig, (a, b) = plt.subplots(1, 2, figsize=(9.2, 3.8))
+    cs = np.array(sorted(c_fams))
+    task = [l1_anchored(c_fams[c], "task") for c in cs]
+    noise = [l1_anchored(c_fams[c], "noise") for c in cs]
+    a.plot(cs, cs - 1, color=INK, lw=1.2, ls=(0, (5, 3)), zorder=1)
+    a.text(20.5, 22.3, "C − 1", color=INK, fontsize=9, rotation=40)
+    a.scatter(cs, noise, s=30, facecolor="none", edgecolor=ORANGE, lw=1.4,
+              zorder=3, label="pure-noise input")
+    a.scatter(cs, task, s=24, color=BLUE, lw=0, zorder=4, label="task input")
+    a.legend(frameon=False, fontsize=8.5, loc="upper left", handletextpad=0.2)
+    a.set_xscale("log")
+    a.set_xticks(cs, [str(c) for c in cs])
+    a.minorticks_off()
+    a.set_xlabel("classes C")
+    a.set_ylabel("L1 anchored significant dims")
+    a.set_title("noise input already reads the law", fontsize=10, color=INK,
+                loc="left")
+    style(a)
+
+    fam = d["sweep_c10_batched"]
+    for who, cond_root, color, label in ((0, "init", MUTED, "init weights"),
+                                         (1, "trained", BLUE, "trained weights")):
+        eff = np.mean([[e["eff_dim"] for e in
+                        (net["trained"] if who else net["init"])["noise"]]
+                       for net in fam.values()], axis=0)
+        L = np.arange(len(eff))
+        b.plot(L, eff, color=color, lw=1.8)
+        b.annotate(label, (L[-1], eff[-1]), xytext=(4, 0),
+                   textcoords="offset points", color=color, fontsize=8.5,
+                   va="center")
+    b.annotate("at depth, init is MORE collapsed\nthan trained — the arrest,\n"
+               "seen from the activation side", (17, 22), color=INK,
+               fontsize=8.5, ha="left")
+    b.set_yscale("log")
+    b.set_xlim(0, 40)
+    b.set_xticks(list(range(0, 29, 4)) + [31])
+    b.set_xlabel("layer  (C = 10, pure-noise input)")
+    b.set_ylabel("activation effective dim")
+    b.set_title("the deep inversion", fontsize=10, color=INK, loc="left")
+    style(b)
+
+    fig.suptitle("Weights carry the where: structure appears without task "
+                 "input", fontsize=11, color=INK, x=0.02, ha="left")
+    fig.tight_layout(rect=(0, 0, 1, 0.94))
+    fig.savefig(FIGS / "fig3_weights_carry_where.png", dpi=200)
+    plt.close(fig)
+
+
+# ---------------------------------------------------------------- Fig 4: F5
+def fig4_rotation():
     eo = load("census/eigenspace_overlap.json")["runs"]["probe_d32_c10_head"]
     po = load("census/procrustes_overlap.json")
     L = np.arange(len(eo["trained_overlap"]))
@@ -205,12 +265,12 @@ def fig3():
                  "(C = 10, k = 9, 4096 samples)", fontsize=11, color=INK,
                  x=0.02, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.94))
-    fig.savefig(FIGS / "fig3_rotation_hidden.png", dpi=200)
+    fig.savefig(FIGS / "fig4_rotation_hidden.png", dpi=200)
     plt.close(fig)
 
 
-# ---------------------------------------------------------------- Fig 4: F6
-def fig4():
+# ---------------------------------------------------------------- Fig 5: F6
+def fig5_wall():
     tc = load("census/transition_curve.json")
     rows = sorted(tc["rows"], key=lambda r: r["C"])
     C = np.array([r["C"] for r in rows])
@@ -266,12 +326,12 @@ def fig4():
     fig.suptitle("The class-count wall is a compute frontier, not a capacity "
                  "limit", fontsize=11, color=INK, x=0.02, ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.94))
-    fig.savefig(FIGS / "fig4_wall.png", dpi=200)
+    fig.savefig(FIGS / "fig5_wall.png", dpi=200)
     plt.close(fig)
 
 
-# ---------------------------------------------------------------- Fig 5: F4
-def fig5():
+# ---------------------------------------------------------------- Fig 7: F4
+def fig7_refit():
     base = load("null_baseline/refit_trained_results.json")["results"]["val_c10"]
     edge = load("null_baseline/refit_trained_edge_results.json")["results"]["val_c10"]
     L = np.arange(len(base["uncorrected"]["mean_mse"]))
@@ -287,19 +347,19 @@ def fig5():
                     va="center")
     ax.set_yscale("log")
     ax.set_xlim(0, 44)
-    ax.set_xticks(range(0, 32, 4))
+    ax.set_xticks(list(range(0, 29, 4)) + [31])
     ax.set_xlabel("layer")
     ax.set_ylabel("held-out spectrum MSE (val, C = 10)")
     ax.set_title("Population-fitted corrections repair the analytic chain on "
                  "trained weights", fontsize=11, color=INK, loc="left")
     style(ax)
     fig.tight_layout()
-    fig.savefig(FIGS / "fig6_refit.png", dpi=200)
+    fig.savefig(FIGS / "fig7_refit.png", dpi=200)
     plt.close(fig)
 
 
-# ---------------------------------------------------------------- Fig 6: F7
-def fig6():
+# ---------------------------------------------------------------- Fig 6: F7 (bulk)
+def fig6_bulk():
     fams = [(0.0, "sweep_c10_batched"), (0.01, "sweep_c10_wd"),
             (0.03, "b5_wd003"), (0.1, "b5_wd01"), (0.2, "b5_wd02"),
             (0.3, "sweep_c10_wd03"), (1.0, "sweep_c10_wd1")]
@@ -346,11 +406,11 @@ def fig6():
                  "functionally inert", fontsize=11, color=INK, x=0.02,
                  ha="left")
     fig.tight_layout(rect=(0, 0, 1, 0.95))
-    fig.savefig(FIGS / "fig5_bulk_inert.png", dpi=200)
+    fig.savefig(FIGS / "fig6_bulk_inert.png", dpi=200)
     plt.close(fig)
 
 
 if __name__ == "__main__":
-    for f in (fig1, fig2, fig3, fig4, fig5, fig6):
+    for f in (fig1, fig2, fig3, fig4_rotation, fig5_wall, fig6_bulk, fig7_refit):
         f()
         print("wrote", f.__name__)

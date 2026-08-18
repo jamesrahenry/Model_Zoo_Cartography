@@ -1,12 +1,13 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.5 — 2026-08-18 15:27 UTC (v0.4/v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+*Draft v0.6 — 2026-08-18 15:55 UTC (v0.5–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
 2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
 analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
-v0.5: §3 rewritten as a per-instrument catalog (what/math/citation, formulas checked
-against the committed code); the challenge itself is now a dated citation, not just its
-backbone paper. v0.4: six figures from committed data (`make_figures.py`), related work
-(§6) and references (§9) — arXiv IDs/venues need a verification pass before submission.*
+v0.6: Figure 3 added for §4.3 (noise-input law + deep inversion), figures renumbered
+1–7; depth axes now run to L31; wild-model first contact moved out of Results to §5.4
+(it is scoped as the next paper); prose de-sloganed. v0.5: §3 as per-instrument catalog;
+challenge cited and Wayback-archived. v0.4: figures, related work, references — arXiv
+IDs/venues still need a verification pass before submission.*
 
 ## Abstract (draft)
 
@@ -56,8 +57,8 @@ it cannot say which parts are learned rather than architectural.
 
 We built the missing object: ~1,570 trained nets at the challenge's exact
 Phase-1 architecture, matched to the analytic null in everything except
-training. The answer, developed instrument-by-instrument in §4 and assembled
-in §5, has three parts: weights alone carry the **where** (location, rank,
+training. The answer, developed in §4 and stated in full in §5, has three
+parts: weights alone carry the **where** (location, rank,
 and persistence of structure are weight-determined); the weight×input
 interaction sharpens the **what** (the code's identity is real but
 rotation-hidden); and quantitative **how much** requires population-fitted
@@ -99,7 +100,7 @@ bulk edge is λ₊ = σ²(1 + √γ)², γ the matrix aspect ratio [Marchenko & 
 the *fixed analytic* floor σ² = 2/fan_in, exact because the He init scheme is
 known by construction (the matched-corpus instrument, §4.1); and a *robust
 estimate* σ̂² = median(λ)/m(γ), m the MP median factor, for models whose init
-is unknown (§4.8). Alongside: effective dimension via participation ratio
+is unknown (§5.4). Alongside: effective dimension via participation ratio
 PR = (Σλᵢ)²/Σλᵢ², and a `bulk_regime` flag (intact/depleted) that gates which
 reading is meaningful — under strong weight decay the bulk falls *below* any
 floor and MP counting is undefined (§4.6).
@@ -169,7 +170,7 @@ copy — identical marginal entry distribution and scale, structure destroyed �
 is censused as that matrix's own null, requiring no knowledge of the init
 scheme. Validated on first contact: the wild models' own reinitializations
 read 0–1 significant dims, spectrally indistinguishable from the shuffle
-(§4.8); the shuffle null also caught an orientation artifact on first use.
+(§5.4); the shuffle null also caught an orientation artifact on first use.
 
 ## 4. Results
 
@@ -242,6 +243,14 @@ statistic is the trained/init effective-dim ratio, not any exceedance count
 (the anchored floor is clean exactly where init is diffuse and inverts where
 init has collapsed; both counts plus the anchor are recorded per layer).
 
+![Fig 3 — weights carry the where](figures/fig3_weights_carry_where.png)
+*Figure 3. Left: L1 anchored significant dims vs C under pure-noise (open)
+and task (filled) input — the noise reading already sits on the C−1 law;
+task input changes it only marginally. Right: activation effective dimension
+vs depth for the same weights before and after training (noise input): init
+activations collapse below trained ones past mid-depth, so at depth trained
+structure is "less collapsed than init," not "spikier than init."*
+
 ### 4.4 Sharing is coordinate-bound; the code is one code up to rotation
 *Meaning: two nets that learned the same task carry the same code in
 different coordinates — any comparison across models that is not
@@ -257,8 +266,8 @@ rotations. Consequence for representational-convergence claims: convergence
 is real, rotation-hidden, and task-graded; metrics must be rotation-invariant
 or input-anchored.
 
-![Fig 3 — rotation-hidden code](figures/fig3_rotation_hidden.png)
-*Figure 3. The same nets, two views. Left: raw activation-eigenspace overlap
+![Fig 4 — rotation-hidden code](figures/fig4_rotation_hidden.png)
+*Figure 4. The same nets, two views. Left: raw activation-eigenspace overlap
 between same-task twins is indistinguishable from init controls and from k/d
 chance at every depth. Right: a fitted orthogonal Procrustes map (honest
 fit/test split) recovers 0.99 early / 0.90 deep for twins, graded by task
@@ -267,8 +276,7 @@ overlap (cross-task 0.67, init 0.38).*
 ### 4.5 The class-count wall: pre-registered, falsified, then resolved as a logarithmic compute frontier
 *Meaning: the "wall" — the class count at which training stops converging at
 fixed budget — is a compute frontier, not an architectural capacity limit;
-our pre-registered capacity-proportional story about it was wrong and we say
-so.* Terms: C₅₀ is the class count at which half the seeds converge; the
+our pre-registered capacity-proportional account of it was wrong.* Terms: C₅₀ is the class count at which half the seeds converge; the
 "ceiling" is the mid-net activation code's saturating effective dimension
 (~14 at w=256 for every C ≥ 25, converged or not).
 
@@ -296,8 +304,8 @@ converged), while in every failure family the input layer's task-subspace
 alignment kept accreting at chance-level accuracy. Fixed-hyperparameter
 trainability boundaries must not be read as architectural limits.
 
-![Fig 4 — the wall](figures/fig4_wall.png)
-*Figure 4. Left: convergence fraction vs C at w=256/20k steps, with the
+![Fig 5 — the wall](figures/fig5_wall.png)
+*Figure 5. Left: convergence fraction vs C at w=256/20k steps, with the
 committed logistic fit and bootstrap band. Right: the crossing C₅₀ vs width
 at 20k steps (≈ +3.7 classes per width doubling) and at 200k steps — the
 frontier slides with budget (no hard asymptote within 10×) and with width,
@@ -309,15 +317,14 @@ residue — a census that scores its presence as structure measures optimizer
 hygiene, not learning.*
 
 Weight decay sweeps the bulk from 1.0× to 0.000× of its He scale while
-accuracy moves < 0.008. The census's fixed floor fails abruptly at ~0.6–1.2
-nats of decay while the depletion itself is smooth. The bulk carries no
-function; a census that scores its presence as structure measures optimizer
-hygiene. In the depleted regime rank metrics, not MP counts, are the
-structure measure (the robust estimator provably breaks there — documented,
-not patched over).
+accuracy moves < 0.008 — same function, same performance, completely
+different weight statistics. The census's fixed floor fails abruptly at
+~0.6–1.2 nats of decay while the depletion itself is smooth. In the depleted
+regime rank metrics, not MP counts, are the structure measure (the robust
+estimator provably breaks there — documented, not patched over).
 
-![Fig 5 — the bulk is inert](figures/fig5_bulk_inert.png)
-*Figure 5. The weight-decay sweep at C=10, converged nets only. Accuracy is
+![Fig 6 — the bulk is inert](figures/fig6_bulk_inert.png)
+*Figure 6. The weight-decay sweep at C=10, converged nets only. Accuracy is
 flat (top) while the L0 random bulk is swept across three orders of magnitude
 of scale (middle); the fixed-floor census reads C−1 exactly until the bulk
 crosses the floor between wd 0.1 and 0.2, then reads zero while the structure
@@ -327,11 +334,10 @@ demonstrably remains (bottom).*
 *Meaning: the ARC challenge's analytic machinery survives contact with
 trained networks as a correctable skeleton, but the correction is a
 population object — exactly the obstruction the challenge write-up's "toward
-non-random networks" section predicted, now measured. This is the section the
-estimation agenda inherits: any program that wants analytic estimates on
-real (trained) models gets this shape — analytic null + population-fitted
-correction, with the correction's validity bounded by the training regime it
-was fit on.*
+non-random networks" section predicted, now measured. Any program wanting analytic
+estimates on trained models inherits this shape: analytic null plus
+population-fitted correction, valid only within the training regime it was
+fit on.*
 
 A companion random-ensemble measurement (published separately as
 `analytic_vs_sampling/` in the ARC replication repo) grounds the baseline:
@@ -348,34 +354,19 @@ size, fixes the edges, and — fit on mixed converged+partial populations —
 serves both regimes. A 16-parameter constant-coefficient rung captures only
 ~1.4× (no hidden dominant scalar; the state-keying is load-bearing).
 
-![Fig 6 — population-fitted corrections](figures/fig6_refit.png)
-*Figure 6. Held-out per-layer spectrum error on the validation population
+![Fig 7 — population-fitted corrections](figures/fig7_refit.png)
+*Figure 7. Held-out per-layer spectrum error on the validation population
 (C=10). The uncorrected chain degrades by 80%+ mid-depth on trained weights;
 the state-keyed refit repairs the bulk ~7–12×; edge indicator dims fix the
 L0/L1 harm at zero bulk cost.*
 
-### 4.8 First contact with wild models
-*Meaning: the instrument-validity rules learned on the controlled corpus are
-not corpus-specific — they transferred unchanged to models trained elsewhere
-with unknown recipes, and caught an artifact on first use.*
-
-On pythia-70m/160m MLP blocks (no init anchor; scaled floor + entry-shuffled
-empirical nulls): per-matrix structure profiles of 3–111 significant dims
-against 0–12 shuffled-null counts, with depth-dependent profiles; the models'
-own reinitializations read 0–1 significant dims everywhere — spectrally
-indistinguishable from the shuffle null, validating entry-shuffling as a
-universal wild-model baseline requiring no knowledge of the init scheme. The
-instrument-validity rules learned on the controlled corpus (orientation,
-regime flags, null choice) transferred directly, catching one artifact via
-the shuffle null on first use.
-
 ## 5. Discussion
 
-### 5.1 The answer, assembled
+### 5.1 The answer
 
 Can pre-inference structure predict where learned representation will appear
-once inference starts? The corpus answer has three parts, each carried by
-independent instruments:
+once inference starts? The answer has three parts, each carried by a
+different instrument:
 
 **Weights carry the *where*.** Location, rank, and persistence of activation
 structure are weight-determined. The input layer holds the task's class
@@ -398,9 +389,8 @@ without an anchor — the input coordinates, or a fitted rotation.
 predicts random-net spectra to a few percent through 32 layers but degrades
 to 80%+ on trained weights; a 160-parameter state-keyed correction refit on
 the trained population repairs the bulk ~7–12× held-out — and fails on
-populations from other training regimes (§4.7). There is no free
-trained-network estimator; there is a cheap, audited recipe for building one
-per population.
+populations from other training regimes (§4.7). No trained-network estimator comes for free; a population-specific one costs
+~10² parameters, a modest matched population, and a held-out gate.
 
 ### 5.2 For analytic estimation on real models
 
@@ -408,26 +398,25 @@ The ARC White-Box Estimation Challenge scores analytic prediction on random
 nets as a tractable proxy for the estimation problems that matter in
 reality — rare and tail behaviors, anomaly detection, properties of models in
 regimes where sampling cannot reach. Those problems live on trained models.
-This corpus is the controlled step between the two, and it returns the
-estimation agenda concrete news:
+This corpus is the controlled step between the two. Three results carry
+over:
 
 - **The random-weight chain's best trained-network role is the null, not the
   predictor.** Every training signature in this paper is a measured deviation
   from the analytic skeleton (§4.1, §4.2, §4.6), computable from a weights
-  file at specification cost. That is an anomaly-detection primitive: does
-  this net deviate from its architecture's null the way its claimed training
-  says it should?
-- **Corrections are buildable, cheap, and population-bound** (§4.7): ~10²
+  file at specification cost. That is directly usable for anomaly detection:
+  does this net deviate from its architecture's null the way its claimed
+  training says it should?
+- **Corrections are cheap and population-bound** (§4.7): ~10²
   parameters and a modest matched population suffice, and the failure mode on
   out-of-regime populations (partial learners) is detectable by held-out
   gating, not silent.
 - **Regime flags are mandatory instrumentation.** Every instrument we fielded
   has a validity boundary that training economics can cross: the weight-decay
   knee (§4.6), the anchored floor's inversion at depth (§4.3), the scaled
-  estimator's break in the depleted regime. The transferable discipline is
-  the paired-null habit — fixed analytic null where the init is known,
-  entry-shuffled empirical null where it is not (§4.8) — plus a per-matrix
-  flag saying which regime the reading came from.
+  estimator's break in the depleted regime. What transfers is the paired null —
+  fixed analytic where the init is known, entry-shuffled where it is not
+  (§3.8) — plus a per-matrix flag saying which regime the reading came from.
 
 ### 5.3 For weight-space auditing and representational convergence
 
@@ -439,6 +428,22 @@ representational-convergence literature: convergence across same-task models
 is real, task-graded, and strictly rotation-hidden (§4.4) — cross-model
 comparisons made in raw coordinates at depth measure nothing, and metrics
 must be rotation-invariant or input-anchored to see the shared code at all.
+
+### 5.4 Outlook: wild models
+
+Everything above is a matched-corpus result; models trained by other people,
+with other optimizers, on other objectives, are a separate study. What we can
+report is that the instruments survive the trip. First contact with
+pythia-70m/160m MLP blocks (no init anchor, so scaled floor plus
+entry-shuffled nulls, §3.8) read per-matrix profiles of 3–111 significant
+dims against 0–12 for the shuffled nulls, and the models' own
+reinitializations read 0–1 dims everywhere — spectrally indistinguishable
+from the shuffle, which validates entry-shuffling as an init-free baseline.
+The validity rules learned on the controlled corpus (orientation, regime
+flags, null choice) transferred without modification and caught one artifact
+on first use. The wild-model study itself — with its own controls and a
+pre-registered prediction of what the census should read given each model's
+claimed training — is the next paper, not a result of this one.
 
 ## 6. Related work
 
@@ -501,7 +506,7 @@ separable by construction (real-data families partially address this); the
 Bayes proxy mislabels real-data outcomes; the wall is characterized as a
 compute frontier (§4.5) but its mechanism — and its relation to the code
 ceiling — is unresolved; correction scope across optimizers and objectives is
-unmeasured (AdamW wild models are first-contact only, §4.8). The next
+unmeasured (AdamW wild models are first-contact only, §5.4). The next
 falsifiable step mirrors this paper's method: pre-register what the census
 should read on a wild model given its claimed training, then check.
 
