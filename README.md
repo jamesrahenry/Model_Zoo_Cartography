@@ -107,6 +107,24 @@ digest with instruments and data pointers in **[FINDINGS.md](FINDINGS.md)**
 - **Refit chain**: 128 state-keyed parameters fix mean-field's mid-net failure
   on trained weights 10–17× held-out; edges and partial learners remain open.
 
+## Data
+
+All heavy data lives on the HF dataset `james-ra-henry/MZC-Corpus` (private;
+flips public with the paper) — this git repo holds code, docs, and the small
+summary JSONs only:
+
+- `corpus/<family>/` — trained weights + full per-net provenance
+  (`train/corpus_io.py` re-downloads pruned nets on demand).
+- `analysis/census/`, `analysis/null_baseline/` — the per-net analysis JSONs
+  (weight/activation censuses, state trajectories; moved out of git
+  2026-08-18, history purged). Restore into the working tree with:
+
+  ```bash
+  hf download james-ra-henry/MZC-Corpus --repo-type dataset \
+      --include "analysis/*" --local-dir .
+  rsync -a analysis/ ./ && rm -rf analysis/
+  ```
+
 ## Testing
 
 `tests/` covers the pure-numpy/torch instrumentation (census, null baseline,

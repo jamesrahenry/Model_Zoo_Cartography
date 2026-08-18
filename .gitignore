@@ -6,3 +6,10 @@ __pycache__/
 *.npz
 corpus/*/
 !corpus/.gitkeep
+
+# Per-net analysis JSONs live on HF (james-ra-henry/MZC-Corpus, analysis/ tree);
+# local copies are a prune-and-refetch cache. Small summary JSONs stay tracked.
+census/*_weight_census.json
+census/activation_census.json
+census/act_*.json
+null_baseline/state_trajectories.json

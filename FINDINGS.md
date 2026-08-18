@@ -276,6 +276,10 @@ both real-data families).
   record; `train/corpus_io.py` re-downloads pruned nets on demand. Full
   provenance JSON per net (task, hyperparameters, seeds, outcome, trajectory,
   git commit).
+- **Analysis data**: the per-net analysis JSONs cited throughout (`data:`
+  pointers above) also live on `MZC-Corpus` under `analysis/` (moved from git
+  2026-08-18; fetch recipe in README §Data). Only small summary JSONs
+  (transition curves, refit results, overlap summaries) remain tracked in git.
 - **Training**: `train/train_mlp.py` (sequential), `train/train_mlp_batched.py`
   (32 nets/process, init bit-identical per seed, validated 0.8961±0.0020 vs
   sequential 0.8965±0.0022; 64 s/net on a laptop RTX 500).
