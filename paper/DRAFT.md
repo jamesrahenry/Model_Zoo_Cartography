@@ -166,10 +166,14 @@ Isotropic chance is k/d (§4.1, §4.5).
 top-k eigenvectors of each net's activation covariance on a shared input
 sample; pairwise overlap ‖UᵢᵀUⱼ‖²_F / k against k/d chance — the *raw*
 (coordinate-bound) reading. The *recovered* variant splits the shared sample
-into fit/test halves, fits the orthogonal Procrustes rotation R = UVᵀ from
+into fit/test halves, fits the orthogonal Procrustes map R = UVᵀ from
 SVD(A_fitᵀB_fit) [Schönemann 1966] on the fit half only, and measures overlap
-between test-half eigenbases after rotation — an honest estimate of how much
-code is shared up to rotation (§4.4).
+between test-half eigenbases after the map — an estimate of how much code is
+shared up to an orthogonal transformation (§4.4). *Orthogonal* is doing real
+work in that sentence: the fit has no scaling or translation freedom, so
+recovered overlap cannot come from amplitude matching; and R = UVᵀ ranges
+over the full orthogonal group, reflections included — "rotation" in this
+paper always means this orthogonal class.
 
 **3.6 Population-refit state-keyed stabilizer**
 (`null_baseline/refit_trained.py` + vendored `chain_state_keyed.py` [ARC
@@ -491,7 +495,7 @@ alone, but amplitude is not learning (§4.6) — an auditor that scores spectral
 mass measures optimizer hygiene, and the structure measure must switch from
 MP counts to rank metrics once the bulk is depleted. For the
 representational-convergence literature: convergence across same-task models
-is real, task-graded, and strictly rotation-hidden (§4.4) — cross-model
+is real, training-dependent, and strictly rotation-hidden (§4.4) — cross-model
 comparisons made in raw coordinates at depth measure nothing, and metrics
 must be rotation-invariant or input-anchored to see the shared code at all.
 Whether models in the wild show the same signature — chance-exact raw
