@@ -1,6 +1,6 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.6 — 2026-08-18 15:55 UTC (v0.5–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+*Draft v0.6.1 — 2026-08-18 16:02 UTC (v0.5–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
 2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
 analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
 v0.6: Figure 3 added for §4.3 (noise-input law + deep inversion), figures renumbered
@@ -13,7 +13,7 @@ IDs/venues still need a verification pass before submission.*
 
 Where does training leave a signature in a deep network, relative to the
 statistical skeleton the same architecture has at initialization? We train
-~1,570 bias-free ReLU MLPs at a fixed He-Gaussian specification on
+1,569 bias-free ReLU MLPs at a fixed He-Gaussian specification on
 classification tasks whose aggregate input distribution matches the analytic
 null premise `N(0, I)` exactly, and census the population against matched
 analytic and empirical nulls. The headline is an exact law: the input weight
@@ -55,7 +55,7 @@ structure mining in trained models finds low-dimensional, depth-persistent
 activation geometry, but with no matched untrained population to diff against
 it cannot say which parts are learned rather than architectural.
 
-We built the missing object: ~1,570 trained nets at the challenge's exact
+We built the missing object: 1,569 trained nets at the challenge's exact
 Phase-1 architecture, matched to the analytic null in everything except
 training. The answer, developed in §4 and stated in full in §5, has three
 parts: weights alone carry the **where** (location, rank,
@@ -78,7 +78,7 @@ corrections.
   moments).
 - Axes: width {64, 128, 256, 512}, depth {8..64}, budget {20k, 60k, 200k},
   weight decay {0..1.0}, learning rate arms, two readout modes, 16–32 seeds
-  per configuration; ~1,570 nets, 69 families, every net with full provenance
+  per configuration; 1,569 nets, 69 families, every net with full provenance
   (task, hyperparameters, seeds, outcome label vs exact Bayes, trajectory).
 - Infrastructure: batched-stack trainer (32 nets/process, init bit-identical
   to the sequential reference, 64 s/net on a laptop GPU); upload-verify-prune
