@@ -1,11 +1,12 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.4 — 2026-08-18 15:12 UTC (v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+*Draft v0.5 — 2026-08-18 15:27 UTC (v0.4/v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
 2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
 analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
-v0.4: six figures generated from committed data (`make_figures.py`), related work (§6)
-and references (§9) added — arXiv IDs/venues need a verification pass before
-submission.*
+v0.5: §3 rewritten as a per-instrument catalog (what/math/citation, formulas checked
+against the committed code); the challenge itself is now a dated citation, not just its
+backbone paper. v0.4: six figures from committed data (`make_figures.py`), related work
+(§6) and references (§9) — arXiv IDs/venues need a verification pass before submission.*
 
 ## Abstract (draft)
 
@@ -41,8 +42,8 @@ Two research lines meet here, and neither can answer this alone.
 Moment-propagation estimators for random-weight networks provide an *analytic
 null*: what a given architecture looks like with zero learned structure,
 computable from the specification, no forward passes. The concrete instance is
-the ARC White-Box Estimation Challenge [Wu et al., arXiv 2605.05179], which
-scores exactly this skill on random MLPs under a FLOP budget — a tractable
+the ARC White-Box Estimation Challenge [ARC Challenge 2026; backbone paper Wu
+et al. 2026], which scores exactly this skill on random MLPs under a FLOP budget — a tractable
 proxy for the Alignment Research Center's larger estimation agenda: analytic
 prediction of network behavior in regimes where sampling is uninformative
 (rare and tail behaviors, anomaly detection). That agenda ultimately concerns
@@ -82,16 +83,93 @@ corrections.
   to the sequential reference, 64 s/net on a laptop GPU); upload-verify-prune
   corpus lifecycle with HF as system of record.
 
-## 3. Instruments (each audited; §8)
+## 3. Instruments
 
-Weight census with two MP floors (fixed analytic 2/fan_in; robust median-MP
-estimate) + bulk-regime flag · analytic state-trajectory (q, ābar, āsd, r̄bar
-via the Hermite moment chain, zero forward passes; per-architecture null
-bands) · activation census with matched init-anchored exceedance floor ·
-directional consistency (ΔW₀ subspaces vs task simplex) · raw and
-Procrustes-recovered eigenspace overlap (honest fit/test split) ·
-population-refit state-keyed stabilizer (with edge indicator dims) ·
-transport-corrected feature tracking · shuffled-entry nulls for wild models.
+Eight instruments, each audited (§8), each running from committed code
+(`census/`, `null_baseline/`; vendored provenance in `PROVENANCE.md`). The
+first two read weights only — zero forward passes; the next three read
+activations on controlled inputs; the last three are correction, tracking,
+and wild-model machinery.
+
+**3.1 Weight census** (`census/manifold_detector.py`, vendored from the AMC
+line). Per-layer eigenspectrum census of the weight matrices themselves.
+For a layer's uncentered second-moment spectrum {λᵢ}, the Marchenko–Pastur
+bulk edge is λ₊ = σ²(1 + √γ)², γ the matrix aspect ratio [Marchenko & Pastur
+1967]; **significant dims** = #{λᵢ > λ₊}. Two floors are always reported:
+the *fixed analytic* floor σ² = 2/fan_in, exact because the He init scheme is
+known by construction (the matched-corpus instrument, §4.1); and a *robust
+estimate* σ̂² = median(λ)/m(γ), m the MP median factor, for models whose init
+is unknown (§4.8). Alongside: effective dimension via participation ratio
+PR = (Σλᵢ)²/Σλᵢ², and a `bulk_regime` flag (intact/depleted) that gates which
+reading is meaningful — under strong weight decay the bulk falls *below* any
+floor and MP counting is undefined (§4.6).
+
+**3.2 Analytic state trajectory — the q-clock**
+(`null_baseline/state_trajectory.py` + the vendored Hermite moment chain
+[ARC Challenge 2026; Wu et al. 2026]). Propagates (μ, Σ) = (0, I) through
+the trained weights with the uncorrected k=2 Hermite chain — an analytic
+computation on the weights, no data. Per-layer descriptors: **q =
+PR(Σ_pre)/w** (the rank-collapse clock: 1 isotropic → 0 collapsed), ā/āsd
+(mean/std of the per-neuron ReLU operating point μ/σ), r̄ (mean |ρ|
+off-diagonal correlation). The null is a *band*: the same descriptors over
+50 fresh He inits per architecture; trained readings are z-scores against
+that band (§4.2).
+
+**3.3 Activation census with init-anchored floor**
+(`census/run_activation_census.py`). The eigenspectrum census on post-ReLU
+activations, under matched task and pure-noise inputs (identical mean and
+covariance by construction, §4.3). The floor is *anchored to init*: per
+layer, the init net's maximum activation-eigenvalue fraction is the
+threshold, and `significant_dims_anchored` counts trained eigenvalue
+fractions exceeding it — a matched empirical exceedance null. Validity is
+regime-bound and recorded per layer: clean where init activations are
+diffuse (early layers), inverted where init has rank-collapsed below trained
+(depth) — there the trained/init effective-dim ratio is the statistic (§4.3).
+
+**3.4 Directional consistency** (`census/directional_consistency.py`). Does
+training move the input layer in the same direction across seeds, and toward
+the task? Uᵢ = top-(C−1) left singular vectors of ΔW₀ = W₀ᵗʳᵃⁱⁿᵉᵈ − W₀ⁱⁿⁱᵗ;
+subspace overlap(A, B) = ‖AᵀB‖²_F / k — mean cos² of the principal angles —
+against the exactly-known task subspace T = orthonormal basis of the centered
+class means (a GMM-construction privilege), and pairwise across seeds.
+Isotropic chance is k/d (§4.1, §4.5).
+
+**3.5 Eigenspace overlap, raw and Procrustes-recovered**
+(`census/eigenspace_overlap.py`, `census/procrustes_overlap.py`). Per layer:
+top-k eigenvectors of each net's activation covariance on a shared input
+sample; pairwise overlap ‖UᵢᵀUⱼ‖²_F / k against k/d chance — the *raw*
+(coordinate-bound) reading. The *recovered* variant splits the shared sample
+into fit/test halves, fits the orthogonal Procrustes rotation R = UVᵀ from
+SVD(A_fitᵀB_fit) [Schönemann 1966] on the fit half only, and measures overlap
+between test-half eigenbases after rotation — an honest estimate of how much
+code is shared up to rotation (§4.4).
+
+**3.6 Population-refit state-keyed stabilizer**
+(`null_baseline/refit_trained.py` + vendored `chain_state_keyed.py` [ARC
+Challenge 2026]). Repairs §3.2's chain on trained weights. The chain's 16
+correction slots become functions of measured state rather than layer index:
+c_j = θ_j · g(state), the basis g built from (q, ā, āsd, r̄) — 128
+parameters; two indicator dims [is_first, is_last] extend it to 160 and fix
+the edges. θ is fit by DAgger-style iteration [Ross et al. 2011]: roll
+trajectories with the current θ, regress residual-to-truth at every layer,
+repeat; every fit is gated on held-out populations, and polish iterations
+that won on fit data but lost held-out were rejected (§4.7).
+
+**3.7 Transport-corrected feature tracking** (`census/feature_tracker.py`,
+vendored from the AMC line). Matches activation eigenfeatures layer-to-layer,
+raw and after linear transport through the layer map. In this corpus it is
+chiefly a calibrated negative result: chain-level feature continuity in plain
+MLPs is not recoverable under raw or transported matching — only through
+data-fitted rotations (§4.4) — which bounds what tracking can claim
+elsewhere.
+
+**3.8 Entry-shuffled empirical null for wild models**
+(`census/wild_census.py`). For each wild weight matrix, an entry-shuffled
+copy — identical marginal entry distribution and scale, structure destroyed —
+is censused as that matrix's own null, requiring no knowledge of the init
+scheme. Validated on first contact: the wild models' own reinitializations
+read 0–1 significant dims, spectrally indistinguishable from the shuffle
+(§4.8); the shuffle null also caught an orientation artifact on first use.
 
 ## 4. Results
 
@@ -445,6 +523,12 @@ with the paper.
 *(Draft list — every arXiv ID and venue below needs a verification pass
 before submission; entries marked ⚠ are cited from memory.)*
 
+- ARC White-Box Estimation Challenge (2026). Competition organized by the
+  Alignment Research Center on AIcrowd.
+  https://www.aicrowd.com/challenges/arc-white-box-estimation-challenge-2026.
+  Warm-up June 10–17; Phase 1 June 18–July 31; Phase 2 August 1–September 19,
+  2026. Accessed 2026-08-18; archived at
+  https://web.archive.org/web/20260818152858/https://www.aicrowd.com/challenges/arc-white-box-estimation-challenge-2026.
 - Ainsworth, Hayase, Srinivasa (2023). Git Re-Basin: Merging models modulo
   permutation symmetries. ICLR. ⚠
 - Christiano, Neyman, Xu (2022). Formalizing the presumption of independence.
@@ -474,8 +558,12 @@ before submission; entries marked ⚠ are cited from memory.)*
 - Raghu, Gilmer, Yosinski, Sohl-Dickstein (2017). SVCCA: Singular vector
   canonical correlation analysis for deep learning dynamics and
   interpretability. NeurIPS. ⚠
+- Ross, Gordon, Bagnell (2011). A reduction of imitation learning and
+  structured prediction to no-regret online learning (DAgger). AISTATS. ⚠
 - Schoenholz, Gilmer, Ganguli, Sohl-Dickstein (2017). Deep information
   propagation. ICLR. ⚠
+- Schönemann (1966). A generalized solution of the orthogonal Procrustes
+  problem. Psychometrika 31.
 - Schürholt, Taskiran, Knyazev, Giró-i-Nieto, Borth (2022). Model zoos: A
   dataset of diverse populations of neural network models. NeurIPS D&B. ⚠
 - Unterthiner, Keysers, Gelly, Bousquet, Tolstikhin (2020). Predicting neural
