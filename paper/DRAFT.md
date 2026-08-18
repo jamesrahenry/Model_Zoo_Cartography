@@ -50,8 +50,8 @@ matrix of every converged net carries precisely C−1 significant dimensions —
 the rank of the class-mean simplex — invariant to width and class
 separation, verified per-net with zero exceptions, and closely tracked on
 real data (8.25–9.4 ≈ C−1). Deeper in the network the
-learned code is real but rotation-hidden: same-task twins share no
-eigenvectors in raw coordinates at any depth yet carry the same code up to a
+learned code is real but rotation-hidden: same-task twins overlap only at
+chance in raw eigenbases at every depth, yet carry the same code up to a
 fitted rotation. And the random weight bulk that censuses often score as
 structure is functionally inert: accuracy moves under 1% while weight decay
 sweeps the bulk across three orders of magnitude of scale. We map where these
@@ -444,8 +444,8 @@ Each direction of reading also has a demonstrated blind spot, and they are
 complementary. Weight statistics are not sufficient for function: §4.6's
 nets compute the same function at the same accuracy across three orders of
 magnitude of bulk scale. Inference readings in raw coordinates are not
-sufficient for identity: §4.4's twins compute the same code with zero shared
-eigenvectors. An audit that reads only weights can misjudge amplitude; an
+sufficient for identity: §4.4's twins compute the same code while their raw
+(pre-Procrustes) eigenbases overlap only at chance. An audit that reads only weights can misjudge amplitude; an
 audit that reads only raw activations can miss identity entirely. The
 instrument pairing is the design, not a redundancy.
 
@@ -568,8 +568,10 @@ the Platonic Representation Hypothesis [Huh et al. 2024] argue trained
 representations converge; permutation/rotation symmetry work [Ainsworth et
 al. 2023] explains why raw coordinates cannot show it. Our controlled twin
 population sharpens both claims into a measurement (§4.4): with task, data,
-architecture, and init distribution all matched, raw eigenspace overlap is
-*exactly* chance at every depth, while a fitted rotation recovers 0.90–0.99
+architecture, and init distribution all matched, raw eigenspace overlap sits
+at chance (exact at shallow layers; a small depth elevation is shared by
+init controls, so it is not training signal), while a fitted rotation
+recovers 0.90–0.99
 for twins against 0.38 for init controls — convergence is real, strictly
 rotation-hidden, and training-dependent. Anchor-based "relative representations" [Moschella et al. 2023]
 operationalize the same prescription from the engineering side: comparisons
