@@ -1,11 +1,15 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.6.1 — 2026-08-18 16:02 UTC (v0.5–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+*Draft v0.7 — 2026-08-18 16:20 UTC (v0.6–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
 2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
 analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
-v0.6: Figure 3 added for §4.3 (noise-input law + deep inversion), figures renumbered
-1–7; depth axes now run to L31; wild-model first contact moved out of Results to §5.4
-(it is scoped as the next paper); prose de-sloganed. v0.5: §3 as per-instrument catalog;
+v0.7: new §5.2 "Reading weights versus running the model" (three access levels, the
+paired blind spots, the analytic bridge as a result); old §5.2–5.4 now §5.3–5.5; a
+forward test direction added to §5.4 with no reliance on companion work — this paper
+stands on its own evidence. v0.6: Figure 3 added for §4.3 (noise-input law + deep
+inversion), figures renumbered 1–7; depth axes now run to L31; wild-model first contact
+moved out of Results to the outlook (now §5.5; it is scoped as the next paper); prose
+de-sloganed. v0.5: §3 as per-instrument catalog;
 challenge cited and Wayback-archived. v0.4: figures, related work, references — arXiv
 IDs/venues still need a verification pass before submission.*
 
@@ -100,7 +104,7 @@ bulk edge is λ₊ = σ²(1 + √γ)², γ the matrix aspect ratio [Marchenko & 
 the *fixed analytic* floor σ² = 2/fan_in, exact because the He init scheme is
 known by construction (the matched-corpus instrument, §4.1); and a *robust
 estimate* σ̂² = median(λ)/m(γ), m the MP median factor, for models whose init
-is unknown (§5.4). Alongside: effective dimension via participation ratio
+is unknown (§5.5). Alongside: effective dimension via participation ratio
 PR = (Σλᵢ)²/Σλᵢ², and a `bulk_regime` flag (intact/depleted) that gates which
 reading is meaningful — under strong weight decay the bulk falls *below* any
 floor and MP counting is undefined (§4.6).
@@ -170,7 +174,7 @@ copy — identical marginal entry distribution and scale, structure destroyed �
 is censused as that matrix's own null, requiring no knowledge of the init
 scheme. Validated on first contact: the wild models' own reinitializations
 read 0–1 significant dims, spectrally indistinguishable from the shuffle
-(§5.4); the shuffle null also caught an orientation artifact on first use.
+(§5.5); the shuffle null also caught an orientation artifact on first use.
 
 ## 4. Results
 
@@ -392,7 +396,50 @@ the trained population repairs the bulk ~7–12× held-out — and fails on
 populations from other training regimes (§4.7). No trained-network estimator comes for free; a population-specific one costs
 ~10² parameters, a modest matched population, and a held-out gate.
 
-### 5.2 For analytic estimation on real models
+### 5.2 Reading weights versus running the model
+
+Inference is the end product — a model matters only when it runs — so it is
+worth being precise about what this paper claims can be known before it runs.
+The instruments operate at three levels of access:
+
+1. **Weights alone, analytically** (§3.1, §3.2; results §4.1, §4.2): no
+   data, no execution. Cost is set by the specification, and the null is
+   clean — the init distribution is known (matched corpora) or estimable
+   from the matrix itself (§3.8).
+2. **Weights executed on structureless input** (§3.3; §4.3): mechanically
+   inference, epistemically still a weights reading — the input carries no
+   task information, so whatever structure appears is attributable to the
+   weights.
+3. **Weights executed on task input** (§4.3, §4.4): inference proper. Every
+   reading is now a property of the composition (weights ∘ input
+   distribution); attributing structure to learning requires an
+   input-matched control, which this corpus has by construction and wild
+   models never grant.
+
+The findings ladder onto the levels exactly: location, rank, and persistence
+of structure are readable at level 1; the full qualitative signature appears
+at level 2; level 3 adds sharpening and the coordinate realization. In this
+corpus, nothing appeared at level 3 whose location was not already fixed at
+level 1.
+
+Each direction of reading also has a demonstrated blind spot, and they are
+complementary. Weight statistics are not sufficient for function: §4.6's
+nets compute the same function at the same accuracy across three orders of
+magnitude of bulk scale. Inference readings in raw coordinates are not
+sufficient for identity: §4.4's twins compute the same code with zero shared
+eigenvectors. An audit that reads only weights can misjudge amplitude; an
+audit that reads only raw activations can miss identity entirely. The
+instrument pairing is the design, not a redundancy.
+
+The two sides are bridged, and the bridge is itself a result: the q-clock is
+a prediction about inference computed without inference, and its terminal
+rank matches the activation-side arrest measured under noise input (§4.2 ↔
+§4.3). That faithfulness is what makes weight-side reading operationally
+useful — a model can be checked against its architecture's null from the
+weights file alone, before deployment, without choosing an input
+distribution, and without being permitted or able to run it.
+
+### 5.3 For analytic estimation on real models
 
 The ARC White-Box Estimation Challenge scores analytic prediction on random
 nets as a tractable proxy for the estimation problems that matter in
@@ -418,7 +465,7 @@ over:
   fixed analytic where the init is known, entry-shuffled where it is not
   (§3.8) — plus a per-matrix flag saying which regime the reading came from.
 
-### 5.3 For weight-space auditing and representational convergence
+### 5.4 For weight-space auditing and representational convergence
 
 For weight-only model auditing: task-relevant rank is readable from weights
 alone, but amplitude is not learning (§4.6) — an auditor that scores spectral
@@ -428,8 +475,12 @@ representational-convergence literature: convergence across same-task models
 is real, task-graded, and strictly rotation-hidden (§4.4) — cross-model
 comparisons made in raw coordinates at depth measure nothing, and metrics
 must be rotation-invariant or input-anchored to see the shared code at all.
+Whether models in the wild show the same signature — chance-exact raw
+overlap with rotation-recoverable, task-graded identity — is measurable with
+the same paired instruments, and is where this result asks to be tested
+next.
 
-### 5.4 Outlook: wild models
+### 5.5 Outlook: wild models
 
 Everything above is a matched-corpus result; models trained by other people,
 with other optimizers, on other objectives, are a separate study. What we can
@@ -506,7 +557,7 @@ separable by construction (real-data families partially address this); the
 Bayes proxy mislabels real-data outcomes; the wall is characterized as a
 compute frontier (§4.5) but its mechanism — and its relation to the code
 ceiling — is unresolved; correction scope across optimizers and objectives is
-unmeasured (AdamW wild models are first-contact only, §5.4). The next
+unmeasured (AdamW wild models are first-contact only, §5.5). The next
 falsifiable step mirrors this paper's method: pre-register what the census
 should read on a wild model given its claimed training, then check.
 
