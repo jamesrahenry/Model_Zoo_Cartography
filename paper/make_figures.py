@@ -183,6 +183,10 @@ def fig3():
               zorder=3, label="pure-noise input")
     a.scatter(cs, task, s=24, color=BLUE, lw=0, zorder=4, label="task input")
     a.legend(frameon=False, fontsize=8.5, loc="upper left", handletextpad=0.2)
+    a.axhline(20, color=MUTED, lw=0.9, ls=(0, (2, 2)))
+    a.text(2.05, 19.1, "instrument cap (top-20):\nreadings at 20 are censored",
+           color=MUTED, fontsize=7.5, ha="left", va="top")
+    a.set_ylim(0, 24)
     a.set_xscale("log")
     a.set_xticks(cs, [str(c) for c in cs])
     a.minorticks_off()
@@ -246,7 +250,7 @@ def fig4_rotation():
     style(a)
 
     conds = [("trained_twins", "same-task twins", BLUE, 8),
-             ("cross_task_noise", "cross-task", ORANGE, -11),
+             ("cross_task_noise", "cross-task (noise input)", ORANGE, -11),
              ("init_twins", "init controls", MUTED, 9)]
     for key, label, color, dy in conds:
         v = po["conditions"][key]
@@ -319,8 +323,8 @@ def fig5_wall():
     b.set_xlim(56, 780)
     b.set_xlabel("width")
     b.set_ylabel("C₅₀ (half of seeds converge)")
-    b.set_title("logarithmic in width and budget", fontsize=10, color=INK,
-                loc="left")
+    b.set_title("consistent with log growth (tested range)", fontsize=10,
+                color=INK, loc="left")
     style(b)
 
     fig.suptitle("The class-count wall is a compute frontier, not a capacity "
@@ -349,7 +353,7 @@ def fig7_refit():
     ax.set_xlim(0, 44)
     ax.set_xticks(list(range(0, 29, 4)) + [31])
     ax.set_xlabel("layer")
-    ax.set_ylabel("held-out spectrum MSE (val, C = 10)")
+    ax.set_ylabel("validation spectrum MSE (C = 10)")
     ax.set_title("Population-fitted corrections repair the analytic chain on "
                  "trained weights", fontsize=11, color=INK, loc="left")
     style(ax)

@@ -1,8 +1,19 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.9 — 2026-08-18 17:15 UTC (v0.8–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+*Draft v0.10 — 2026-08-18 17:10 UTC (v0.9–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
 2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
 analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
+v0.10: selective merge of an external review pass (GPT): four verified corrections —
+aggregate input matches the null in mean/covariance only (mixture non-Gaussianity was
+already recorded per net, the prose overstated it); the C=25/32 anchored activation
+counts are right-censored at the instrument's top-20 cap, not a ceiling; the cross-task
+Procrustes condition ran on noise input, so the task-graded claim is downgraded to
+training-dependent pending an input-matched rerun; refit numbers relabeled validation
+(the val set gated polish acceptance) with the untouched C=50 transfer stated plainly —
+plus two scope fixes ("statistics we measured"; "consistent with logarithmic growth over
+the tested range"). The rest of the external rewrite (title, falsification arc, meaning
+leads, figure titles, version history) was reviewed and declined; full version preserved
+in git stash and scratchpad.
 v0.9: second literature sweep on the refined claims — seven prior-art citations added
 and folded into §6 (Thamm/Staats/Rosenow RMT-on-weights as closest census antecedent;
 Neural Feature Ansatz; intermediate neural collapse ×2; weight-decay low-rank bias ×2;
@@ -26,9 +37,10 @@ IDs/venues still need a verification pass before submission.*
 Where does training leave a signature in a deep network, relative to the
 statistical skeleton the same architecture has at initialization? We train
 1,569 bias-free ReLU MLPs at a fixed He-Gaussian specification on
-classification tasks whose aggregate input distribution matches the analytic
-null premise `N(0, I)` exactly, and census the population against matched
-analytic and empirical nulls. The headline is an exact law: the input weight
+classification tasks whose aggregate input mean and covariance match the
+analytic null's premise (0, I) exactly — as a mixture, its higher moments
+remain non-Gaussian, a recorded residual — and census the population against
+matched analytic and empirical nulls. The headline is an exact law: the input weight
 matrix of every converged net carries precisely C−1 significant dimensions —
 the rank of the class-mean simplex — invariant to width, class separation,
 and dataset, verified per-net with zero exceptions. Deeper in the network the
@@ -83,11 +95,13 @@ corrections.
   outside the censused stack carries the readout (its necessity and its
   gradient side-effects are themselves catalogued: a frozen-column no-head
   variant provides an in-net guaranteed-null control).
-- Tasks: Gaussian mixtures constructed so the aggregate input distribution is
-  exactly `N(0, I)` (class count C ∈ {2..64} and separation are dials; Bayes
-  accuracy computed exactly per task), plus whitened MNIST and Fashion-MNIST
-  (784→d seeded projection + ZCA; real higher moments, matched second
-  moments).
+- Tasks: Gaussian mixtures analytically whitened so the aggregate input has
+  mean 0 and covariance I exactly (as a mixture, its higher moments remain
+  non-Gaussian — the residual mismatch with the null's Gaussianity assumption
+  is recorded per net; class count C ∈ {2..64} and separation are dials;
+  Bayes accuracy computed exactly per task), plus whitened MNIST and
+  Fashion-MNIST (784→d seeded projection + ZCA; real higher moments, matched
+  second moments).
 - Axes: width {64, 128, 256, 512}, depth {8..64}, budget {20k, 60k, 200k},
   weight decay {0..1.0}, learning rate arms, two readout modes, 16–32 seeds
   per configuration; 1,569 nets, 69 families, every net with full provenance
@@ -165,8 +179,10 @@ c_j = θ_j · g(state), the basis g built from (q, ā, āsd, r̄) — 128
 parameters; two indicator dims [is_first, is_last] extend it to 160 and fix
 the edges. θ is fit by DAgger-style iteration [Ross et al. 2011]: roll
 trajectories with the current θ, regress residual-to-truth at every layer,
-repeat; every fit is gated on held-out populations, and polish iterations
-that won on fit data but lost held-out were rejected (§4.7).
+repeat. Polish iterations are accepted or rejected on the validation
+population's final-layer error — the validation set therefore participates
+in model selection; the C=50 population is reserved untouched for transfer
+evaluation (§4.7).
 
 **3.7 Transport-corrected feature tracking** (`census/feature_tracker.py`,
 vendored from the AMC line). Matches activation eigenfeatures layer-to-layer,
@@ -245,8 +261,12 @@ Trained-weight activations under pure noise already carry the qualitative
 structure signature; task input tightens it modestly. Under the init-anchored
 exceedance floor, the early-activation rank law mirrors the weight law:
 L1 anchored significant dims read C−1 to C for C ≤ 20
-(2.0/3.0/5.0/7.4/9.0/14.0/19.0), compress at the code ceiling (20.0 at C=25,
-19.6 at C=32), and collapse with the wall (13.8 at C=40). At mid/deep layers
+(2.0/3.0/5.0/7.4/9.0/14.0/19.0) and collapse with the wall (13.8 at C=40).
+The C=25/32 readings (20.0/19.6) sit at the instrument's stored top-20
+eigenvalue cap and are right-censored — lower bounds, not ceiling
+measurements (the C ≤ 20 law and the C=40 collapse are below the cap and
+unaffected; §4.5's mid-net code ceiling is measured by effective dimension,
+computed from the full spectrum, and is also unaffected). At mid/deep layers
 the exceedance count reads ≈ 0 everywhere — and that is itself the finding:
 init activations at depth are *more* rank-collapsed than trained ones, so
 trained structure at depth is not "spikier than init" but *less collapsed*
@@ -258,7 +278,8 @@ init has collapsed; both counts plus the anchor are recorded per layer).
 ![Fig 3 — weights carry the where](figures/fig3_weights_carry_where.png)
 *Figure 3. Left: L1 anchored significant dims vs C under pure-noise (open)
 and task (filled) input — the noise reading already sits on the C−1 law;
-task input changes it only marginally. Right: activation effective dimension
+task input changes it only marginally. The C=25/32 points sit at the
+instrument's top-20 cap (dotted line) and are right-censored. Right: activation effective dimension
 vs depth for the same weights before and after training (noise input): init
 activations collapse below trained ones past mid-depth, so at depth trained
 structure is "less collapsed than init," not "spikier than init."*
@@ -271,19 +292,24 @@ rotation-invariant or input-anchored will read false negatives at depth.*
 Same-task twins: L0 input-coordinate subspaces overlap 0.86–0.93 (init
 controls exactly at isotropic chance); raw hidden-space eigenbases at or near
 k/d chance at every depth; Procrustes-recovered overlap 0.99 early / 0.90
-deep, graded by task overlap (cross-task 0.67, untrained 0.38). Chain-level
+deep for twins against 0.38 for init controls; a cross-task condition reads
+0.67, but it was measured under noise input rather than task input, so it is
+not input-matched with the twin condition — a bound, not a clean
+task-similarity grading. Chain-level
 feature tracking fails in plain MLPs under both raw and linearly-transported
 matching — continuity of the code is recoverable only through data-fitted
 rotations. Consequence for representational-convergence claims: convergence
-is real, rotation-hidden, and task-graded; metrics must be rotation-invariant
-or input-anchored.
+is real, rotation-hidden, and training-dependent (twins ≫ init controls); an
+input-matched cross-task rerun is needed before calling it task-graded.
+Metrics must be rotation-invariant or input-anchored.
 
 ![Fig 4 — rotation-hidden code](figures/fig4_rotation_hidden.png)
 *Figure 4. The same nets, two views. Left: raw activation-eigenspace overlap
 between same-task twins is indistinguishable from init controls and from k/d
 chance at every depth. Right: a fitted orthogonal Procrustes map (honest
-fit/test split) recovers 0.99 early / 0.90 deep for twins, graded by task
-overlap (cross-task 0.67, init 0.38).*
+fit/test split) recovers 0.99 early / 0.90 deep for twins against 0.38 for
+init controls. The cross-task series (0.67) was measured under noise input
+and is not input-matched with the twin condition.*
 
 ### 4.5 The class-count wall: pre-registered, falsified, then resolved as a logarithmic compute frontier
 *Meaning: the "wall" — the class count at which training stops converging at
@@ -299,8 +325,9 @@ C₅₀(w) = 2.7 × ceiling(w) — proportionality between the wall and the mid-
 activation-code ceiling — and **falsified it**: the constant held at
 w=128/256 (2.54/2.53) and failed at w=64 (ratio 3.5). The resolution, from
 per-width lr-tuned sweeps, is that the wall is not capacity-proportional at
-all but a **compute frontier, approximately logarithmic in both width and
-budget**: C₅₀ = 27.8 / 32.3 / 36.2 / 38.8 at w = 64/128/256/512 (~+3.7
+all but a **compute frontier, consistent with logarithmic growth in both
+width and budget over the tested range** (four widths, three budgets — the
+data bound the shape, they do not identify it): C₅₀ = 27.8 / 32.3 / 36.2 / 38.8 at w = 64/128/256/512 (~+3.7
 classes per width doubling), sliding ~+10 classes per tripling of steps
 (w=512, C=48: 0% → 88% converged at 3× budget). The ceiling grows comparably
 slowly in width (8.1/11.6/14.3), which is why the falsified proportionality
@@ -361,14 +388,20 @@ depth. On trained weights the picture changes: the k=2 mean-field chain
 predicts random-net activation spectra to 3–7%
 through 32 layers but degrades to 80%+ by L16 on trained weights. A
 state-keyed correction (ARC's machinery, 160 params with edge indicators)
-refit on the trained population repairs the bulk 7–12× held-out across task
-size, fixes the edges, and — fit on mixed converged+partial populations —
-serves both regimes. A 16-parameter constant-coefficient rung captures only
+refit on the trained population repairs the bulk 7–12× on the validation
+population, fixes the edges, and — fit on mixed converged+partial
+populations — serves both regimes. Two honesty notes: the same validation
+population gated polish acceptance (one scalar per iteration — a small
+selection pressure, but these are validation numbers, not untouched held-out
+estimates), and the untouched out-of-population read is the C=50 transfer
+set, where the refit is mixed and worse than uncorrected in some layers —
+the correction is population-bound. A 16-parameter constant-coefficient rung captures only
 ~1.4× (no hidden dominant scalar; the state-keying is load-bearing).
 
 ![Fig 7 — population-fitted corrections](figures/fig7_refit.png)
-*Figure 7. Held-out per-layer spectrum error on the validation population
-(C=10). The uncorrected chain degrades by 80%+ mid-depth on trained weights;
+*Figure 7. Per-layer spectrum error on the validation population (C=10) —
+which also gated polish acceptance: validation numbers, not untouched
+held-out. The uncorrected chain degrades by 80%+ mid-depth on trained weights;
 the state-keyed refit repairs the bulk ~7–12×; edge indicator dims fix the
 L0/L1 harm at zero bulk cost.*
 
@@ -393,14 +426,14 @@ property of its weights that inference reveals rather than creates.
 coordinates.** The identity of the learned code is real and shared across
 same-task nets, but only up to rotation (§4.4): raw hidden-space eigenbases
 overlap at chance at every depth while Procrustes-recovered overlap reads
-0.90–0.99, graded by task similarity. So *where* structure lives is
+0.90–0.99 for twins against 0.38 for init controls. So *where* structure lives is
 predictable from weights; *which directions* carry it is not even well-posed
 without an anchor — the input coordinates, or a fitted rotation.
 
 **Quantitative *how much* needs population calibration.** The analytic chain
 predicts random-net spectra to a few percent through 32 layers but degrades
 to 80%+ on trained weights; a 160-parameter state-keyed correction refit on
-the trained population repairs the bulk ~7–12× held-out — and fails on
+the trained population repairs the bulk ~7–12× on validation — and fails on
 populations from other training regimes (§4.7). No trained-network estimator comes for free; a population-specific one costs
 ~10² parameters, a modest matched population, and a held-out gate.
 
@@ -426,9 +459,9 @@ The instruments operate at three levels of access:
 
 The findings ladder onto the levels exactly: location, rank, and persistence
 of structure are readable at level 1; the full qualitative signature appears
-at level 2; level 3 adds sharpening and the coordinate realization. In this
-corpus, nothing appeared at level 3 whose location was not already fixed at
-level 1.
+at level 2; level 3 adds sharpening and the coordinate realization. Across
+the statistics we measured, nothing appeared at level 3 whose location was
+not already fixed at level 1.
 
 Each direction of reading also has a demonstrated blind spot, and they are
 complementary. Weight statistics are not sufficient for function: §4.6's
@@ -440,7 +473,8 @@ audit that reads only raw activations can miss identity entirely. The
 instrument pairing is the design, not a redundancy.
 
 The two sides are bridged, and the bridge is itself a result: the q-clock is
-a prediction about inference computed without inference, and its terminal
+a prediction about inference computed without inference — conditional on the
+null's input premise (mean-0, covariance-I input) — and its terminal
 rank matches the activation-side arrest measured under noise input (§4.2 ↔
 §4.3). That faithfulness is what makes weight-side reading operationally
 useful — a model can be checked against its architecture's null from the
@@ -464,8 +498,8 @@ over:
   training says it should?
 - **Corrections are cheap and population-bound** (§4.7): ~10²
   parameters and a modest matched population suffice, and the failure mode on
-  out-of-regime populations (partial learners) is detectable by held-out
-  gating, not silent.
+  out-of-regime populations (partial learners) is detectable by validation
+  gating and transfer checks, not silent.
 - **Regime flags are mandatory instrumentation.** Every instrument we fielded
   has a validity boundary that training economics can cross: the weight-decay
   knee (§4.6), the anchored floor's inversion at depth (§4.3), the scaled
@@ -560,9 +594,9 @@ representations converge; permutation/rotation symmetry work [Ainsworth et
 al. 2023] explains why raw coordinates cannot show it. Our controlled twin
 population sharpens both claims into a measurement (§4.4): with task, data,
 architecture, and init distribution all matched, raw eigenspace overlap is
-*exactly* chance at every depth, while a fitted rotation recovers 0.90–0.99,
-graded by task overlap — convergence is real, strictly rotation-hidden, and
-task-graded. Anchor-based "relative representations" [Moschella et al. 2023]
+*exactly* chance at every depth, while a fitted rotation recovers 0.90–0.99
+for twins against 0.38 for init controls — convergence is real, strictly
+rotation-hidden, and training-dependent. Anchor-based "relative representations" [Moschella et al. 2023]
 operationalize the same prescription from the engineering side: comparisons
 made relative to fixed anchor samples are invariant to latent isometries,
 which is §4.4's input-anchored reading as a design principle.

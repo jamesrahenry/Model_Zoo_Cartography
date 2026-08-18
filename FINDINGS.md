@@ -7,7 +7,15 @@
 > pilot; the corrected finding is two-sided and stronger), F3's quantitative claims withdrawn
 > pending census recalibration (root cause: self-calibrating MP floor, the same trap the weight
 > census already fixes), all other precision/scoping fixes applied inline. Known-open items are
-> marked ⚠ in place.
+> marked ⚠ in place. **Second external pass (GPT review of the paper draft,
+> 2026-08-18), four verified corrections applied inline:** the GMM premise is
+> exact in mean/covariance only (the mixture is not Gaussian — the task code's
+> own docstring already recorded this); F3's C=25/32 anchored counts are
+> right-censored at the census's stored top-20 eigenvalue cap, not a ceiling;
+> F5's cross-task Procrustes condition was measured under noise input (not
+> input-matched with the twin condition); F4's "held-out" population is the
+> validation set, which also gates polish acceptance — the untouched read is
+> the C=50 transfer.
 
 *Covers program start (2026-08-10) through Phase B, the lr/budget arms, and
 the wild-model first contact (last swept 2026-08-17). Corpus: 1,569 trained
@@ -18,9 +26,10 @@ MZC trains populations of MLPs at the ARC White-Box Challenge Phase-1
 architecture (depth 32, width 256, He-Gaussian `N(0, 2/fan_in)`, bias-free,
 ReLU after every layer) and asks where training leaves a signature relative to
 the analytic random-init null. Readout is a bias-free linear head outside the
-censused stack. Tasks: Gaussian mixtures whose *aggregate* input distribution
-is exactly `N(0, I)` (so the null's premise holds by construction; class count
-C and separation are dials), plus whitened MNIST.
+censused stack. Tasks: Gaussian mixtures whose *aggregate* input mean and
+covariance are exactly (0, I) by analytic whitening (as a mixture its higher
+moments remain non-Gaussian — recorded per net; class count C and separation
+are dials), plus whitened MNIST.
 
 ## F1. The input-rank law: L0 significant dims = C−1, exactly
 
@@ -96,8 +105,13 @@ Location and persistence of activation structure are weight-determined.
 
 - **Early layers** (init activations still diffuse → the matched exceedance
   null is clean): anchored significant dims at L1 read **C−1 to C** for
-  C ≤ 20 (2.0/3.0/5.0/7.4/9.0/14.0/19.0), compress at the ceiling (20.0 at
-  C=25, 19.6 at C=32), and collapse with the wall (13.8 at C=40). The
+  C ≤ 20 (2.0/3.0/5.0/7.4/9.0/14.0/19.0) and collapse with the wall (13.8 at
+  C=40). ⚠ *Corrected 2026-08-18 (external pass):* the C=25/32 readings
+  (20.0/19.6) sit at the census's stored top-20 eigenvalue cap and are
+  right-censored lower bounds, not ceiling measurements ("compress at the
+  ceiling" is retracted; C ≤ 20 and the C=40 collapse are below the cap and
+  stand; F6's effective-dim ceiling uses the full spectrum and is
+  unaffected). The
   early-activation rank law mirrors F1's weight law.
 - **Mid/deep layers**: the exceedance count reads ≈ 0 everywhere — and that
   is itself the finding: **init activations at depth are MORE concentrated
@@ -131,6 +145,12 @@ repair reproduces (L7/L15/L23: 0.68/0.85/0.89 → 0.058/0.086/0.123, ≈ 7–12�
 and the edge failures reproduce (L0 worse than uncorrected). The original
 3-seed-era numbers stand as a smaller-population instance of the same result.
 
+⚠ *Terminology corrected 2026-08-18 (external pass):* the "held-out"
+population above is the *validation* set, which also gates polish acceptance
+(one scalar per iteration) — repair factors are validation numbers, not
+untouched held-out estimates; the untouched out-of-population read is the
+C=50 transfer set, where the refit is worse than uncorrected (as stated).
+
 **Edge fix (M1, 2026-08-14):** appending two indicator dims ([is_first,
 is_last], 160 params total) to the state basis repairs the edges with zero
 bulk cost — held-out spectrum error L0: 0.171 → 0.025 (≈ uncorrected 0.020,
@@ -151,7 +171,11 @@ a small consistent elevation of ~25% above chance at the deepest layers, which
 init controls share), matching P4's cross-family LLM result even with
 identical task and identical inputs. Fitted
 orthogonal Procrustes (honest fit/test split) recovers it: **0.99 early / 0.90
-at depth for twins**, graded by task overlap (cross-task 0.67, init 0.38).
+at depth for twins** vs 0.38 for init controls. ⚠ *Scoping 2026-08-18
+(external pass):* the cross-task condition (0.67) was measured under noise
+input — not input-matched with the task-input twin condition — so "graded by
+task overlap" is downgraded to training-dependent (twins ≫ init) pending an
+input-matched cross-task rerun.
 PRH statement: representational convergence is real, rotation-hidden, and
 task-graded; metrics must be rotation-invariant or input-anchored.
 *Instruments: `census/directional_consistency.py`,
