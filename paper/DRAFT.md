@@ -1,11 +1,11 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.3 — 2026-08-18 02:34 UTC (v0.2: 2026-08-17; v0.1: 2026-08-15). James Henry.
-Numbers reference FINDINGS.md (F1–F7) and the committed analysis JSONs; corpus at
-`james-ra-henry/MZC-Corpus` (flips public with this paper). v0.3: question stated in §1,
-§5 written in full, per-section meaning leads + term definitions in §4, F3 (noise-input
-result) added as §4.3 — it carried §5's thesis but had no section; §4.3–4.7 renumbered
-to §4.4–4.8.*
+*Draft v0.4 — 2026-08-18 15:12 UTC (v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
+analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
+v0.4: six figures generated from committed data (`make_figures.py`), related work (§6)
+and references (§9) added — arXiv IDs/venues need a verification pass before
+submission.*
 
 ## Abstract (draft)
 
@@ -82,7 +82,7 @@ corrections.
   to the sequential reference, 64 s/net on a laptop GPU); upload-verify-prune
   corpus lifecycle with HF as system of record.
 
-## 3. Instruments (each audited; §7)
+## 3. Instruments (each audited; §8)
 
 Weight census with two MP floors (fixed analytic 2/fan_in; robust median-MP
 estimate) + bulk-regime flag · analytic state-trajectory (q, ābar, āsd, r̄bar
@@ -113,6 +113,13 @@ layer keeps learning the task geometry (task-subspace alignment 0.38–0.89 of
 converged levels at chance accuracy). *Learning proceeds at the input edge
 even when the pipe fails.*
 
+![Fig 1 — the input-rank law](figures/fig1_input_rank_law.png)
+*Figure 1. The input-rank law. Left: per-net L0 significant dims under the
+analytic MP floor vs class count; every converged net (filled) sits on
+C−1 exactly; partial learners (open) scatter below while still accreting.
+Right: the law is invariant to class separation 1.5–6.0 at C=10; whitened
+MNIST and Fashion-MNIST read 9.4 and 8.25 ≈ C−1.*
+
 ### 4.2 The terminal rank is task-driven, two-sided
 *Meaning: depth does not erase the input imprint — the rank the code carries
 at the last layer is set by the task, not by depth — and it is computed from
@@ -128,6 +135,13 @@ architecture's null band for mid-C, *below* it for small-C/easy tasks and
 MNIST, at-band for uncommitted partial learners; strongest in narrow nets
 (+11σ at w=64), inverted at shallow depth (−7.5σ at d=8). One law, signed by
 the task's rank demand relative to the architecture's fixed point.
+
+![Fig 2 — the q-clock](figures/fig2_qclock.png)
+*Figure 2. Family-median q-clock trajectories (w=256, d=32) against the
+50-net random-init null band. Mid-C tasks arrest above the band's fixed
+point; C=2 and MNIST need less rank than depth alone would leave and exit
+below it; the uncommitted C=50 partial learners ride the band — the clock
+measures committed structure. Computed from weights alone.*
 
 ### 4.3 Noise-driven activations carry the structure; task input sharpens it
 *Meaning: the activation structure is in the weights before any task-relevant
@@ -165,6 +179,13 @@ rotations. Consequence for representational-convergence claims: convergence
 is real, rotation-hidden, and task-graded; metrics must be rotation-invariant
 or input-anchored.
 
+![Fig 3 — rotation-hidden code](figures/fig3_rotation_hidden.png)
+*Figure 3. The same nets, two views. Left: raw activation-eigenspace overlap
+between same-task twins is indistinguishable from init controls and from k/d
+chance at every depth. Right: a fitted orthogonal Procrustes map (honest
+fit/test split) recovers 0.99 early / 0.90 deep for twins, graded by task
+overlap (cross-task 0.67, init 0.38).*
+
 ### 4.5 The class-count wall: pre-registered, falsified, then resolved as a logarithmic compute frontier
 *Meaning: the "wall" — the class count at which training stops converging at
 fixed budget — is a compute frontier, not an architectural capacity limit;
@@ -197,6 +218,13 @@ converged), while in every failure family the input layer's task-subspace
 alignment kept accreting at chance-level accuracy. Fixed-hyperparameter
 trainability boundaries must not be read as architectural limits.
 
+![Fig 4 — the wall](figures/fig4_wall.png)
+*Figure 4. Left: convergence fraction vs C at w=256/20k steps, with the
+committed logistic fit and bootstrap band. Right: the crossing C₅₀ vs width
+at 20k steps (≈ +3.7 classes per width doubling) and at 200k steps — the
+frontier slides with budget (no hard asymptote within 10×) and with width,
+nothing like proportional to capacity.*
+
 ### 4.6 The random bulk is functionally inert
 *Meaning: most of a trained net's weight mass is functionally inert init
 residue — a census that scores its presence as structure measures optimizer
@@ -209,6 +237,13 @@ function; a census that scores its presence as structure measures optimizer
 hygiene. In the depleted regime rank metrics, not MP counts, are the
 structure measure (the robust estimator provably breaks there — documented,
 not patched over).
+
+![Fig 5 — the bulk is inert](figures/fig5_bulk_inert.png)
+*Figure 5. The weight-decay sweep at C=10, converged nets only. Accuracy is
+flat (top) while the L0 random bulk is swept across three orders of magnitude
+of scale (middle); the fixed-floor census reads C−1 exactly until the bulk
+crosses the floor between wd 0.1 and 0.2, then reads zero while the structure
+demonstrably remains (bottom).*
 
 ### 4.7 Quantitative skeleton prediction needs population-fitted corrections
 *Meaning: the ARC challenge's analytic machinery survives contact with
@@ -234,6 +269,12 @@ refit on the trained population repairs the bulk 7–12× held-out across task
 size, fixes the edges, and — fit on mixed converged+partial populations —
 serves both regimes. A 16-parameter constant-coefficient rung captures only
 ~1.4× (no hidden dominant scalar; the state-keying is load-bearing).
+
+![Fig 6 — population-fitted corrections](figures/fig6_refit.png)
+*Figure 6. Held-out per-layer spectrum error on the validation population
+(C=10). The uncorrected chain degrades by 80%+ mid-depth on trained weights;
+the state-keyed refit repairs the bulk ~7–12×; edge indicator dims fix the
+L0/L1 harm at zero bulk cost.*
 
 ### 4.8 First contact with wild models
 *Meaning: the instrument-validity rules learned on the controlled corpus are
@@ -321,7 +362,62 @@ is real, task-graded, and strictly rotation-hidden (§4.4) — cross-model
 comparisons made in raw coordinates at depth measure nothing, and metrics
 must be rotation-invariant or input-anchored to see the shared code at all.
 
-## 6. Limitations
+## 6. Related work
+
+**Analytic propagation on random networks.** The signal-propagation /
+mean-field line [Poole et al. 2016; Schoenholz et al. 2017] studies random
+deep nets in expectation over both weights and inputs, and the NNGP/NTK line
+[Neal 1996; Lee et al. 2018; Jacot et al. 2018] takes the infinite-width
+limit. The regime here is different and less studied: *one finite network
+with its actual weights*, statistics over random inputs — the setting
+formalized by the heuristic-arguments program [Christiano et al. 2022] and
+operationalized by the ARC White-Box Estimation Challenge and its backbone
+paper [Wu et al. 2026], with rare-behavior estimation as the motivating
+application [Wu & Hilton 2024]. We inherit that machinery unchanged and
+invert its role: on trained networks the propagated skeleton is the null, and
+deviation from it is the measurement (§4.2, §4.7).
+
+**Random-matrix analyses of trained weights.** Martin & Mahoney read training
+signatures in the weight spectra of wild models — heavy-tailed
+self-regularization, and quality prediction with no access to data [Martin &
+Mahoney 2021; Martin et al. 2021]. Our design is complementary: they diagnose
+in the wild, where the init scheme and training history are unknown; we hold
+everything fixed except training, which buys an *exact analytic* MP floor
+(σ² = 2/fan_in known by construction) and integer-exact laws — plus a
+caution their setting inherits: spectral *amplitude* tracks optimizer
+economics, not learning (§4.6), so a census that scores bulk mass measures
+hygiene. The wd knee locates where amplitude-based reading breaks.
+
+**Simplex geometry and neural collapse.** Neural collapse [Papyan et al.
+2020] finds last-layer features of converged classifiers collapsing to the
+C−1-dimensional simplex ETF — an *output-side, activation-space,
+terminal-phase* phenomenon. The input-rank law (§4.1) is its input-edge,
+weight-space counterpart: the class-mean simplex rank imprints in W₀ under
+the analytic floor — and it accretes *before* convergence, at chance-level
+accuracy (§4.1, §4.5), so simplex geometry at the input edge is not a
+terminal-phase effect.
+
+**Representational similarity and convergence.** The alignment literature
+[Li et al. 2016; Raghu et al. 2017 (SVCCA); Kornblith et al. 2019 (CKA)] and
+the Platonic Representation Hypothesis [Huh et al. 2024] argue trained
+representations converge; permutation/rotation symmetry work [Ainsworth et
+al. 2023] explains why raw coordinates cannot show it. Our controlled twin
+population sharpens both claims into a measurement (§4.4): with task, data,
+architecture, and init distribution all matched, raw eigenspace overlap is
+*exactly* chance at every depth, while a fitted rotation recovers 0.90–0.99,
+graded by task overlap — convergence is real, strictly rotation-hidden, and
+task-graded.
+
+**Model zoos and weight-space learning.** Populations of trained nets exist
+as datasets for meta-learning — model zoos [Schürholt et al. 2022], accuracy
+prediction from weights [Unterthiner et al. 2020]. Those populations vary
+hyperparameters to *cover* behavior space; ours is constructed to *match an
+analytic null* (single init scheme, bias-free, aggregate input distribution
+equal to the null's premise, exact per-task Bayes), which is what makes
+deviation-from-null a defined quantity. To our knowledge no prior population
+was built against a computable null.
+
+## 7. Limitations
 Single architecture family (plain ReLU stacks); GMM tasks are linearly
 separable by construction (real-data families partially address this); the
 Bayes proxy mislabels real-data outcomes; the wall is characterized as a
@@ -331,7 +427,7 @@ unmeasured (AdamW wild models are first-contact only, §4.8). The next
 falsifiable step mirrors this paper's method: pre-register what the census
 should read on a wild model given its claimed training, then check.
 
-## 7. Audit trail
+## 8. Audit trail
 An external adversarial audit of the first findings digest found two findings
 wrong as stated (stale pilot numbers; a self-calibrating floor) and five
 oversold precisions; all were rewritten from current data, the falsified
@@ -343,3 +439,48 @@ small-sample mean-based comparisons flip sign under reseeding — medians with
 bootstrap intervals are the reporting standard, with per-net records
 committed. The corpus, instruments, per-net provenance, and audit note ship
 with the paper.
+
+## 9. References
+
+*(Draft list — every arXiv ID and venue below needs a verification pass
+before submission; entries marked ⚠ are cited from memory.)*
+
+- Ainsworth, Hayase, Srinivasa (2023). Git Re-Basin: Merging models modulo
+  permutation symmetries. ICLR. ⚠
+- Christiano, Neyman, Xu (2022). Formalizing the presumption of independence.
+  arXiv:2211.06738. ⚠
+- Huh, Cheung, Wang, Isola (2024). The Platonic Representation Hypothesis.
+  ICML. ⚠
+- Jacot, Gabriel, Hongler (2018). Neural Tangent Kernel: Convergence and
+  generalization in neural networks. NeurIPS. ⚠
+- Kornblith, Norouzi, Lee, Hinton (2019). Similarity of neural network
+  representations revisited (CKA). ICML. ⚠
+- Lee, Bahri, Novak, Schoenholz, Pennington, Sohl-Dickstein (2018). Deep
+  neural networks as Gaussian processes. ICLR. ⚠
+- Li, Yosinski, Clune, Lipson, Hopcroft (2016). Convergent learning: Do
+  different neural networks learn the same representations? ICLR. ⚠
+- Marchenko, Pastur (1967). Distribution of eigenvalues for some sets of
+  random matrices. Mat. Sb.
+- Martin, Mahoney (2021). Implicit self-regularization in deep neural
+  networks: Evidence from random matrix theory. JMLR 22. ⚠
+- Martin, Peng, Mahoney (2021). Predicting trends in the quality of
+  state-of-the-art neural networks without access to training or testing
+  data. Nature Communications 12. ⚠
+- Neal (1996). Bayesian Learning for Neural Networks. Springer.
+- Papyan, Han, Donoho (2020). Prevalence of neural collapse during the
+  terminal phase of deep learning training. PNAS 117. ⚠
+- Poole, Lahiri, Raghu, Sohl-Dickstein, Ganguli (2016). Exponential
+  expressivity in deep neural networks through transient chaos. NeurIPS. ⚠
+- Raghu, Gilmer, Yosinski, Sohl-Dickstein (2017). SVCCA: Singular vector
+  canonical correlation analysis for deep learning dynamics and
+  interpretability. NeurIPS. ⚠
+- Schoenholz, Gilmer, Ganguli, Sohl-Dickstein (2017). Deep information
+  propagation. ICLR. ⚠
+- Schürholt, Taskiran, Knyazev, Giró-i-Nieto, Borth (2022). Model zoos: A
+  dataset of diverse populations of neural network models. NeurIPS D&B. ⚠
+- Unterthiner, Keysers, Gelly, Bousquet, Tolstikhin (2020). Predicting neural
+  network accuracy from weights. arXiv:2002.11448. ⚠
+- Wu, Hilton (2024). Estimating the probabilities of rare outputs in language
+  models. arXiv:2410.13211. ⚠
+- Wu, Lecomte, Winer, Robinson, Hilton, Christiano (2026). [Challenge
+  backbone paper.] arXiv:2605.05179.
