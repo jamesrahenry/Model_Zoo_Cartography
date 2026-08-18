@@ -1,7 +1,8 @@
 # Dependencies to run this test suite (pip install -r tests/requirements.txt).
 # CPU only — no GPU needed for any test here (see tests/README.md).
-numpy
+# torch CPU build is fine and much smaller: install it first with
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+# before this file, so the plain `torch` requirement below is already
+# satisfied and pip won't re-resolve it from the default (CUDA) index.
+-r ../requirements.txt
 pytest
-torch          # CPU build is fine: pip install torch --index-url https://download.pytorch.org/whl/cpu
-pyarrow        # only imported at module scope by null_baseline/chain_state_keyed.py
-huggingface_hub  # only for the corpus_io upload_run() import-order test
