@@ -1,8 +1,13 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.10 — 2026-08-18 17:10 UTC (v0.9–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+*Draft v0.11 — 2026-08-18 17:45 UTC (v0.10–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
 2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
 analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
+v0.11: repair pass over the committed external (Gemini) edit: §5.1 grammar, §4.2
+"two-sided" restored with the chain caveat balanced (matched comparison + activation-side
+corroboration), §5.2 opener de-filled, abstract dataset-invariance scoped (a fix Gemini
+scripted but did not land). Gemini's removals of the §4 meaning leads and §5.1 bold
+frame stand as committed.
 v0.10: selective merge of an external review pass (GPT): four verified corrections —
 aggregate input matches the null in mean/covariance only (mixture non-Gaussianity was
 already recorded per net, the prose overstated it); the C=25/32 anchored activation
@@ -42,8 +47,9 @@ analytic null's premise (0, I) exactly — as a mixture, its higher moments
 remain non-Gaussian, a recorded residual — and census the population against
 matched analytic and empirical nulls. We find an exact law: the input weight
 matrix of every converged net carries precisely C−1 significant dimensions —
-the rank of the class-mean simplex — invariant to width, class separation,
-and dataset, verified per-net with zero exceptions. Deeper in the network the
+the rank of the class-mean simplex — invariant to width and class
+separation, verified per-net with zero exceptions, and closely tracked on
+real data (8.25–9.4 ≈ C−1). Deeper in the network the
 learned code is real but rotation-hidden: same-task twins share no
 eigenvectors in raw coordinates at any depth yet carry the same code up to a
 fitted rotation. And the random weight bulk that censuses often score as
@@ -219,7 +225,7 @@ C−1 exactly; partial learners (open) scatter below while still accreting.
 Right: the law is invariant to class separation 1.5–6.0 at C=10; whitened
 MNIST and Fashion-MNIST read 9.4 and 8.25 ≈ C−1.*
 
-### 4.2 The analytically-propagated terminal rank is task-driven
+### 4.2 The analytically-propagated terminal rank is task-driven, two-sided
 Terms: the "q-clock" is q(L) = PR/w, the participation ratio
 (effective dimension) of the analytically propagated pre-activation
 covariance at layer L, normalized by width; "null band" is the per-architecture
@@ -228,7 +234,13 @@ q(L) distribution over freshly initialized nets.
 Random nets' propagated rank decays to a depth-driven fixed point. Trained nets' analytically-propagated terminal rank tracks the task code instead: +3 to +4σ above the
 architecture's null band for mid-C, *below* it for small-C/easy tasks and
 MNIST, at-band for uncommitted partial learners; strongest in narrow nets
-(+11σ at w=64), inverted at shallow depth (−7.5σ at d=8). This provides a weight-space structural signature, though it is computed using an uncorrected analytic chain known to carry significant error on trained weights (see §4.7).
+(+11σ at w=64), inverted at shallow depth (−7.5σ at d=8). One law, signed
+by the task's rank demand relative to the architecture's fixed point. Caveat:
+the clock runs the uncorrected analytic chain, which carries significant
+spectrum error on trained weights (§4.7) — but it is used here as a matched
+comparison, the same chain on trained and random weights against the same
+null band, not as a spectrum predictor, and its terminal reading is
+corroborated activation-side by §4.3's deep inversion.
 
 ![Fig 2 — the q-clock](figures/fig2_qclock.png)
 *Figure 2. Family-median q-clock trajectories (w=256, d=32) against the
@@ -377,8 +389,8 @@ L0/L1 harm at zero bulk cost.*
 
 ### 5.1 The answer
 
-Our findings indicate that Location, rank, and persistence of activation
-structure are weight-determined. The input layer holds the task's class
+Location, rank, and persistence of activation structure are
+weight-determined. The input layer holds the task's class
 geometry as an exact integer (§4.1); analytic propagation of the weights —
 zero forward passes — predicts the terminal rank of the activation code
 (§4.2); and trained weights driven by pure noise already produce the full
@@ -402,8 +414,8 @@ populations from other training regimes (§4.7). No trained-network estimator co
 
 ### 5.2 Reading weights versus running the model
 
-It is important to delineate what can be known from weights prior to inference.
-The instruments operate at three levels of access:
+Inference is the end product, so we delineate precisely what can be known
+before a model runs. The instruments operate at three levels of access:
 
 1. **Weights alone, analytically** (§3.1, §3.2; results §4.1, §4.2): no
    data, no execution. Cost is set by the specification, and the null is
