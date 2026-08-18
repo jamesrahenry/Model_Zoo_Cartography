@@ -40,7 +40,7 @@ statistical skeleton the same architecture has at initialization? We train
 classification tasks whose aggregate input mean and covariance match the
 analytic null's premise (0, I) exactly — as a mixture, its higher moments
 remain non-Gaussian, a recorded residual — and census the population against
-matched analytic and empirical nulls. The headline is an exact law: the input weight
+matched analytic and empirical nulls. We find an exact law: the input weight
 matrix of every converged net carries precisely C−1 significant dimensions —
 the rank of the class-mean simplex — invariant to width, class separation,
 and dataset, verified per-net with zero exceptions. Deeper in the network the
@@ -56,14 +56,12 @@ instruments, and the negative results.
 
 ## 1. Motivation
 
-The question this paper answers: **can structure measured from weights alone —
-before the network is ever run — predict where learned representation will
-appear once inference starts?** Concretely: given a trained net and the
+We investigate whether structure measured from weights alone can predict where learned representation will appear once inference starts. Given a trained net and the
 statistical skeleton its architecture has at initialization, which properties
 of the activation geometry (location, rank, persistence, identity) are already
 fixed by the weights, and which require input to materialize?
 
-Two research lines meet here, and neither can answer this alone.
+This work bridges two research lines.
 Moment-propagation estimators for random-weight networks provide an *analytic
 null*: what a given architecture looks like with zero learned structure,
 computable from the specification, no forward passes. The concrete instance is
@@ -81,12 +79,7 @@ it cannot say which parts are learned rather than architectural.
 
 We built the missing object: 1,569 trained nets at the challenge's exact
 Phase-1 architecture, matched to the analytic null in everything except
-training. The answer, developed in §4 and stated in full in §5, has three
-parts: weights alone carry the **where** (location, rank,
-and persistence of structure are weight-determined); the weight×input
-interaction sharpens the **what** (the code's identity is real but
-rotation-hidden); and quantitative **how much** requires population-fitted
-corrections.
+training. We find that weights alone determine the location, rank, and persistence of structure; the weight-input interaction establishes the code's identity (which remains rotation-hidden); and quantitative prediction requires population-fitted corrections.
 
 ## 2. The corpus
 
@@ -203,16 +196,15 @@ read 0–1 significant dims, spectrally indistinguishable from the shuffle
 ## 4. Results
 
 ### 4.1 The input-rank law (exact)
-*Meaning: the task's class geometry is readable off the input weight matrix
-as an integer — per net, zero forward passes.* Terms: "significant dims"
+Terms: "significant dims"
 counts eigenvalues of a weight matrix's uncentered Gram above the
 Marchenko–Pastur (MP) bulk edge at the He init variance 2/fan_in — the
 analytic bound on how large a purely random eigenvalue can be at this shape;
 anything above it is structure the null cannot produce.
 
-L0 significant dims = C−1 under the fixed analytic floor: exact per-net for
+Under the fixed analytic floor, L0 significant dims = C−1. This is exact per-net for
 all 240 converged nets across C ∈ {2..32} and separations 1.5–6.0 (including
-a task with Bayes accuracy 0.505); 8.25–9.4 on real data; confirmed
+a task with Bayes accuracy 0.505); reads 8.25–9.4 on real data (closely tracking C−1 but not exact per-net); confirmed
 independently by the scaled floor at C ≥ 15. Partially-trained nets show the
 count still accreting after accuracy plateaus — at every failure boundary we
 probed (class-count wall, width and depth optimization failures) the input
@@ -227,21 +219,16 @@ C−1 exactly; partial learners (open) scatter below while still accreting.
 Right: the law is invariant to class separation 1.5–6.0 at C=10; whitened
 MNIST and Fashion-MNIST read 9.4 and 8.25 ≈ C−1.*
 
-### 4.2 The terminal rank is task-driven, two-sided
-*Meaning: depth does not erase the input imprint — the rank the code carries
-at the last layer is set by the task, not by depth — and it is computed from
-weights alone by the same Hermite moment chain the ARC challenge scores on
-random nets.* Terms: the "q-clock" is q(L) = PR/w, the participation ratio
+### 4.2 The analytically-propagated terminal rank is task-driven
+Terms: the "q-clock" is q(L) = PR/w, the participation ratio
 (effective dimension) of the analytically propagated pre-activation
 covariance at layer L, normalized by width; "null band" is the per-architecture
 q(L) distribution over freshly initialized nets.
 
-Random nets' propagated rank decays to a depth-driven fixed point. Trained
-nets' terminal rank tracks the task code instead: +3 to +4σ above the
+Random nets' propagated rank decays to a depth-driven fixed point. Trained nets' analytically-propagated terminal rank tracks the task code instead: +3 to +4σ above the
 architecture's null band for mid-C, *below* it for small-C/easy tasks and
 MNIST, at-band for uncommitted partial learners; strongest in narrow nets
-(+11σ at w=64), inverted at shallow depth (−7.5σ at d=8). One law, signed by
-the task's rank demand relative to the architecture's fixed point.
+(+11σ at w=64), inverted at shallow depth (−7.5σ at d=8). This provides a weight-space structural signature, though it is computed using an uncorrected analytic chain known to carry significant error on trained weights (see §4.7).
 
 ![Fig 2 — the q-clock](figures/fig2_qclock.png)
 *Figure 2. Family-median q-clock trajectories (w=256, d=32) against the
@@ -251,8 +238,7 @@ below it; the uncommitted C=50 partial learners ride the band — the clock
 measures committed structure. Computed from weights alone.*
 
 ### 4.3 Noise-driven activations carry the structure; task input sharpens it
-*Meaning: the activation structure is in the weights before any task-relevant
-input arrives — inference reveals it rather than creates it.* The GMM
+The GMM
 construction makes this comparison confound-free: task input and pure
 `N(0, I)` noise match in mean and covariance exactly, so any activation
 difference is higher-moment.
@@ -285,10 +271,6 @@ activations collapse below trained ones past mid-depth, so at depth trained
 structure is "less collapsed than init," not "spikier than init."*
 
 ### 4.4 Sharing is coordinate-bound; the code is one code up to rotation
-*Meaning: two nets that learned the same task carry the same code in
-different coordinates — any comparison across models that is not
-rotation-invariant or input-anchored will read false negatives at depth.*
-
 Same-task twins: L0 input-coordinate subspaces overlap 0.86–0.93 (init
 controls exactly at isotropic chance); raw hidden-space eigenbases at or near
 k/d chance at every depth; Procrustes-recovered overlap 0.99 early / 0.90
@@ -312,9 +294,7 @@ init controls. The cross-task series (0.67) was measured under noise input
 and is not input-matched with the twin condition.*
 
 ### 4.5 The class-count wall: pre-registered, falsified, then resolved as a logarithmic compute frontier
-*Meaning: the "wall" — the class count at which training stops converging at
-fixed budget — is a compute frontier, not an architectural capacity limit;
-our pre-registered capacity-proportional account of it was wrong.* Terms: C₅₀ is the class count at which half the seeds converge; the
+Terms: C₅₀ is the class count at which half the seeds converge; the
 "ceiling" is the mid-net activation code's saturating effective dimension
 (~14 at w=256 for every C ≥ 25, converged or not).
 
@@ -351,10 +331,6 @@ frontier slides with budget (no hard asymptote within 10×) and with width,
 nothing like proportional to capacity.*
 
 ### 4.6 The random bulk is functionally inert
-*Meaning: most of a trained net's weight mass is functionally inert init
-residue — a census that scores its presence as structure measures optimizer
-hygiene, not learning.*
-
 Weight decay sweeps the bulk from 1.0× to 0.000× of its He scale while
 accuracy moves < 0.008 — same function, same performance, completely
 different weight statistics. The census's fixed floor fails abruptly at
@@ -370,14 +346,6 @@ crosses the floor between wd 0.1 and 0.2, then reads zero while the structure
 demonstrably remains (bottom).*
 
 ### 4.7 Quantitative skeleton prediction needs population-fitted corrections
-*Meaning: the ARC challenge's analytic machinery survives contact with
-trained networks as a correctable skeleton, but the correction is a
-population object — exactly the obstruction the challenge write-up's "toward
-non-random networks" section predicted, now measured. Any program wanting analytic
-estimates on trained models inherits this shape: analytic null plus
-population-fitted correction, valid only within the training regime it was
-fit on.*
-
 A companion random-ensemble measurement (published separately as
 `analytic_vs_sampling/` in the ARC replication repo) grounds the baseline:
 the uncorrected chain's error is *depth-flat once the state trajectory
@@ -409,11 +377,7 @@ L0/L1 harm at zero bulk cost.*
 
 ### 5.1 The answer
 
-Can pre-inference structure predict where learned representation will appear
-once inference starts? The answer has three parts, each carried by a
-different instrument:
-
-**Weights carry the *where*.** Location, rank, and persistence of activation
+Our findings indicate that Location, rank, and persistence of activation
 structure are weight-determined. The input layer holds the task's class
 geometry as an exact integer (§4.1); analytic propagation of the weights —
 zero forward passes — predicts the terminal rank of the activation code
@@ -422,15 +386,14 @@ qualitative structure signature, which task input tightens but does not
 create (§4.3). To first order, a trained net's activation geometry is a
 property of its weights that inference reveals rather than creates.
 
-**The weight×input interaction sharpens the *what* — and hides it in
-coordinates.** The identity of the learned code is real and shared across
+The identity of the learned code is real and shared across
 same-task nets, but only up to rotation (§4.4): raw hidden-space eigenbases
 overlap at chance at every depth while Procrustes-recovered overlap reads
 0.90–0.99 for twins against 0.38 for init controls. So *where* structure lives is
 predictable from weights; *which directions* carry it is not even well-posed
 without an anchor — the input coordinates, or a fitted rotation.
 
-**Quantitative *how much* needs population calibration.** The analytic chain
+The analytic chain
 predicts random-net spectra to a few percent through 32 layers but degrades
 to 80%+ on trained weights; a 160-parameter state-keyed correction refit on
 the trained population repairs the bulk ~7–12× on validation — and fails on
@@ -439,8 +402,7 @@ populations from other training regimes (§4.7). No trained-network estimator co
 
 ### 5.2 Reading weights versus running the model
 
-Inference is the end product — a model matters only when it runs — so it is
-worth being precise about what this paper claims can be known before it runs.
+It is important to delineate what can be known from weights prior to inference.
 The instruments operate at three levels of access:
 
 1. **Weights alone, analytically** (§3.1, §3.2; results §4.1, §4.2): no
@@ -524,9 +486,7 @@ next.
 
 ### 5.5 Outlook: wild models
 
-Everything above is a matched-corpus result; models trained by other people,
-with other optimizers, on other objectives, are a separate study. What we can
-report is that the instruments survive the trip. First contact with
+While the above results rely on a matched corpus, preliminary tests indicate these instruments transfer to wild models. First contact with
 pythia-70m/160m MLP blocks (no init anchor, so scaled floor plus
 entry-shuffled nulls, §3.8) read per-matrix profiles of 3–111 significant
 dims against 0–12 for the shuffled nulls, and the models' own
