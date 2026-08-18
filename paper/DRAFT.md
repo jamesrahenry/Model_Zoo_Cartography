@@ -517,7 +517,7 @@ deviation from it is the measurement (§4.2, §4.7).
 **Random-matrix analyses of trained weights.** Martin & Mahoney read training
 signatures in the weight spectra of wild models — heavy-tailed
 self-regularization, and quality prediction with no access to data [Martin &
-Mahoney 2021; Martin et al. 2021]. Our design is complementary: they diagnose
+Mahoney 2021; Martin, Peng & Mahoney 2021]. Our design is complementary: they diagnose
 in the wild, where the init scheme and training history are unknown; we hold
 everything fixed except training, which buys an *exact analytic* MP floor
 (σ² = 2/fan_in known by construction) and integer-exact laws — plus a
