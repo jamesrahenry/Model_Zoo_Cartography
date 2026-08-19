@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this corpus, the instruments, or the results, please cite as below."
+title: "Model Zoo Cartography: task rank is imprinted in the input layer"
+authors:
+  - family-names: Henry
+    given-names: James
+repository-code: "https://github.com/jamesrahenry/Model_Zoo_Cartography"
+license: MIT
+date-released: 2026-08-18
+keywords:
+  - mechanistic interpretability
+  - random matrix theory
+  - weight-space analysis
+  - model zoos

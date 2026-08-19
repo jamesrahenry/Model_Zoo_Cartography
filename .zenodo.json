@@ -1,0 +1,24 @@
+{
+  "title": "Model Zoo Cartography: task rank is imprinted in the input layer — corpus instruments, analysis, and paper",
+  "upload_type": "software",
+  "license": "MIT",
+  "creators": [
+    {"name": "Henry, James"}
+  ],
+  "description": "Code, audited instruments, tests, figures, and paper draft for Model Zoo Cartography: 1,569 bias-free ReLU MLPs trained at the ARC White-Box Estimation Challenge Phase-1 architecture and censused against the analytic random-init null. Headline result: the input weight matrix of every converged net carries exactly C-1 significant dimensions under the analytic Marchenko-Pastur floor — the rank of the class-mean simplex — with the learned deep code shared across same-task twins only up to an orthogonal transformation, and the random weight bulk shown functionally inert. The weights corpus with full per-net training provenance is public at huggingface.co/datasets/james-ra-henry/MZC-Corpus.",
+  "keywords": [
+    "mechanistic interpretability",
+    "random matrix theory",
+    "Marchenko-Pastur",
+    "weight-space analysis",
+    "neural collapse",
+    "model zoos",
+    "analytic null model",
+    "representation learning"
+  ],
+  "related_identifiers": [
+    {"relation": "isSupplementedBy", "identifier": "https://huggingface.co/datasets/james-ra-henry/MZC-Corpus", "resource_type": "dataset"},
+    {"relation": "references", "identifier": "https://www.aicrowd.com/challenges/arc-white-box-estimation-challenge-2026", "resource_type": "other"},
+    {"relation": "isSupplementTo", "identifier": "https://github.com/jamesrahenry/arc-whitebox-replication", "resource_type": "software"}
+  ]
+}
