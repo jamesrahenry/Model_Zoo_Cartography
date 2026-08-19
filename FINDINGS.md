@@ -19,7 +19,7 @@
 
 *Covers program start (2026-08-10) through Phase B, the lr/budget arms, and
 the wild-model first contact (last swept 2026-08-17). Corpus: 1,569 trained
-nets / 69 families on `james-ra-henry/MZC-Corpus` (private HF dataset).
+nets / 69 families on `james-ra-henry/MZC-Corpus` (HF, public as of 2026-08-18).
 Running record: Hopper task `t4b9971d`. All planned local phases complete.*
 
 MZC trains populations of MLPs at the ARC White-Box Challenge Phase-1
@@ -296,7 +296,7 @@ both real-data families).
 
 ## Infrastructure (for reviewers who want to re-run)
 
-- **Corpus**: `james-ra-henry/MZC-Corpus` (HF, private) is the system of
+- **Corpus**: `james-ra-henry/MZC-Corpus` (HF, public) is the system of
   record; `train/corpus_io.py` re-downloads pruned nets on demand. Full
   provenance JSON per net (task, hyperparameters, seeds, outcome, trajectory,
   git commit).

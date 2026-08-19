@@ -78,7 +78,7 @@ Corpus: **1,569 trained nets, 69 families** — widths 64–512, depths 8–64,
 GMM C ∈ {2..72} with separation and weight-decay sweeps, whitened MNIST and
 Fashion-MNIST, budgets 20k–200k steps, lr arms, two readout modes, 16–32
 seeds per config. Weights + provenance: HF dataset
-`james-ra-henry/MZC-Corpus` (private; flips public with the paper); local
+`james-ra-henry/MZC-Corpus` (public as of 2026-08-18); local
 corpus is a prune-and-refetch cache (`train/corpus_io.py`). Paper draft:
 `paper/DRAFT.md` (v0.12 — one-thesis scope structure, seven figures from
 committed data via `paper/make_figures.py`, all references verified, three
@@ -114,8 +114,8 @@ digest with instruments and data pointers in **[FINDINGS.md](FINDINGS.md)**
 
 ## Data
 
-All heavy data lives on the HF dataset `james-ra-henry/MZC-Corpus` (private;
-flips public with the paper) — this git repo holds code, docs, and the small
+All heavy data lives on the HF dataset `james-ra-henry/MZC-Corpus` (public
+as of 2026-08-18) — this git repo holds code, docs, and the small
 summary JSONs only:
 
 - `corpus/<family>/` — trained weights + full per-net provenance

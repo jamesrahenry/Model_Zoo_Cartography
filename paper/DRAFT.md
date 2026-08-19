@@ -2,7 +2,7 @@
 
 *Draft v0.12 — 2026-08-18 20:05 UTC (v0.11–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
 2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
-analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (flips public with this paper).
+analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (public as of 2026-08-18).
 v0.12: scope restructure per external (human) review — one thesis (stated in §1 and
 §5.1), rotation-hiding and population-corrections reframed as its two boundaries, the
 lens named once in the abstract and once in §5.1, §5.3+5.4 merged under an Implications
