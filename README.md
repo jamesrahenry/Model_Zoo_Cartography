@@ -1,5 +1,7 @@
 # Model Zoo Cartography (MZC)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22017454.svg)](https://doi.org/10.5281/zenodo.22017454)
+
 *Started 2026-08-10.*
 
 Where does training leave a signature in a deep MLP, relative to the statistical

@@ -4,7 +4,9 @@ title: "Model Zoo Cartography: task rank is imprinted in the input layer"
 authors:
   - family-names: Henry
     given-names: James
+doi: 10.5281/zenodo.22017454
 repository-code: "https://github.com/jamesrahenry/Model_Zoo_Cartography"
+version: "0.12"
 license: MIT
 date-released: 2026-08-18
 keywords:
