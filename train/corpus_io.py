@@ -48,6 +48,17 @@ def net_paths(run_id: str) -> list[Path]:
 
 def upload_run(run_id: str, prune: bool = False) -> None:
     """Upload corpus/<run_id>/ to the dataset, verify, optionally prune .npz."""
+    import os
+
+    # HF_XET_CACHE defaults to a subdir of HF_HOME. On this box HF_HOME is a
+    # WSL2 drvfs (9p) mount of a Windows drive, which the Rust-based xet
+    # client's shard/mmap I/O doesn't reliably support (observed: "MerkleDB
+    # Shard error: File I/O error" after a fully-uploaded 8-net batch).
+    # Redirect just the xet cache to native disk; leave HF_HOME (auth token,
+    # model/dataset cache) untouched for every other tool that relies on it.
+    os.environ.setdefault("HF_XET_CACHE",
+                          str(Path.home() / ".cache" / "hf_xet_native"))
+
     from huggingface_hub import HfApi
 
     run_dir = CORPUS_DIR / run_id

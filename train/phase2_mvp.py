@@ -66,9 +66,12 @@ def missing_seeds(run_id: str) -> list[int]:
     return [s for s in SEEDS if not (run_dir / f"net_{s:04d}.json").exists()]
 
 
-def run(cmd: list[str]) -> None:
+def run(cmd: list[str], check: bool = True) -> bool:
     print(f"+ {' '.join(cmd)}", flush=True)
-    subprocess.run(cmd, check=True, cwd=REPO_ROOT)
+    result = subprocess.run(cmd, cwd=REPO_ROOT)
+    if check and result.returncode != 0:
+        raise subprocess.CalledProcessError(result.returncode, cmd)
+    return result.returncode == 0
 
 
 def main() -> None:
@@ -95,9 +98,22 @@ def main() -> None:
         if m:
             run([sys.executable, "train/train_mlp.py", "--run-id", rid,
                  "--classes", str(c)] + BASE_ARGS)
-        run([sys.executable, "-c",
-             f"import sys; sys.path.insert(0, 'train'); "
-             f"from corpus_io import upload_run; upload_run('{rid}', prune=True)"])
+        # Upload failures (seen: a transient xet/drvfs I/O error) must not
+        # kill the whole multi-hour sweep -- local .npz are never deleted
+        # unless upload_run's own verify step passes, so a failed upload
+        # just means this config stays un-pruned locally; retry it by
+        # rerunning with --only <rid> later.
+        for attempt in range(3):
+            ok = run([sys.executable, "-c",
+                     f"import sys; sys.path.insert(0, 'train'); "
+                     f"from corpus_io import upload_run; upload_run('{rid}', prune=True)"],
+                     check=False)
+            if ok:
+                break
+            print(f"!! upload failed for {rid} (attempt {attempt+1}/3)", flush=True)
+        else:
+            print(f"!! {rid} left un-pruned locally; re-run with --only {rid} to retry",
+                  flush=True)
     print(f"\nPhase 2 MVP sweep complete ({(time.time()-t0)/3600:.1f} h)")
 
 
