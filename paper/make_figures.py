@@ -249,12 +249,13 @@ def fig4_rotation():
     a.set_xlim(0, 32)
     style(a)
 
-    conds = [("trained_twins", "same-task twins", BLUE, 8),
-             ("cross_task_noise", "cross-task (noise input)", ORANGE, -11),
-             ("init_twins", "init controls", MUTED, 9)]
-    for key, label, color, dy in conds:
+    conds = [("trained_twins", "same-task twins", BLUE, "-", 8),
+             ("cross_task_gmm_input", "cross-task (task input)", ORANGE, "-", 10),
+             ("cross_task_noise", "cross-task (noise input)", ORANGE, "--", -12),
+             ("init_twins", "init controls", MUTED, "-", 9)]
+    for key, label, color, ls, dy in conds:
         v = po["conditions"][key]
-        b.plot(L, v, color=color, lw=1.8 if key == "trained_twins" else 1.4)
+        b.plot(L, v, color=color, ls=ls, lw=1.8 if key == "trained_twins" else 1.4)
         b.annotate(label, (L[-1], v[-1]), xytext=(-2, dy),
                    textcoords="offset points", color=color, fontsize=8.5,
                    va="center", ha="right")

@@ -1,10 +1,17 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.12 — 2026-08-18 20:05 UTC (v0.11–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
-2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the committed
-analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (public as of 2026-08-18).
-Archived: DOI 10.5281/zenodo.22017454 (concept; this v0.12 snapshot:
-10.5281/zenodo.22017455).
+*Draft v0.13 — 2026-09-07 15:05 UTC (v0.12: 2026-08-18 20:05 UTC; v0.11–v0.3:
+2026-08-18; v0.2: 2026-08-17; v0.1: 2026-08-15). James Henry. Numbers reference
+FINDINGS.md (F1–F7) and the committed analysis JSONs; corpus at
+`james-ra-henry/MZC-Corpus` (public as of 2026-08-18). Archived: DOI
+10.5281/zenodo.22017454 (concept; the v0.12 snapshot is 10.5281/zenodo.22017455).
+v0.13: F5's cross-task condition reran input-matched (GMM-task input, not just
+noise) — deep-layer recovered overlap is *higher* under task input (0.74) than
+noise (0.69), confirming the original result wasn't a noise-input artifact.
+§4.4, its Figure 4 caption, and §5.3/§5.4's echoes of the hedge are corrected
+in place (strikethrough + resolution): "training-dependent" reverts to
+"task-graded." Figure 4 regenerated with both cross-task input conditions
+shown. See `FINDINGS.md` F5 and `census/procrustes_overlap.py`.
 v0.12: scope restructure per external (human) review — one thesis (stated in §1 and
 §5.1), rotation-hiding and population-corrections reframed as its two boundaries, the
 lens named once in the abstract and once in §5.1, §5.3+5.4 merged under an Implications
@@ -314,24 +321,29 @@ structure is "less collapsed than init," not "spikier than init."*
 Same-task twins: L0 input-coordinate subspaces overlap 0.86–0.93 (init
 controls exactly at isotropic chance); raw hidden-space eigenbases at or near
 k/d chance at every depth; Procrustes-recovered overlap 0.99 early / 0.90
-deep for twins against 0.38 for init controls; a cross-task condition reads
+deep for twins against 0.38 for init controls; ~~a cross-task condition reads
 0.67, but it was measured under noise input rather than task input, so it is
 not input-matched with the twin condition — a bound, not a clean
-task-similarity grading. Chain-level
+task-similarity grading.~~ **Resolved:** rerun under a shared GMM-task input
+(matching the twin conditions' input type) gives 0.74 deep — *higher* than
+the 0.69 measured under noise, not lower, so the original bound was not a
+noise-input artifact. Both cross-task readings sit clearly between init
+(0.38) and twins (0.90) at every depth: a clean task-similarity grading.
+Chain-level
 feature tracking fails in plain MLPs under both raw and linearly-transported
 matching — continuity of the code is recoverable only through data-fitted
 rotations. Consequence for representational-convergence claims: convergence
-is real, rotation-hidden, and training-dependent (twins ≫ init controls); an
-input-matched cross-task rerun is needed before calling it task-graded.
-Metrics must be rotation-invariant or input-anchored.
+is real, rotation-hidden, and task-graded (twins ≫ cross-task ≫ init
+controls). Metrics must be rotation-invariant or input-anchored.
 
 ![Fig 4 — rotation-hidden code](figures/fig4_rotation_hidden.png)
 *Figure 4. The same nets, two views. Left: raw activation-eigenspace overlap
 between same-task twins is indistinguishable from init controls and from k/d
 chance at every depth. Right: a fitted orthogonal Procrustes map (honest
 fit/test split) recovers 0.99 early / 0.90 deep for twins against 0.38 for
-init controls. The cross-task series (0.67) was measured under noise input
-and is not input-matched with the twin condition.*
+init controls. Two cross-task series bracket the middle: 0.69 deep under
+noise input and 0.74 deep under a shared GMM-task input — input-matched is
+higher, confirming the grading is task-similarity, not input type.*
 
 ### 4.5 The class-count wall: pre-registered, falsified, then resolved as a logarithmic compute frontier
 Terms: C₅₀ is the class count at which half the seeds converge; the
@@ -534,7 +546,7 @@ alone, but amplitude is not learning (§4.6) — an auditor that scores spectral
 mass measures optimizer hygiene, and the structure measure must switch from
 MP counts to rank metrics once the bulk is depleted. For the
 representational-convergence literature: convergence across same-task models
-is real, training-dependent, and strictly rotation-hidden (§4.4) — cross-model
+is real, task-graded, and strictly rotation-hidden (§4.4) — cross-model
 comparisons made in raw coordinates at depth measure nothing, and metrics
 must be rotation-invariant or input-anchored to see the shared code at all.
 Whether models in the wild show the same signature — chance-exact raw
@@ -616,7 +628,7 @@ at chance (exact at shallow layers; a small depth elevation is shared by
 init controls, so it is not training signal), while a fitted rotation
 recovers 0.90–0.99
 for twins against 0.38 for init controls — convergence is real, strictly
-rotation-hidden, and training-dependent. Anchor-based "relative representations" [Moschella et al. 2023]
+rotation-hidden, and task-graded. Anchor-based "relative representations" [Moschella et al. 2023]
 operationalize the same prescription from the engineering side: comparisons
 made relative to fixed anchor samples are invariant to latent isometries,
 which is §4.4's input-anchored reading as a design principle.
