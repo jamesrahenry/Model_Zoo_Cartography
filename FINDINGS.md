@@ -172,10 +172,19 @@ init controls share), matching P4's cross-family LLM result even with
 identical task and identical inputs. Fitted
 orthogonal Procrustes (honest fit/test split) recovers it: **0.99 early / 0.90
 at depth for twins** vs 0.38 for init controls. ⚠ *Scoping 2026-08-18
-(external pass):* the cross-task condition (0.67) was measured under noise
+(external pass):* ~~the cross-task condition (0.67) was measured under noise
 input — not input-matched with the task-input twin condition — so "graded by
 task overlap" is downgraded to training-dependent (twins ≫ init) pending an
-input-matched cross-task rerun.
+input-matched cross-task rerun.~~ **Resolved 2026-09-07**: reran the cross-task
+condition under a shared GMM-task input (matching the twin conditions' input
+type exactly; `census/procrustes_overlap.py`'s `cross_task_gmm_input`,
+alongside the original noise-input version for comparison). Deep-layer
+recovered overlap is **0.74 under task input vs 0.69 under noise** —
+input-matched is *higher*, not lower, and both sit clearly between init
+(0.38) and twins (0.90) at every depth (L0–L31 tracked in
+`census/procrustes_overlap.json`). The original noise-input result was not an
+artifact: "graded by task overlap" is reinstated, no longer downgraded to
+training-dependent.
 PRH statement: representational convergence is real, rotation-hidden, and
 task-graded; metrics must be rotation-invariant or input-anchored.
 *Instruments: `census/directional_consistency.py`,

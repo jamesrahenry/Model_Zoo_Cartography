@@ -14,7 +14,14 @@ train/test separation:
       eigenvectors of each net's test-half activation covariance
 
   conditions: trained twins (task input) · init twins (same input) ·
-  cross-task trained pairs (c10 GMM net vs MNIST net, shared noise input)
+  cross-task trained pairs (c10 GMM net vs MNIST net), tested under BOTH a
+  shared noise input and a shared GMM-task input (added 2026-09-07, FINDINGS
+  F5 follow-up: the original noise-only cross-task condition wasn't
+  input-matched with the twin conditions above, which both use x_task —
+  confounding task-dissimilarity with input-unrealism. The new
+  cross_task_gmm_input condition holds input type fixed to real structured
+  data across all four conditions, isolating task-overlap as the only
+  remaining variable between it and trained_twins.)
 
 Reading: recovered(trained twins) >> recovered(init twins) at depth means
 same-task training produces a shared code that is rotation-private per net;
@@ -125,18 +132,30 @@ def main() -> None:
     acts = [forward_all_layers(w, x_task) for w in iw]
     results["init_twins"] = condition(acts, K)
     del acts
-    # cross-task pairs: i from c10, j from mnist (no same-family pairs),
-    # shared NOISE input so neither net sees its own task distribution
-    print("cross-task...", flush=True)
-    acts_tn = [forward_all_layers(w, x_noise) for w in tw]
-    acts_mn = [forward_all_layers(w, x_noise) for w in mw]
-    n_layers = len(acts_tn[0])
-    cross = []
-    for l in range(n_layers):
-        recs = [pair_layer_metrics(acts_tn[i][l], acts_mn[j][l], K)[1]
-                for i in range(len(acts_tn)) for j in range(len(acts_mn))]
-        cross.append(float(np.mean(recs)))
-    results["cross_task_noise"] = cross
+    # cross-task pairs: i from c10, j from mnist (no same-family pairs).
+    # Two input conditions:
+    #  - noise: neither net sees its own task distribution (original,
+    #    "fair" in the sense of no home-turf advantage, but NOT input-matched
+    #    with trained_twins/init_twins above, which both use x_task)
+    #  - gmm_input: shared x_task (real GMM samples) -- home turf for the c10
+    #    net, foreign structured input for the mnist net. Input-matched with
+    #    trained_twins: the only variable left between the two conditions is
+    #    task overlap, not input realism.
+    def cross_condition(x: np.ndarray) -> list[float]:
+        acts_tn = [forward_all_layers(w, x) for w in tw]
+        acts_mn = [forward_all_layers(w, x) for w in mw]
+        n_layers = len(acts_tn[0])
+        out = []
+        for l in range(n_layers):
+            recs = [pair_layer_metrics(acts_tn[i][l], acts_mn[j][l], K)[1]
+                    for i in range(len(acts_tn)) for j in range(len(acts_mn))]
+            out.append(float(np.mean(recs)))
+        return out
+
+    print("cross-task (noise input)...", flush=True)
+    results["cross_task_noise"] = cross_condition(x_noise)
+    print("cross-task (GMM task input, input-matched with trained_twins)...", flush=True)
+    results["cross_task_gmm_input"] = cross_condition(x_task)
 
     out_path = CENSUS_DIR / "procrustes_overlap.json"
     out_path.write_text(json.dumps(
