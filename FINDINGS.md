@@ -18,9 +18,13 @@
 > the C=50 transfer.
 
 *Covers program start (2026-08-10) through Phase B, the lr/budget arms, and
-the wild-model first contact (last swept 2026-08-17). Corpus: 1,569 trained
-nets / 69 families on `james-ra-henry/MZC-Corpus` (HF, public as of 2026-08-18).
-Running record: Hopper task `t4b9971d`. All planned local phases complete.*
+the wild-model first contact (last swept 2026-08-17), plus a preliminary
+ARC Phase-2 architecture-generality check (2026-09-07, `p2_w1024_d16_*`,
+see below). Corpus: 1,569 trained nets / 69 families at Phase-1 architecture
+(width 256, depth 32), plus 88 trained nets / 11 configs at Phase-2's actual
+architecture (width 1024, depth 16), on `james-ra-henry/MZC-Corpus` (HF,
+public as of 2026-08-18). Running record: Hopper task `t4b9971d`. All
+planned Phase-1 local phases complete; Phase-2 breadth not yet run.*
 
 MZC trains populations of MLPs at the ARC White-Box Challenge Phase-1
 architecture (depth 32, width 256, He-Gaussian `N(0, 2/fan_in)`, bias-free,
@@ -50,6 +54,13 @@ now in-scope for the law, not caveated around it. The
 C=50 accretion observation (35.7 at 20k → 45.3 at 60k steps while accuracy
 moved 0.56→0.69) rests on 3 seeds at 60k and only two budget checkpoints —
 directionally solid, "asymptoting" not yet established.
+**Phase-2 architecture check (2026-09-07)**: the qualitative rank-collapse
+pattern replicates at width 1024/depth 16 (effective dim 511.9 at init →
+5.0 trained, C=2), but every Phase-2 config ran at wd=0.3, which per F7
+puts the corpus in the bulk-annihilated regime — `significant_dims` reads
+unreliably there, so this is a replication of the collapse via effective
+dimension, not a re-verification of the exact C−1 integer count at the new
+architecture. That would need a wd=0 or wd≪0.3 arm, not yet run.
 *Instrument: `census/run_census.py`; data: `census/*_weight_census.json`.*
 
 ## F2. The terminal propagated rank is task-determined — in both directions
@@ -261,6 +272,14 @@ stall). Fixed-hyperparameter trainability boundaries must not be read as
 architectural limits. In every failure family the L0 task subspace still
 accretes (alignment 0.38–0.89 of converged levels while accuracy sits at
 chance): **learning proceeds at the input edge even when the pipe fails.**
+**Phase-2 architecture check (2026-09-07)**: at width 1024/depth 16 (fixed
+lr=3e-4, 20k steps, wd=0.3, 8 seeds/config, no lr tuning), the
+convergence-outcome pattern by C matches Phase-1's wall qualitatively —
+converged through C=20, mixed at C=25/32, partial at C=40/50. No logistic
+fit or C₅₀ point estimate has been computed for this architecture (only 8
+seeds/config vs the 16–32 used for the table above, and no per-width lr
+tuning), so this is not yet a width=1024 addition to the table — a
+registered-prediction-style fit needs its own pass.
 *Data: `census/transition_curve.json`, `census/c_sweep_summary.json`; note:
 `notes/2026-08-13_wall-model-and-separation-axis.md`.*
 

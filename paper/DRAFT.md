@@ -1,10 +1,17 @@
 # Task rank is imprinted in the input layer: a controlled cartography of training signatures in deep MLPs
 
-*Draft v0.13 — 2026-09-07 15:05 UTC (v0.12: 2026-08-18 20:05 UTC; v0.11–v0.3:
-2026-08-18; v0.2: 2026-08-17; v0.1: 2026-08-15). James Henry. Numbers reference
-FINDINGS.md (F1–F7) and the committed analysis JSONs; corpus at
-`james-ra-henry/MZC-Corpus` (public as of 2026-08-18). Archived: DOI
-10.5281/zenodo.22017454 (concept; the v0.12 snapshot is 10.5281/zenodo.22017455).
+*Draft v0.14 — 2026-09-07 20:54 UTC (v0.13: 2026-09-07 15:05 UTC; v0.12:
+2026-08-18 20:05 UTC; v0.11–v0.3: 2026-08-18; v0.2: 2026-08-17; v0.1:
+2026-08-15). James Henry. Numbers reference FINDINGS.md (F1–F7) and the
+committed analysis JSONs; corpus at `james-ra-henry/MZC-Corpus` (public as of
+2026-08-18). Archived: DOI 10.5281/zenodo.22017454 (concept; the v0.12
+snapshot is 10.5281/zenodo.22017455).
+v0.14: added a preliminary generality check at ARC's actual Phase-2
+architecture (§5.4) — a reduced 88-net C-sweep at width 1024/depth 16
+replicates the L0 rank law and expressivity-wall pattern found at Phase-1.
+Scoped as future work, like the wild-model first contact; no change to §1–§4
+or the corpus described in §2, which remains the Phase-1-architecture
+population.
 v0.13: F5's cross-task condition reran input-matched (GMM-task input, not just
 noise) — deep-layer recovered overlap is *higher* under task input (0.74) than
 noise (0.69), confirming the original result wasn't a noise-input artifact.
@@ -554,7 +561,7 @@ overlap with rotation-recoverable, task-graded identity — is measurable with
 the same paired instruments, and is where this result asks to be tested
 next.
 
-### 5.4 Outlook: wild models
+### 5.4 Outlook: wild models and ARC's actual architecture
 
 While the above results rely on a matched corpus, preliminary tests indicate these instruments transfer to wild models. First contact with
 pythia-70m/160m MLP blocks (no init anchor, so scaled floor plus
@@ -567,6 +574,19 @@ flags, null choice) transferred without modification and caught one artifact
 on first use. The wild-model study itself — with its own controls and a
 pre-registered prediction of what the census should read given each model's
 claimed training — is the next paper, not a result of this one.
+
+Separately, the ARC White-Box Estimation Challenge's Phase-2 architecture was
+resolved (2026-08-23) to width 1024/depth 16 — wider and shallower than the
+Phase-1 spec the corpus above is built on. A preliminary generality check
+reruns an 11-config C-sweep (C ∈ {2,3,5,8,10,15,20,25,32,40,50}; GMM task,
+separation 3.0, weight decay 0.3, 8 seeds/config; 88 nets total) at this
+architecture. Both load-bearing patterns replicate: the L0 rank law's
+effective-dimension collapse (511.9 at init → 5.0 trained, C=2) and the
+expressivity wall's outcome pattern (converged through C=20, mixed at
+C=25/32, partial at C=40/50), matching Phase-1's wall (FINDINGS.md F1, F6).
+Width/depth/task/weight-decay breadth and seed parity with the Phase-1
+corpus are not yet run; as with the wild-model study, a full Phase-2
+architecture-generality result is future work, not a result of this paper.
 
 ## 6. Related work
 

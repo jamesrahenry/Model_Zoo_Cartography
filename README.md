@@ -74,15 +74,24 @@ pending adaptations.
 
 ## Status
 
-*Updated: 2026-08-18 20:45 UTC. All planned local phases complete; paper in external review.*
+*Updated: 2026-09-07 20:54 UTC. All planned Phase-1 local phases complete;
+paper in external review (v0.14). Phase-2 architecture-generality MVP landed
+(88 nets @ ARC's actual 1024×16 spec, C-sweep only); breadth work (width,
+depth, task, weight decay, seed parity) scoped, not yet run — see
+`notes/2026-09-06_mzc-phase2-sweep-scope.md`.*
 
-Corpus: **1,569 trained nets, 69 families** — widths 64–512, depths 8–64,
-GMM C ∈ {2..72} with separation and weight-decay sweeps, whitened MNIST and
-Fashion-MNIST, budgets 20k–200k steps, lr arms, two readout modes, 16–32
-seeds per config. Weights + provenance: HF dataset
-`james-ra-henry/MZC-Corpus` (public as of 2026-08-18); local
+Corpus: **1,569 trained nets, 69 families** (Phase-1 architecture: width
+256, depth 32) — widths 64–512, depths 8–64, GMM C ∈ {2..72} with separation
+and weight-decay sweeps, whitened MNIST and Fashion-MNIST, budgets
+20k–200k steps, lr arms, two readout modes, 16–32 seeds per config. **Plus
+88 trained nets, 11 configs at ARC's actual Phase-2 architecture** (width
+1024, depth 16; GMM C-sweep only, wd=0.3, 8 seeds/config) — a preliminary
+generality check, not yet at Phase-1's breadth (see `paper/DRAFT.md` §5.4).
+Weights + provenance: HF dataset
+`james-ra-henry/MZC-Corpus` (public as of 2026-08-18; Phase-2 nets under the
+`p2_w1024_d16_*` run-id prefix); local
 corpus is a prune-and-refetch cache (`train/corpus_io.py`). Paper draft:
-`paper/DRAFT.md` (v0.12 — one-thesis scope structure, seven figures from
+`paper/DRAFT.md` (v0.14 — one-thesis scope structure, seven figures from
 committed data via `paper/make_figures.py`, all references verified, three
 external review passes absorbed). Public spin-offs: the analytic-vs-sampling crossover
 map and the trained-network state-keyed refit
