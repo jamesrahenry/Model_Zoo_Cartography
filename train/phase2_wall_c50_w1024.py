@@ -78,9 +78,16 @@ def main() -> None:
         print(f"\n=== [{i+1}/{len(todo)}] {rid} ({time.time()-t0:.0f}s elapsed) ===",
               flush=True)
         if args.hopper_task:
-            subprocess.run(["hopper", "task", "heartbeat", args.hopper_task,
-                            "--expect", "3h"],
-                           cwd=str(REPO_ROOT), check=False)
+            # Heartbeat is a nice-to-have, not essential -- must never crash
+            # the run (seen: cron's minimal PATH has no pyenv shims, so bare
+            # "hopper" raises FileNotFoundError and would kill the whole
+            # sweep before training a single net, 2026-09-08).
+            try:
+                subprocess.run(["hopper", "task", "heartbeat", args.hopper_task,
+                                "--expect", "3h"],
+                               cwd=str(REPO_ROOT), check=False)
+            except OSError as e:
+                print(f"!! hopper heartbeat failed (non-fatal): {e}", flush=True)
         if m:
             run([sys.executable, "train/train_mlp.py", "--run-id", rid,
                  "--classes", str(c)] + BASE_ARGS)
