@@ -18,13 +18,15 @@
 > the C=50 transfer.
 
 *Covers program start (2026-08-10) through Phase B, the lr/budget arms, and
-the wild-model first contact (last swept 2026-08-17), plus a preliminary
-ARC Phase-2 architecture-generality check (2026-09-07, `p2_w1024_d16_*`,
-see below). Corpus: 1,569 trained nets / 69 families at Phase-1 architecture
-(width 256, depth 32), plus 88 trained nets / 11 configs at Phase-2's actual
-architecture (width 1024, depth 16), on `james-ra-henry/MZC-Corpus` (HF,
-public as of 2026-08-18). Running record: Hopper task `t4b9971d`. All
-planned Phase-1 local phases complete; Phase-2 breadth not yet run.*
+the wild-model first contact (last swept 2026-08-17), plus two ARC Phase-2
+architecture-generality arms (2026-09-07 wd=0.3, `p2_w1024_d16_c*`; 2026-09-10
+wd=0, `p2_w1024_d16_wd0_c*`; see F1/F6 below). Corpus: 1,569 trained nets /
+69 families at Phase-1 architecture (width 256, depth 32), plus 176 trained
+nets / 22 configs at Phase-2's actual architecture (width 1024, depth 16;
+two wd arms), on `james-ra-henry/MZC-Corpus` (HF, public as of 2026-08-18).
+Running record: Hopper task `t4b9971d`. All planned Phase-1 local phases
+complete; Phase-2's C₅₀ wall measurement is planned but not yet run (see
+`notes/2026-09-08_c50_w1024_wall_plan.md`).*
 
 MZC trains populations of MLPs at the ARC White-Box Challenge Phase-1
 architecture (depth 32, width 256, He-Gaussian `N(0, 2/fan_in)`, bias-free,
@@ -60,8 +62,33 @@ pattern replicates at width 1024/depth 16 (effective dim 511.9 at init →
 puts the corpus in the bulk-annihilated regime — `significant_dims` reads
 unreliably there, so this is a replication of the collapse via effective
 dimension, not a re-verification of the exact C−1 integer count at the new
-architecture. That would need a wd=0 or wd≪0.3 arm, not yet run.
-*Instrument: `census/run_census.py`; data: `census/*_weight_census.json`.*
+architecture.
+
+**wd=0 arm, the clean re-verification (2026-09-10, Hopper `tc09af292`)**:
+same C-sweep at wd=0 (C∈{2,3,5,8,10,15,20,25,32,40,50}, 8 seeds, 1024×16).
+Result is more nuanced than a clean confirmation. **The exact law holds
+with zero exceptions under the fixed analytic floor for C ≥ 8** (59/59
+converged nets, C=8 through C=50, every one reads exactly C−1 — 7, 9, 14,
+19, 24, 31, 39, 49). Below C=8 the fixed floor over-counts substantially
+(C=2: 32.2 mean vs true 1; C=3: 24.1 vs 2; C=5: 9.6 vs 4) — not F7's
+annihilation mechanism (scale_ratio isn't below the floor here), the
+opposite: L0's `scale_ratio` is a smooth, **monotonically decreasing
+function of C**, from 1.17 (C=2) through ≈1.0 near C≈6–7 down to 0.76
+(C=40–50) — easy tasks leave the trained bulk *above* the analytic He
+variance, hard tasks leave it *below*, and at width 1024 the absolute
+threshold is tight enough that this modest relative inflation pushes many
+more of the (much larger) bulk's directions over it. The scale-normalized
+estimator (F7's `significant_dims_scaled`) recovers most of the gap at
+C=5/8 (4.5/7.25 vs true 4/7 — close) but not at the easiest tasks (C=2:
+6.6 vs 1; C=3: 5.5 vs 2), where scale_ratio (1.13–1.17) sits at the edge
+of the estimator's own validated synthetic range. **Read**: the underlying
+structural law is real and width-invariant for C ≥ 8 at this architecture;
+the C<8 exceptions are an open instrument question (fixed-floor
+sensitivity at large width, only partly fixed by the scaled floor), not a
+breakdown of the law itself — the scale_ratio-vs-C curve is itself a new,
+clean measurement worth its own look.
+*Instrument: `census/run_census.py`; data: `census/*_weight_census.json`
+(both `p2_w1024_d16_c*` [wd=0.3] and `p2_w1024_d16_wd0_c*` [wd=0]).*
 
 ## F2. The terminal propagated rank is task-determined — in both directions
 *(rewritten 2026-08-13 from the full 21-family data after the audit found the
@@ -280,6 +307,16 @@ fit or C₅₀ point estimate has been computed for this architecture (only 8
 seeds/config vs the 16–32 used for the table above, and no per-width lr
 tuning), so this is not yet a width=1024 addition to the table — a
 registered-prediction-style fit needs its own pass.
+
+**wd=0 arm (2026-09-10)**: the same C-sweep at wd=0 shows a *sharper* wall
+than the wd=0.3 pass — **8/8 converged through C=40, then 3/8 at C=50**
+(vs. the wd=0.3 arm's partials starting at C=32). Consistent with wd=0.3
+costing a little convergence headroom near the wall (matches F7's "the
+random bulk is functionally inert... but not free at the margin" spirit),
+though at only 8 seeds/config this is suggestive, not a fit. The crossing
+sitting between C=40 (100%) and C=50 (37.5%) is in the range the planned
+C₅₀(w=1024) measurement (pre-registered [40, 43], see
+`notes/2026-09-08_c50_w1024_wall_plan.md`) already brackets.
 *Data: `census/transition_curve.json`, `census/c_sweep_summary.json`; note:
 `notes/2026-08-13_wall-model-and-separation-axis.md`.*
 
