@@ -317,8 +317,23 @@ though at only 8 seeds/config this is suggestive, not a fit. The crossing
 sitting between C=40 (100%) and C=50 (37.5%) is in the range the planned
 C₅₀(w=1024) measurement (pre-registered [40, 43], see
 `notes/2026-09-08_c50_w1024_wall_plan.md`) already brackets.
+
+**C₅₀(w=1024) measured, lr=3e-4, 16 seeds (2026-09-11/12): pre-registered
+prediction FALSIFIED.** C=35: 16/16, C=40: 16/16, C=45: 11/16 (69%), C=50:
+8/16 (50%), C=55: 10/16 (63%) — the crossing sits at/above C=50, not the
+pre-registered [40, 43]. The width-doubling deceleration trend from the
+w≤512 table (+4.5, +3.9, +2.6 per doubling) did not continue as
+extrapolated between 512→1024. C=55's non-monotone uptick from C=50 is
+most likely 16-seed binomial noise this close to a crossing (consistent
+with the already-documented ~10× seed-variance growth there), but it also
+means C=55 doesn't read cleanly collapsed — the plan's own pre-registered
+gate condition for an lr-tuned rerun (matching the w=512 precedent, where
+the fixed-lr "wall" was largely a lr=3e-4 optimization artifact that
+dissolved at lr=1e-4). Rerun spec'd (`train/phase2_wall_c50_w1024_lr1e4.py`,
+same grid/seeds at lr=1e-4) but not yet launched — James's call on timing.
 *Data: `census/transition_curve.json`, `census/c_sweep_summary.json`; note:
-`notes/2026-08-13_wall-model-and-separation-axis.md`.*
+`notes/2026-08-13_wall-model-and-separation-axis.md`,
+`notes/2026-09-08_c50_w1024_wall_plan.md`.*
 
 ## F7. Scale vs shape: weight decay annihilates the bulk; rank ≠ amplitude
 
