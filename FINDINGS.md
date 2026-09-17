@@ -329,8 +329,22 @@ with the already-documented ~10× seed-variance growth there), but it also
 means C=55 doesn't read cleanly collapsed — the plan's own pre-registered
 gate condition for an lr-tuned rerun (matching the w=512 precedent, where
 the fixed-lr "wall" was largely a lr=3e-4 optimization artifact that
-dissolved at lr=1e-4). Rerun spec'd (`train/phase2_wall_c50_w1024_lr1e4.py`,
-same grid/seeds at lr=1e-4) but not yet launched — James's call on timing.
+dissolved at lr=1e-4).
+
+**lr=1e-4 rerun (2026-09-17): gate resolved — this wall is real, NOT a
+fixed-lr artifact.** Same grid/seeds at lr=1e-4: C=35: 16/16, C=40: 16/16,
+C=45: 7/16 (44%), C=50: 9/16 (56%), C=55: 6/16 (38%) — compare lr=3e-4's
+69%/50%/63% at the same three configs. Unlike w=512 (where lr=1e-4 alone
+took a total stall to 16/16 partial), tuning lr here does **not** rescue
+convergence — at C=45 and C=55 it's measurably *worse*, not better; only
+C=50 nudges up, within noise. Combined across both lr conditions the
+crossing sits robustly in the low-to-mid 40s to 50 regardless of lr — a
+genuine width=1024 property, not an optimization artifact to be tuned
+away. **C₅₀(1024) is somewhere in [45, 52]** (both lr passes agree C=40 is
+safely above and C=55 safely below); a precise logistic point estimate
+would need more seeds per config than either 16-seed pass alone supports,
+and isn't obviously worth the further GPU-hours given the qualitative
+question (artifact vs. real) is now settled.
 *Data: `census/transition_curve.json`, `census/c_sweep_summary.json`; note:
 `notes/2026-08-13_wall-model-and-separation-axis.md`,
 `notes/2026-09-08_c50_w1024_wall_plan.md`.*
