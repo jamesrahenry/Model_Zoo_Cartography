@@ -152,5 +152,52 @@ here before any run happens, not after).
    — on the same trained models, in sequence, rather than picking one
    dependent variable and hoping it's the right one.
 
+## Phase 1 result (2026-09-22): gate cleared, but localized, not distributed
+
+Ran `train/compensation_phase1.py` (C=10, sep=3.0, wd=0, width=256, depth=32,
+16 seeds/arm, ~0.5h wall) and `census/compensation_analysis.py`
+(`census/compensation_phase1_results.json`).
+
+**Freezing L0 is a strong intervention, not a no-op**: baseline converges
+16/16 to 89.2-90.1% (matches Bayes ~90%); freeze_l0 converges 0/16, capping
+at 62-64%. Expected — L0 does the C−1 task-extraction (F1); frozen at
+random init, it can't, so every downstream layer is stuck working from an
+uninformative projection of the input.
+
+**Z-scores against the baseline arm's own null band** (16 seeds each,
+`census_weights`'s effective_dim):
+
+| layer | baseline eff_dim | freeze_l0 eff_dim | z |
+|---|---|---|---|
+| 0 (frozen) | 26.8 ± 0.5 | 127.3 ± 0.4 | 188 (trivial, excluded) |
+| 1 | 100.1 ± 1.0 | 83.1 ± 1.4 | **−17.4** |
+| 2 | 119.6 ± 0.8 | 112.2 ± 1.0 | **−8.9** |
+| 3–31 | ~120 throughout | ~119–121 throughout | all \|z\| < 2 (max 1.97 at L29) |
+
+**Gate cleared** — layers 1 and 2 show large, unambiguous shifts (z=−17,
+−9; nothing borderline about them). But the shape is not what either GEM
+or the loose reading of the Solitaire result would suggest: **compensation
+here is local, not distributed** — it's absorbed within one to two layers
+of the intervention and every one of the remaining 29 layers sits
+statistically indistinguishable from baseline's own seed-to-seed spread.
+Layer 3 onward converges to nearly the *same* effective_dim (~119-121)
+regardless of whether L0 gave the network a useful task-projection or a
+useless frozen-random one — echoing F6's fixed mid-net code ceiling (a
+similar-sized downstream code forming close to independent of upstream
+difficulty), now with a new data point: independent of upstream
+*function*, not just upstream *difficulty*.
+
+This refines the hypothesis rather than confirming or denying the loose
+version of it: not "structure is distributed across depth when you
+intervene," but "an intervention's disruption propagates a short, bounded
+distance and the deep bulk of the network is unaffected." Whether that's
+architecture-specific (bias-free ReLU stack, this exact width/depth) or
+general is untested — the natural next question, cheaper than phase 2:
+does the same 1-2-layer localization hold if the intervention is on a
+*deeper* layer instead of L0?
+
+Phase 2 (concept-ablation recoverability) is warranted on this evidence,
+scoped to layers 0-2 where the actual shift lives, not all 32 layers.
+
 Related: `../arc-whitebox-canary` FINDINGS-equivalent work is untouched by
 this; this is purely MZC + GEM + the Solitaire side investigation.
