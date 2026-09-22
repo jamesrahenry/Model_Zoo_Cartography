@@ -90,10 +90,26 @@ here before any run happens, not after).
 
 ## Open questions before designing the experiment
 
-1. What counts as "layer B's structure changed as a consequence of A's
+1. ~~What counts as "layer B's structure changed as a consequence of A's
    intervention" vs. "layer B just varies run to run anyway"? Needs a
    seed-variance baseline (matched-seed unconstrained pairs) to know what
-   noise floor a real compensation signal has to clear.
+   noise floor a real compensation signal has to clear.~~ **Resolved
+   2026-09-22 (James): this has an ARC shape — build a null, z-score
+   deviations against it, exactly F2's existing q-clock convention
+   (`z(L31) = +3.2 to +4.2` against the random-init null band), just pointed
+   at a different reference population. ARC's own analytic null (zero
+   forward pass, random-init statistics) answers "is there structure at
+   all" — not the question here. What's needed is a **trained-baseline
+   null**, not a trained-vs-random one: K≥8-16 seeds, unconstrained, per
+   non-intervened layer gives an empirical mean±std under pure seed noise
+   at fixed recipe. Z-score the intervention arm's same-layer, same-seed-
+   count measurements against that band. A layer whose z-score sits inside
+   the baseline's normal spread is noise; a layer clearly outside it is
+   real compensation. This is also why the single-seed Solitaire
+   observation (one run each side) can't actually answer its own question —
+   there's no null band to check against at n=1; the multi-seed baseline
+   arm is not a nicety, it's the whole mechanism that makes this testable
+   rather than anecdotal.
 2. Is the right dependent variable effective_dim (participation ratio, what
    both GEM's redistribution and Solitaire's redistribution look like when
    restated in comparable terms) or something more causal (does ablating/
