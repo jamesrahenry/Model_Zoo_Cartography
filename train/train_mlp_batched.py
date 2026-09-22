@@ -115,6 +115,14 @@ def main() -> None:
                     for b in range(B)]
     layers = [torch.nn.Parameter(W.to(device)) for W in layers]
     heads = torch.nn.Parameter(heads.to(device))
+    if args.freeze_layer is not None:
+        # requires_grad=False -> autograd never populates .grad for this
+        # tensor, so it stays None and every optimizer below silently skips
+        # it (all skip params with grad is None) -- no need to also exclude
+        # it from the optimizer's param list. Stays bit-identical to its
+        # init for the whole run (frobenius_drift ~0.0 in the census is the
+        # sanity check that this worked).
+        layers[args.freeze_layer].requires_grad_(False)
 
     if args.weight_decay > 0:
         opt = torch.optim.AdamW(list(layers) + [heads], lr=args.lr,
@@ -197,7 +205,8 @@ def main() -> None:
             "architecture": {"width": args.width, "depth": args.depth,
                              "bias": False, "activation": "relu_all_layers",
                              "init": "he_gaussian_2_over_fanin",
-                             "weight_convention": "(in, out); forward = x @ W"},
+                             "weight_convention": "(in, out); forward = x @ W",
+                             "freeze_layer": args.freeze_layer},
             "task": task.describe(),
             "training": {"trainer": "batched", "net_batch": B,
                          "loss": "cross_entropy_head_post_relu",
@@ -250,5 +259,9 @@ if __name__ == "__main__":
     p.add_argument("--tf32", action="store_true",
                    help="TF32 matmul (Ada): faster, ~10-bit matmul mantissa")
     p.add_argument("--device", default="auto", choices=["auto", "cuda", "cpu"])
+    p.add_argument("--freeze-layer", type=int, default=None,
+                   help="0-indexed layer to freeze at init (requires_grad=False, "
+                        "never updated) -- for the compensatory-structure experiment; "
+                        "omit for a normal unconstrained baseline run")
     args = p.parse_args()
     main()
