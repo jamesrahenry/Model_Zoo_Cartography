@@ -110,16 +110,47 @@ here before any run happens, not after).
    there's no null band to check against at n=1; the multi-seed baseline
    arm is not a nicety, it's the whole mechanism that makes this testable
    rather than anecdotal.
-2. Is the right dependent variable effective_dim (participation ratio, what
-   both GEM's redistribution and Solitaire's redistribution look like when
-   restated in comparable terms) or something more causal (does ablating/
-   freezing layer A's *late-training* structure change what layer B's
-   weights converge to, tested by a train-time intervention rather than a
-   post-hoc one)?
-3. GEM's compensation is about a *specific concept's* causal footprint;
-   MZC's would be about *aggregate* rank/structure. Worth being explicit
-   that these are the same *shape* of claim, not the same claim, until
-   tested.
+2/3. ~~Is the right dependent variable effective_dim or something more
+   causal? GEM's compensation is about a specific concept's causal
+   footprint; MZC's would be about aggregate rank — same shape, not the
+   same claim, until tested.~~ **Resolved 2026-09-22 (James: "trying to
+   answer this is why we're here" — pushed to actually design it rather
+   than leave both parked): a two-phase design answers both at once,
+   gated so the expensive phase only runs if the cheap one earns it.**
+
+   **Phase 1 — cheap, aggregate, gate.** Train matched baseline/intervention
+   arms (K≥8-16 seeds each, train-time intervention: freeze a layer,
+   LayerNorm at one depth, or a low-rank reparameterization — per the
+   candidate list above). Run the existing weight census on every layer.
+   Z-score every non-intervened layer's intervention-arm effective_dim
+   against the baseline arm's own null band (item 1, above). This tests the
+   *weak* claim: does intervening on A shift B's aggregate rank beyond
+   normal seed variance? Cheap because it's exactly the census instrument
+   already built. If nothing clears the null band anywhere but the
+   intervened layer itself, the hypothesis is dead and phase 2 doesn't
+   need to happen — a real, well-earned falsification, not a shrug.
+
+   **Phase 2 — only if phase 1 clears the gate — causal, concept-specific,
+   the actual GEM parallel.** MZC's classifiers have something GEM's real
+   LLMs don't: an *exactly known* concept direction — F1's class-mean
+   simplex (rank C−1, verified per-net with zero exceptions for C≥8). That
+   makes the causal test cleaner here than in GEM, not just an analogy:
+   post-hoc ablate the class-simplex subspace at layer A (already-trained
+   phase-1 models, both arms) and measure recoverability at layer B —
+   direct restatement of GEM's own ablate-and-measure-recoverability
+   method (preprint.md:696), with concept identity controlled instead of
+   discovered. Prediction: if phase 1's redistribution is real and
+   functional (not just cosmetic rank movement), ablating the concept
+   subspace at A should hurt task accuracy *less* in the intervention arm
+   than in baseline — because B picked up some of A's causal load — mirroring
+   GEM's cross-layer recoverability change (37/42 atlases) but with a fully
+   known, controlled concept instead of a discovered one.
+
+   This also directly answers the old item 3: phase 1 tests the *aggregate*
+   version of the claim (comparable to Solitaire's rank measurements), phase
+   2 tests the *concept-causal* version (comparable to GEM's actual method)
+   — on the same trained models, in sequence, rather than picking one
+   dependent variable and hoping it's the right one.
 
 Related: `../arc-whitebox-canary` FINDINGS-equivalent work is untouched by
 this; this is purely MZC + GEM + the Solitaire side investigation.
