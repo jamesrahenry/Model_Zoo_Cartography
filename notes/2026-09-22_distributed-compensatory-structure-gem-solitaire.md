@@ -199,5 +199,70 @@ does the same 1-2-layer localization hold if the intervention is on a
 Phase 2 (concept-ablation recoverability) is warranted on this evidence,
 scoped to layers 0-2 where the actual shift lives, not all 32 layers.
 
+## Full-layer sweep (2026-09-23): not L0-specific pattern, L0-specific *zone*
+
+James's call: don't sample, freeze all 32 layers (`train/compensation_full_layer_sweep.py`,
+16 seeds each, ~8.0h wall, 512 nets, zero errors) and z-score every arm
+against the same baseline (`census/compensation_full_analysis.py`).
+Frozen=0's row reproduced Phase 1 almost exactly from an independently
+trained cohort (z=-17.35/-8.87 vs Phase 1's -17.4/-8.9, same seeds/config)
+-- a real reproducibility check, not just consistency by construction.
+
+**Only layers 0-3 show ANY compensatory effect. Layers 4-31 — 28 of 32,
+87.5% of the depth — show zero shifted layers (radius 0) when frozen.**
+Full picture for the input-edge zone:
+
+| frozen | shifted (\|z\|>3) | radius |
+|---|---|---|
+| 0 | 1, 2 | 2 |
+| 1 | 0, 2 | 1 |
+| 2 | 1 | 1 |
+| 3 | 2 | 1 |
+| 4–31 | *(none)* | 0 |
+
+Two things sharpen the picture beyond Phase 1 alone:
+
+- **This isn't "compensation is local wherever you intervene."** It's
+  narrower: only the input edge (L0-L3) participates in cross-layer
+  compensation *at all*. The other 28 layers are not "locally compensating
+  and then it stops" — freezing them produces no detectable effect
+  anywhere, full stop. That's closer to *modularity* than to *bounded
+  redistribution*.
+- **The interaction is asymmetric and decays fast even within the zone.**
+  L0→L1 is huge (z=-17.4); L1's effect on its two neighbors is more even
+  (-8.75, -8.9); L2 only pulls backward toward the input (L1: -8.9) and not
+  forward (L3: +0.92, noise); L3's pull on L2 is barely over threshold
+  (-3.17) and nothing reaches L4. The zone doesn't have a sharp edge so
+  much as strength that runs out by ~3 layers in.
+
+Reading against F1/F6: this lines up with L0-L3 being where the C-1
+task-extraction actually happens (not instantaneously at L0 alone — takes
+a few layers to complete, matching the wd=0 arm's own observation that L0's
+collapse is accompanied by continued eff-dim movement in L1-L2 before the
+bulk stabilizes). Once that's done, the remaining ~28 layers process an
+already-extracted signal and don't appear to need to renegotiate with each
+other when one of them is disabled -- consistent with, and now more
+specific than, F6's fixed mid-net code ceiling: not just similar-sized
+regardless of task difficulty, but *structurally uninvolved in cross-layer
+compensation* regardless of which one of them is disabled.
+
+**Revised claim, weaker than the GEM-motivated original hypothesis**:
+depth-stacked bias-free ReLU MLPs are not generally "distributed and
+compensatory" through their whole depth. What compensates is specifically
+the task-extraction zone at the input edge; the processing bulk behind it
+is modular with respect to single-layer disablement, at least in this
+architecture and at this measurement's sensitivity (16 seeds, \|z\|>3).
+Whether GEM's transformers show the equivalent zone-boundedness (i.e., is
+37/42 cross-layer recoverability itself concentrated near where a concept
+enters/exits its CAZ, rather than uniform across depth) is now the sharper
+question to ask back at GEM, not something this note can answer.
+
+Phase 2 should stay scoped to layers 0-3 (where there's something to test)
+-- testing concept-ablation recoverability on layers 4-31 would very
+likely just reproduce their independence, not inform the compensation
+question.
+
+Data: `census/compensation_full_layer_results.json` (full 32x32 z-matrix).
+
 Related: `../arc-whitebox-canary` FINDINGS-equivalent work is untouched by
 this; this is purely MZC + GEM + the Solitaire side investigation.
