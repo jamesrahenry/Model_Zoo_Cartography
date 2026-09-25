@@ -225,8 +225,19 @@ artifact: "graded by task overlap" is reinstated, no longer downgraded to
 training-dependent.
 PRH statement: representational convergence is real, rotation-hidden, and
 task-graded; metrics must be rotation-invariant or input-anchored.
+
+**Stronger form (2026-09-24/25):** the shared code survives more than seed
+noise — freezing L0 at random init (crippling accuracy 26-28 points, ~90%
+to 62-64%) still lands layers 4+ on the *same* rotation-recoverable code as
+an unconstrained baseline (cross-arm recovered overlap 0.906 vs. baseline's
+own seed-to-seed 0.911, chance 0.035) — not merely matching effective_dim.
+Convergence isn't instant (L1 shows a visible gap before settling by L2-3),
+but by L4 it's indistinguishable from ordinary seed variance. Full
+methodology and the layer-by-layer table:
+`notes/2026-09-22_distributed-compensatory-structure-gem-solitaire.md`.
 *Instruments: `census/directional_consistency.py`,
-`census/eigenspace_overlap.py`, `census/procrustes_overlap.py`; notes:
+`census/eigenspace_overlap.py`, `census/procrustes_overlap.py`,
+`census/compensation_procrustes.py`; notes:
 `notes/2026-08-13_mzc-eigenspace-overlap-reply.md`.*
 
 ## F6. The expressivity wall: sharp, with a fixed mid-net code ceiling

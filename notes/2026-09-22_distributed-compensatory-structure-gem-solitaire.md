@@ -264,5 +264,62 @@ question.
 
 Data: `census/compensation_full_layer_results.json` (full 32x32 z-matrix).
 
+## PRH check (2026-09-24/25): the deep layers share the SAME code, not just its shape
+
+James's question: layers 4-31 match on effective_dim between baseline and
+freeze_l0 — "that sounds very PRH to me" (the Platonic Representation
+Hypothesis, Huh et al. 2024; F5 is MZC's own existing PRH-style test, same
+code up to rotation across same-task *seeds*). Right instinct, but
+effective_dim is a scalar — two representations can share it while pointing
+in unrelated directions. Needed the actual test: F5's own method
+(`census/procrustes_overlap.py`), adapted to a cross-*arm* comparison
+instead of cross-seed (`census/compensation_procrustes.py`).
+
+Three conditions, top-9 (C−1) recovered eigenspace overlap, task input,
+honest fit/test split: **baseline_twins** (16 baseline nets vs each other —
+the F5-style reference), **freeze_l0_twins** (16 freeze_l0 nets vs each
+other), **cross_arm** (all 16×16 baseline-vs-freeze_l0 pairs — the actual
+test).
+
+| layer | baseline_twins | freeze_l0_twins | cross_arm |
+|---|---|---|---|
+| 0 (frozen) | 0.988 | 0.074 | 0.086 |
+| 1 | 0.998 | 0.750 | 0.904 |
+| 2 | 0.999 | 0.969 | 0.984 |
+| 3 | 0.998 | 0.989 | 0.985 |
+| 4–31 (mean) | 0.911 | ~0.90 | **0.906** |
+
+(chance = 9/256 = 0.035)
+
+**Confirmed, not just suggested: layers 4+ recover essentially the same
+overlap cross-arm (0.906) as the baseline arm recovers among its own
+seeds (0.911).** This is not coincidental shape-matching — it's the same
+rotation-equivalent code, present regardless of whether L0 got to do its
+job or was frozen at random init the whole time. L0 itself correctly shows
+no shared code (0.074-0.086, at chance) — expected, it's literally random
+in the freeze arm. The convergence to a shared code is not instant: L1
+shows a visible gap (freeze_l0_twins 0.750, noticeably below baseline's
+0.998, cross_arm splitting the difference at 0.904) — the freeze arm's own
+seeds don't agree with each other as tightly right at the disruption point
+— but by L2-3 all three conditions are within ~0.01-0.03 of each other,
+matching the radius-2 zone the effective_dim test already found.
+
+**This is stronger evidence than F5's original PRH statement, not just a
+restatement of it.** F5 showed the same code forms across *seed noise* —
+different random draws, same task, same architecture, all converging.
+This shows the same code forms across a **real functional perturbation** —
+one arm's L0 never learned anything and the whole network caps out 26-28
+points of accuracy lower (62-64% vs ~90%) — and the deep representation is
+still, by the Procrustes test's own numbers, the *same object*. Whatever
+process is finding this code isn't fragile to a damaged upstream; it looks
+like an attractor the network reaches from a wide basin, not a
+deterministic function of exactly what L0-L3 computed.
+
+Code: `census/compensation_procrustes.py` (note: initial version recomputed
+each net's top-eigenvector SVD once per pair instead of once per net — an
+O(n²) redundancy that made the first run impractically slow; fixed by
+caching per-net, per-layer before the pairwise loop). Data:
+`census/compensation_procrustes_results.json`.
+
 Related: `../arc-whitebox-canary` FINDINGS-equivalent work is untouched by
 this; this is purely MZC + GEM + the Solitaire side investigation.
