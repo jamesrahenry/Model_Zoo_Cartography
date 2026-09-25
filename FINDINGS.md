@@ -232,12 +232,29 @@ to 62-64%) still lands layers 4+ on the *same* rotation-recoverable code as
 an unconstrained baseline (cross-arm recovered overlap 0.906 vs. baseline's
 own seed-to-seed 0.911, chance 0.035) — not merely matching effective_dim.
 Convergence isn't instant (L1 shows a visible gap before settling by L2-3),
-but by L4 it's indistinguishable from ordinary seed variance. Full
-methodology and the layer-by-layer table:
+but by L4 it's indistinguishable from ordinary seed variance.
+
+**How much of the code, though (2026-09-25)?** k=9 only tests the
+task-label direction — a sliver of what's actually active (effective_dim
+~119-121/256 at depth). Sweeping k∈{9,20,50,100,120,150,200} and reading
+overlap *relative to chance* (raw overlap is misleading past k≈100, where
+chance itself approaches 1 by pure geometry) shows the shared structure is
+concentrated in a small, sharply-bounded core: 26× chance at k=9, decaying
+smoothly to ~1.2× (essentially nothing beyond geometric necessity) by
+k=200. `baseline_twins` shows the identical decay — this isn't a
+compensation-specific effect, different-seed nets stop sharing structure
+past the same point (k≈20-50) regardless of the freeze intervention. So:
+*some* of the deep code is shared (robustly, universally), not all of it —
+a small task-critical core sits inside a much larger, mostly private/
+idiosyncratic active representation. Activation-space echo of F7's
+weight-space claim (measured "structure" that isn't functionally
+load-bearing), now with a quantitative boundary instead of a qualitative
+one. Full methodology and tables:
 `notes/2026-09-22_distributed-compensatory-structure-gem-solitaire.md`.
 *Instruments: `census/directional_consistency.py`,
 `census/eigenspace_overlap.py`, `census/procrustes_overlap.py`,
-`census/compensation_procrustes.py`; notes:
+`census/compensation_procrustes.py`, `census/compensation_procrustes_ksweep.py`;
+notes:
 `notes/2026-08-13_mzc-eigenspace-overlap-reply.md`.*
 
 ## F6. The expressivity wall: sharp, with a fixed mid-net code ceiling

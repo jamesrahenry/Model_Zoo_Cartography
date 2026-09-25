@@ -321,5 +321,48 @@ O(n²) redundancy that made the first run impractically slow; fixed by
 caching per-net, per-layer before the pairwise loop). Data:
 `census/compensation_procrustes_results.json`.
 
+## How much is shared? A k-sweep, not a single number (2026-09-25)
+
+James's question: is it all of the deep code that's shared, or some of it?
+k=9 (the task-label direction) said "yes, shared" — but 9 dims is a sliver
+of what's actually active (effective_dim ~119-121/256 at depth). Swept
+k ∈ {9, 20, 50, 100, 120, 150, 200}, same three conditions, same task input
+(`census/compensation_procrustes_ksweep.py` — cheap: neither the per-net
+SVD nor the per-pair rotation depends on k, so the sweep costs barely more
+than the single-k run).
+
+**Raw overlap values are misleading past k≈100** — chance itself rises
+toward 1.0 as k approaches the width (two random 200-of-256-dim subspaces
+overlap a lot by pure geometry, whether or not anything is actually
+shared). The real signal is overlap *relative to chance*:
+
+| k | chance | cross_arm | ratio (× chance) |
+|---|---|---|---|
+| 9 | 0.035 | 0.906 | **25.8×** |
+| 20 | 0.078 | 0.667 | 8.5× |
+| 50 | 0.195 | 0.763 | 3.9× |
+| 100 | 0.391 | 0.811 | 2.1× |
+| 120 | 0.469 | 0.881 | 1.9× |
+| 150 | 0.586 | 0.937 | 1.6× |
+| 200 | 0.781 | 0.942 | **1.2×** |
+
+**Answer: some of it, and it's concentrated in a small, sharply-bounded
+core.** The excess over chance decays smoothly and monotonically from 26×
+at the task-label direction down to essentially nothing (1.2×, barely
+above pure geometric necessity) by k=200 — 78% of the layer's width.
+`baseline_twins` shows the identical decay shape (this isn't specific to
+the cross-arm comparison — even different-seed baseline nets stop sharing
+structure past the same point). So the picture isn't "the deep layers are
+one shared code" — it's a small universal core (roughly the task-label
+direction and a bit beyond, k≲20-50 where the ratio is still >3-8×) sitting
+inside a much larger, mostly-idiosyncratic active representation
+(effective_dim ~120) that is privately reconstructed per net, not shared.
+This is activation-space evidence for the same shape of claim F7 already
+made in weight space (a lot of measured "structure" is functionally inert,
+not meaningfully shared/necessary) — now with a quantitative boundary
+(k≈20-50) rather than a qualitative one.
+
+Data: `census/compensation_procrustes_ksweep_results.json`.
+
 Related: `../arc-whitebox-canary` FINDINGS-equivalent work is untouched by
 this; this is purely MZC + GEM + the Solitaire side investigation.
