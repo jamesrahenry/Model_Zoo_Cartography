@@ -1,0 +1,370 @@
+{
+  "ablate_layers": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "n_classes": 10,
+  "n_fit": 2048,
+  "n_test": 4096,
+  "results": {
+    "comp_p1_baseline_c10": [
+      {
+        "unablated_acc": 0.898193359375,
+        "ablate_L0_acc": 0.1591796875,
+        "ablate_L0_drop": 0.739013671875,
+        "ablate_L1_acc": 0.087158203125,
+        "ablate_L1_drop": 0.81103515625,
+        "ablate_L2_acc": 0.09814453125,
+        "ablate_L2_drop": 0.800048828125,
+        "ablate_L3_acc": 0.108154296875,
+        "ablate_L3_drop": 0.7900390625
+      },
+      {
+        "unablated_acc": 0.892333984375,
+        "ablate_L0_acc": 0.15966796875,
+        "ablate_L0_drop": 0.732666015625,
+        "ablate_L1_acc": 0.1005859375,
+        "ablate_L1_drop": 0.791748046875,
+        "ablate_L2_acc": 0.1064453125,
+        "ablate_L2_drop": 0.785888671875,
+        "ablate_L3_acc": 0.107177734375,
+        "ablate_L3_drop": 0.78515625
+      },
+      {
+        "unablated_acc": 0.89501953125,
+        "ablate_L0_acc": 0.1591796875,
+        "ablate_L0_drop": 0.73583984375,
+        "ablate_L1_acc": 0.107421875,
+        "ablate_L1_drop": 0.78759765625,
+        "ablate_L2_acc": 0.09619140625,
+        "ablate_L2_drop": 0.798828125,
+        "ablate_L3_acc": 0.09912109375,
+        "ablate_L3_drop": 0.7958984375
+      },
+      {
+        "unablated_acc": 0.896484375,
+        "ablate_L0_acc": 0.15673828125,
+        "ablate_L0_drop": 0.73974609375,
+        "ablate_L1_acc": 0.113037109375,
+        "ablate_L1_drop": 0.783447265625,
+        "ablate_L2_acc": 0.104736328125,
+        "ablate_L2_drop": 0.791748046875,
+        "ablate_L3_acc": 0.09375,
+        "ablate_L3_drop": 0.802734375
+      },
+      {
+        "unablated_acc": 0.89404296875,
+        "ablate_L0_acc": 0.15576171875,
+        "ablate_L0_drop": 0.73828125,
+        "ablate_L1_acc": 0.121337890625,
+        "ablate_L1_drop": 0.772705078125,
+        "ablate_L2_acc": 0.097900390625,
+        "ablate_L2_drop": 0.796142578125,
+        "ablate_L3_acc": 0.103271484375,
+        "ablate_L3_drop": 0.790771484375
+      },
+      {
+        "unablated_acc": 0.891357421875,
+        "ablate_L0_acc": 0.171875,
+        "ablate_L0_drop": 0.719482421875,
+        "ablate_L1_acc": 0.11279296875,
+        "ablate_L1_drop": 0.778564453125,
+        "ablate_L2_acc": 0.099853515625,
+        "ablate_L2_drop": 0.79150390625,
+        "ablate_L3_acc": 0.1064453125,
+        "ablate_L3_drop": 0.784912109375
+      },
+      {
+        "unablated_acc": 0.898193359375,
+        "ablate_L0_acc": 0.15673828125,
+        "ablate_L0_drop": 0.741455078125,
+        "ablate_L1_acc": 0.11669921875,
+        "ablate_L1_drop": 0.781494140625,
+        "ablate_L2_acc": 0.103759765625,
+        "ablate_L2_drop": 0.79443359375,
+        "ablate_L3_acc": 0.1044921875,
+        "ablate_L3_drop": 0.793701171875
+      },
+      {
+        "unablated_acc": 0.901123046875,
+        "ablate_L0_acc": 0.150634765625,
+        "ablate_L0_drop": 0.75048828125,
+        "ablate_L1_acc": 0.095458984375,
+        "ablate_L1_drop": 0.8056640625,
+        "ablate_L2_acc": 0.10400390625,
+        "ablate_L2_drop": 0.797119140625,
+        "ablate_L3_acc": 0.111083984375,
+        "ablate_L3_drop": 0.7900390625
+      },
+      {
+        "unablated_acc": 0.89794921875,
+        "ablate_L0_acc": 0.163330078125,
+        "ablate_L0_drop": 0.734619140625,
+        "ablate_L1_acc": 0.11376953125,
+        "ablate_L1_drop": 0.7841796875,
+        "ablate_L2_acc": 0.09326171875,
+        "ablate_L2_drop": 0.8046875,
+        "ablate_L3_acc": 0.097900390625,
+        "ablate_L3_drop": 0.800048828125
+      },
+      {
+        "unablated_acc": 0.895263671875,
+        "ablate_L0_acc": 0.173828125,
+        "ablate_L0_drop": 0.721435546875,
+        "ablate_L1_acc": 0.11181640625,
+        "ablate_L1_drop": 0.783447265625,
+        "ablate_L2_acc": 0.098876953125,
+        "ablate_L2_drop": 0.79638671875,
+        "ablate_L3_acc": 0.108642578125,
+        "ablate_L3_drop": 0.78662109375
+      },
+      {
+        "unablated_acc": 0.895751953125,
+        "ablate_L0_acc": 0.171630859375,
+        "ablate_L0_drop": 0.72412109375,
+        "ablate_L1_acc": 0.11279296875,
+        "ablate_L1_drop": 0.782958984375,
+        "ablate_L2_acc": 0.102783203125,
+        "ablate_L2_drop": 0.79296875,
+        "ablate_L3_acc": 0.10107421875,
+        "ablate_L3_drop": 0.794677734375
+      },
+      {
+        "unablated_acc": 0.894287109375,
+        "ablate_L0_acc": 0.15380859375,
+        "ablate_L0_drop": 0.740478515625,
+        "ablate_L1_acc": 0.111328125,
+        "ablate_L1_drop": 0.782958984375,
+        "ablate_L2_acc": 0.113037109375,
+        "ablate_L2_drop": 0.78125,
+        "ablate_L3_acc": 0.119873046875,
+        "ablate_L3_drop": 0.7744140625
+      },
+      {
+        "unablated_acc": 0.899658203125,
+        "ablate_L0_acc": 0.152587890625,
+        "ablate_L0_drop": 0.7470703125,
+        "ablate_L1_acc": 0.1201171875,
+        "ablate_L1_drop": 0.779541015625,
+        "ablate_L2_acc": 0.1181640625,
+        "ablate_L2_drop": 0.781494140625,
+        "ablate_L3_acc": 0.11328125,
+        "ablate_L3_drop": 0.786376953125
+      },
+      {
+        "unablated_acc": 0.898193359375,
+        "ablate_L0_acc": 0.169677734375,
+        "ablate_L0_drop": 0.728515625,
+        "ablate_L1_acc": 0.107421875,
+        "ablate_L1_drop": 0.790771484375,
+        "ablate_L2_acc": 0.10498046875,
+        "ablate_L2_drop": 0.793212890625,
+        "ablate_L3_acc": 0.10009765625,
+        "ablate_L3_drop": 0.798095703125
+      },
+      {
+        "unablated_acc": 0.892333984375,
+        "ablate_L0_acc": 0.178466796875,
+        "ablate_L0_drop": 0.7138671875,
+        "ablate_L1_acc": 0.106201171875,
+        "ablate_L1_drop": 0.7861328125,
+        "ablate_L2_acc": 0.105712890625,
+        "ablate_L2_drop": 0.78662109375,
+        "ablate_L3_acc": 0.106201171875,
+        "ablate_L3_drop": 0.7861328125
+      },
+      {
+        "unablated_acc": 0.898681640625,
+        "ablate_L0_acc": 0.16943359375,
+        "ablate_L0_drop": 0.729248046875,
+        "ablate_L1_acc": 0.09423828125,
+        "ablate_L1_drop": 0.804443359375,
+        "ablate_L2_acc": 0.110595703125,
+        "ablate_L2_drop": 0.7880859375,
+        "ablate_L3_acc": 0.1005859375,
+        "ablate_L3_drop": 0.798095703125
+      }
+    ],
+    "comp_p1_freeze_l0_c10": [
+      {
+        "unablated_acc": 0.612060546875,
+        "ablate_L0_acc": 0.203125,
+        "ablate_L0_drop": 0.408935546875,
+        "ablate_L1_acc": 0.14453125,
+        "ablate_L1_drop": 0.467529296875,
+        "ablate_L2_acc": 0.1201171875,
+        "ablate_L2_drop": 0.491943359375,
+        "ablate_L3_acc": 0.1171875,
+        "ablate_L3_drop": 0.494873046875
+      },
+      {
+        "unablated_acc": 0.64599609375,
+        "ablate_L0_acc": 0.218994140625,
+        "ablate_L0_drop": 0.427001953125,
+        "ablate_L1_acc": 0.162353515625,
+        "ablate_L1_drop": 0.483642578125,
+        "ablate_L2_acc": 0.12060546875,
+        "ablate_L2_drop": 0.525390625,
+        "ablate_L3_acc": 0.115234375,
+        "ablate_L3_drop": 0.53076171875
+      },
+      {
+        "unablated_acc": 0.6396484375,
+        "ablate_L0_acc": 0.19677734375,
+        "ablate_L0_drop": 0.44287109375,
+        "ablate_L1_acc": 0.146240234375,
+        "ablate_L1_drop": 0.493408203125,
+        "ablate_L2_acc": 0.117919921875,
+        "ablate_L2_drop": 0.521728515625,
+        "ablate_L3_acc": 0.109619140625,
+        "ablate_L3_drop": 0.530029296875
+      },
+      {
+        "unablated_acc": 0.6220703125,
+        "ablate_L0_acc": 0.21923828125,
+        "ablate_L0_drop": 0.40283203125,
+        "ablate_L1_acc": 0.169921875,
+        "ablate_L1_drop": 0.4521484375,
+        "ablate_L2_acc": 0.119140625,
+        "ablate_L2_drop": 0.5029296875,
+        "ablate_L3_acc": 0.11328125,
+        "ablate_L3_drop": 0.5087890625
+      },
+      {
+        "unablated_acc": 0.63671875,
+        "ablate_L0_acc": 0.218505859375,
+        "ablate_L0_drop": 0.418212890625,
+        "ablate_L1_acc": 0.157470703125,
+        "ablate_L1_drop": 0.479248046875,
+        "ablate_L2_acc": 0.1201171875,
+        "ablate_L2_drop": 0.5166015625,
+        "ablate_L3_acc": 0.1142578125,
+        "ablate_L3_drop": 0.5224609375
+      },
+      {
+        "unablated_acc": 0.635986328125,
+        "ablate_L0_acc": 0.2138671875,
+        "ablate_L0_drop": 0.422119140625,
+        "ablate_L1_acc": 0.156494140625,
+        "ablate_L1_drop": 0.4794921875,
+        "ablate_L2_acc": 0.112060546875,
+        "ablate_L2_drop": 0.52392578125,
+        "ablate_L3_acc": 0.114501953125,
+        "ablate_L3_drop": 0.521484375
+      },
+      {
+        "unablated_acc": 0.63623046875,
+        "ablate_L0_acc": 0.2158203125,
+        "ablate_L0_drop": 0.42041015625,
+        "ablate_L1_acc": 0.1484375,
+        "ablate_L1_drop": 0.48779296875,
+        "ablate_L2_acc": 0.1201171875,
+        "ablate_L2_drop": 0.51611328125,
+        "ablate_L3_acc": 0.110107421875,
+        "ablate_L3_drop": 0.526123046875
+      },
+      {
+        "unablated_acc": 0.63330078125,
+        "ablate_L0_acc": 0.21923828125,
+        "ablate_L0_drop": 0.4140625,
+        "ablate_L1_acc": 0.15087890625,
+        "ablate_L1_drop": 0.482421875,
+        "ablate_L2_acc": 0.120361328125,
+        "ablate_L2_drop": 0.512939453125,
+        "ablate_L3_acc": 0.112060546875,
+        "ablate_L3_drop": 0.521240234375
+      },
+      {
+        "unablated_acc": 0.630859375,
+        "ablate_L0_acc": 0.220458984375,
+        "ablate_L0_drop": 0.410400390625,
+        "ablate_L1_acc": 0.167236328125,
+        "ablate_L1_drop": 0.463623046875,
+        "ablate_L2_acc": 0.123291015625,
+        "ablate_L2_drop": 0.507568359375,
+        "ablate_L3_acc": 0.11669921875,
+        "ablate_L3_drop": 0.51416015625
+      },
+      {
+        "unablated_acc": 0.623046875,
+        "ablate_L0_acc": 0.209716796875,
+        "ablate_L0_drop": 0.413330078125,
+        "ablate_L1_acc": 0.16357421875,
+        "ablate_L1_drop": 0.45947265625,
+        "ablate_L2_acc": 0.1083984375,
+        "ablate_L2_drop": 0.5146484375,
+        "ablate_L3_acc": 0.110595703125,
+        "ablate_L3_drop": 0.512451171875
+      },
+      {
+        "unablated_acc": 0.628173828125,
+        "ablate_L0_acc": 0.2099609375,
+        "ablate_L0_drop": 0.418212890625,
+        "ablate_L1_acc": 0.156494140625,
+        "ablate_L1_drop": 0.4716796875,
+        "ablate_L2_acc": 0.10546875,
+        "ablate_L2_drop": 0.522705078125,
+        "ablate_L3_acc": 0.109130859375,
+        "ablate_L3_drop": 0.51904296875
+      },
+      {
+        "unablated_acc": 0.637451171875,
+        "ablate_L0_acc": 0.210205078125,
+        "ablate_L0_drop": 0.42724609375,
+        "ablate_L1_acc": 0.146484375,
+        "ablate_L1_drop": 0.490966796875,
+        "ablate_L2_acc": 0.1201171875,
+        "ablate_L2_drop": 0.517333984375,
+        "ablate_L3_acc": 0.103759765625,
+        "ablate_L3_drop": 0.53369140625
+      },
+      {
+        "unablated_acc": 0.608154296875,
+        "ablate_L0_acc": 0.2177734375,
+        "ablate_L0_drop": 0.390380859375,
+        "ablate_L1_acc": 0.14794921875,
+        "ablate_L1_drop": 0.460205078125,
+        "ablate_L2_acc": 0.100830078125,
+        "ablate_L2_drop": 0.50732421875,
+        "ablate_L3_acc": 0.101806640625,
+        "ablate_L3_drop": 0.50634765625
+      },
+      {
+        "unablated_acc": 0.634033203125,
+        "ablate_L0_acc": 0.223388671875,
+        "ablate_L0_drop": 0.41064453125,
+        "ablate_L1_acc": 0.1533203125,
+        "ablate_L1_drop": 0.480712890625,
+        "ablate_L2_acc": 0.11083984375,
+        "ablate_L2_drop": 0.523193359375,
+        "ablate_L3_acc": 0.10009765625,
+        "ablate_L3_drop": 0.533935546875
+      },
+      {
+        "unablated_acc": 0.627197265625,
+        "ablate_L0_acc": 0.213134765625,
+        "ablate_L0_drop": 0.4140625,
+        "ablate_L1_acc": 0.157958984375,
+        "ablate_L1_drop": 0.46923828125,
+        "ablate_L2_acc": 0.1103515625,
+        "ablate_L2_drop": 0.516845703125,
+        "ablate_L3_acc": 0.10009765625,
+        "ablate_L3_drop": 0.527099609375
+      },
+      {
+        "unablated_acc": 0.63134765625,
+        "ablate_L0_acc": 0.2099609375,
+        "ablate_L0_drop": 0.42138671875,
+        "ablate_L1_acc": 0.1513671875,
+        "ablate_L1_drop": 0.47998046875,
+        "ablate_L2_acc": 0.108642578125,
+        "ablate_L2_drop": 0.522705078125,
+        "ablate_L3_acc": 0.09423828125,
+        "ablate_L3_drop": 0.537109375
+      }
+    ]
+  },
+  "written_utc": "2026-09-26 05:40 UTC"
+}

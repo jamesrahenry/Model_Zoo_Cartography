@@ -413,5 +413,95 @@ of it.
 
 Data: `census/compensation_spectrum_compare_results.json`.
 
+## Two follow-ups (2026-09-26): does spectrum-matching generalize, and is any of this causal?
+
+### 1. Spectrum-shape match across all 32 frozen layers — sharper than the eff_dim test
+
+Reused the full-layer-sweep corpus (no new training) to run the spectrum-
+shape comparison against every one of the 32 `comp_full_freeze_l{L}_c10`
+arms, not just L0 (`census/compensation_spectrum_sweep.py`). Per frozen
+layer: Pearson r at the frozen layer itself, +1, +2 downstream, and the
+mean r over "far" layers (|layer−frozen|>3).
+
+**Only L0 shows a real local dip** — r@frozen=0.609, recovering to 0.87 at
++1, 0.995 by +2, matching the earlier single-arm result exactly. **L1, L2,
+and L3 — despite showing real z>3 effective_dim deviations in the original
+eff_dim test — show essentially perfect spectrum-shape match even at the
+frozen layer itself** (r@frozen = 0.998, 0.999, 0.999). The modular bulk
+(L4-31) is indistinguishable from that: mean r@frozen = 0.9984, mean far-r
+= 0.9998.
+
+This sharpens rather than contradicts the eff_dim finding — it's a
+different, coarser instrument. Pearson r on the full spectrum curve is
+shape-only and tolerant of small proportional shifts; the z-score test is a
+fine-grained scalar comparison sensitive to exactly those shifts. Read
+together: **only L0 causes a real qualitative reshaping** (it's the one
+layer facing a genuinely different input distribution — evolved vs.
+frozen-random — not just a locally recalibrated one). L1-3's measured
+eff_dim shifts are real but small, proportional recalibrations that don't
+touch the spectrum's qualitative shape — consistent with L1-3 doing some
+real compensating work (the eff_dim test's job to catch) while the
+*recipe* stays intfact throughout (the spectrum test's job to catch). Two
+instruments, two different sensitivities, and the disagreement between
+them is itself informative rather than a contradiction to resolve away.
+
+Data: `census/compensation_spectrum_sweep_results.json`.
+
+### 2. Concept ablation — is any of this causally load-bearing? Mixed, not clean.
+
+`census/compensation_ablation.py`: fit the concept subspace (top-(C−1)
+orthonormal basis of centered per-class activation means — GEM's own method,
+preprint.md:696, concept identity controlled here instead of discovered) at
+each of layers 0-3, on a fit batch; project it out of a held-out test
+batch's activation at that layer; continue the SAME trained downstream
+weights; measure the accuracy drop.
+
+The pre-registered prediction (ablating L1-3 should hurt freeze_l0 *more*
+than baseline, if those layers took on real causal load) **did not hold in
+raw terms** — baseline is hurt more at every layer, L0 through L3:
+
+| layer | baseline drop | freeze_l0 drop | baseline frac. headroom lost | freeze_l0 frac. headroom lost |
+|---|---|---|---|---|
+| 0 | 0.734 | 0.416 | 92.1% | 78.5% |
+| 1 | 0.788 | 0.475 | 99.0% | 89.6% |
+| 2 | 0.793 | 0.515 | 99.5% | 97.2% |
+| 3 | 0.791 | 0.521 | 99.4% | 98.3% |
+
+("frac. headroom lost" = drop / (unablated_acc − chance); baseline's
+unablated accuracy is 0.896, freeze_l0's is 0.630 — a real scale confound
+for comparing raw drops directly, corrected for here.)
+
+**But there's a real, precisely-localized signature underneath the raw
+numbers**: freeze_l0 retains meaningfully more residual accuracy — loses a
+smaller *fraction* of its headroom — specifically at L0 and L1 (78.5%,
+89.6% lost) than baseline does (92.1%, 99.0% — baseline collapses to
+almost exactly chance by L1). That gap closes by L2-3, where both arms
+lose 97-99.5% of headroom — converging to the same "fully, non-redundantly
+reliant on this one linear subspace" pattern. **That localization — real
+effect at L0-1, gone by L2-3 — lines up with where the eff_dim test found
+disruption**, even though the *direction* of the original guess (freeze_l0
+more vulnerable) was backwards; what we actually find is freeze_l0 slightly
+*more redundant*, not less, right where the disruption happened.
+
+Two honest caveats, not swept under the rug:
+- This could reflect real extra redundancy in freeze_l0's early layers, or
+  it could mean the fixed (C−1)-dim *linear* class-mean-difference
+  construction is simply a worse description of "the concept" in a
+  messier, 63%-accurate classifier than in a clean 90%-accurate one — i.e.
+  the ablation might be under-measuring freeze_l0's true reliance rather
+  than freeze_l0 having a real backup pathway. The test as built can't
+  distinguish these from each other.
+- The raw-drop comparison is confounded by baseline and freeze_l0 having
+  very different unablated accuracy to begin with; the headroom-normalized
+  reading is the fairer one, but "fair" here still assumes headroom lost
+  is the right currency, which is itself an assumption.
+
+**Net**: this is not the clean causal confirmation the pre-registered
+prediction hoped for, and reporting it as one would overclaim. It's a
+real, localized, but directionally-surprising signal, with a live
+measurement-validity question still open about what it actually reflects.
+
+Data: `census/compensation_ablation_results.json`.
+
 Related: `../arc-whitebox-canary` FINDINGS-equivalent work is untouched by
 this; this is purely MZC + GEM + the Solitaire side investigation.
