@@ -364,5 +364,54 @@ not meaningfully shared/necessary) — now with a quantitative boundary
 
 Data: `census/compensation_procrustes_ksweep_results.json`.
 
+## The snowflake hypothesis, confirmed: same recipe, different crystal (2026-09-26)
+
+James's framing after the k-sweep: backprop wants one specific answer (the
+shared task-critical core) and reliably finds it; the rest isn't
+unstructured, it's *undirected* — real compression happens, but the loss
+doesn't care which specific directions carry it, so different training
+runs can build "the same kinds of structure" without needing to agree on
+*where*. That's a claim a rigid Procrustes rotation can't fully test: R
+has to align a whole k-dim block's mutual relationships simultaneously, so
+it can miss "same local structure recurs, different relative arrangement"
+even when real shared vocabulary exists between two nets.
+
+Split the claim in two and tested the half Procrustes can't reach: is the
+**eigenvalue spectrum's shape** — variance per rank, independent of which
+direction carries it — shared, even where the directions (per the k-sweep)
+aren't? `census/compensation_spectrum_compare.py`: full sorted, sum-
+normalized spectrum per net per layer, no pairwise fitting at all (no
+rotation, no fit/test split — this only asks "how much," not "which
+direction"), averaged per arm, compared baseline vs freeze_l0 via Pearson
+r on the curve itself.
+
+| layer | Pearson r |
+|---|---|
+| 0 (frozen) | 0.609 |
+| 1 | 0.871 |
+| 2 | 0.995 |
+| 3–31 (every layer) | **0.997–0.999** |
+
+**Confirmed, cleanly, at every single deep layer.** The recipe — how much
+variance sits at each rank — is shared almost perfectly (r>0.997,
+uniformly, L3 through L31), at exactly the same layers where the k-sweep
+found the *directions* stop being shared past k≈20-50. Bonus: the curves
+themselves (e.g. L16, ranks 0-14: baseline `[.163,.141,.124,.110,.096,
+.087,.078,.067,.055,.037, .003,.003,.003,.002,.002]`, freeze_l0 near-
+identical) show a visible cliff right at rank 9-10 — matching C−1=9 exactly
+— even this deep in the network, 15+ layers past where the task-label
+subspace was originally carved out at L0.
+
+**The snowflake picture holds precisely as James put it**: same structures
+(the spectrum — how much to compress, at what scale, in what proportion —
+is essentially deterministic given this architecture and task), different
+location (which of the 256 ambient directions each rank's variance
+actually lives in is net-specific, not shared, past the small task-critical
+core). Backprop is directed toward exactly one thing — the shape of the
+solution — and undirected about where in coordinate space to put the rest
+of it.
+
+Data: `census/compensation_spectrum_compare_results.json`.
+
 Related: `../arc-whitebox-canary` FINDINGS-equivalent work is untouched by
 this; this is purely MZC + GEM + the Solitaire side investigation.

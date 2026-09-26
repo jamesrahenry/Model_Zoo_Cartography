@@ -249,11 +249,28 @@ a small task-critical core sits inside a much larger, mostly private/
 idiosyncratic active representation. Activation-space echo of F7's
 weight-space claim (measured "structure" that isn't functionally
 load-bearing), now with a quantitative boundary instead of a qualitative
-one. Full methodology and tables:
+one.
+
+**The snowflake resolution (2026-09-26):** the private ~100+ dimensions
+aren't unstructured, they're *undirected* — split "is it shared" into
+*shape* (variance per rank, independent of which direction carries it) vs.
+*location* (which of the 256 ambient directions realizes each rank). The
+eigenvalue spectrum's shape matches almost perfectly at every deep layer
+(Pearson r = 0.997–0.999, L3 through L31, `census/compensation_spectrum_compare.py`)
+— exactly where the k-sweep found the *directions* stop being shared past
+k≈20-50. A rigid Procrustes rotation requires a whole block's directions to
+align simultaneously and so can miss "the same kind of structure recurs,
+just not in the same place"; comparing the spectrum curve directly (no
+rotation, no pairwise fitting at all) tests that half of the claim
+directly. Backprop is directed toward exactly one thing — the shape of
+the solution, essentially deterministic given architecture and task — and
+undirected about where in coordinate space the rest of it lives. Full
+methodology and tables:
 `notes/2026-09-22_distributed-compensatory-structure-gem-solitaire.md`.
 *Instruments: `census/directional_consistency.py`,
 `census/eigenspace_overlap.py`, `census/procrustes_overlap.py`,
-`census/compensation_procrustes.py`, `census/compensation_procrustes_ksweep.py`;
+`census/compensation_procrustes.py`, `census/compensation_procrustes_ksweep.py`,
+`census/compensation_spectrum_compare.py`;
 notes:
 `notes/2026-08-13_mzc-eigenspace-overlap-reply.md`.*
 
