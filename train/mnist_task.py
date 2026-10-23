@@ -76,13 +76,12 @@ def _load_hf(dataset: str):
 
 def make_mnist_task(dim: int = 256, seed: int = 0,
                     dataset: str = "mnist") -> MNISTTask:
-    from torchvision.datasets import MNIST, FashionMNIST  # deferred import
-
     import os
     if os.environ.get("MZC_DATA_FROM_HF") == "1":
         xtr, ytr, xte, yte = _load_hf(dataset)
     else:
         try:
+            from torchvision.datasets import MNIST, FashionMNIST  # deferred import
             cls = {"mnist": MNIST, "fashion": FashionMNIST}[dataset]
             root = str(DATA_ROOT.parent / dataset)
             train = cls(root, train=True, download=True)
