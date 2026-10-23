@@ -59,18 +59,41 @@ class MNISTTask:
                     "Gaussian projection + ZCA); non-Gaussian marginals"}
 
 
+def _load_hf(dataset: str):
+    """Same arrays as torchvision, from the public HF parquet mirrors (ylecun/mnist, zalando-datasets/fashion_mnist)."""
+    import io
+    import pyarrow.parquet as pq
+    from huggingface_hub import hf_hub_download
+    from PIL import Image
+    repo, d = {"mnist": ("ylecun/mnist", "mnist"), "fashion": ("zalando-datasets/fashion_mnist", "fashion_mnist")}[dataset]
+    out = []
+    for split in ("train", "test"):
+        t = pq.read_table(hf_hub_download(repo, f"{d}/{split}-00000-of-00001.parquet", repo_type="dataset")).to_pydict()
+        x = np.stack([np.array(Image.open(io.BytesIO(im["bytes"])), dtype=np.uint8).reshape(-1) for im in t["image"]])
+        out += [x.astype(np.float64) / 255.0, np.asarray(t["label"], dtype=np.int64)]
+    return out[0], out[1], out[2], out[3]
+
+
 def make_mnist_task(dim: int = 256, seed: int = 0,
                     dataset: str = "mnist") -> MNISTTask:
     from torchvision.datasets import MNIST, FashionMNIST  # deferred import
 
-    cls = {"mnist": MNIST, "fashion": FashionMNIST}[dataset]
-    root = str(DATA_ROOT.parent / dataset)
-    train = cls(root, train=True, download=True)
-    test = cls(root, train=False, download=True)
-    xtr = train.data.numpy().reshape(-1, 784).astype(np.float64) / 255.0
-    ytr = train.targets.numpy().astype(np.int64)
-    xte = test.data.numpy().reshape(-1, 784).astype(np.float64) / 255.0
-    yte = test.targets.numpy().astype(np.int64)
+    import os
+    if os.environ.get("MZC_DATA_FROM_HF") == "1":
+        xtr, ytr, xte, yte = _load_hf(dataset)
+    else:
+        try:
+            cls = {"mnist": MNIST, "fashion": FashionMNIST}[dataset]
+            root = str(DATA_ROOT.parent / dataset)
+            train = cls(root, train=True, download=True)
+            test = cls(root, train=False, download=True)
+            xtr = train.data.numpy().reshape(-1, 784).astype(np.float64) / 255.0
+            ytr = train.targets.numpy().astype(np.int64)
+            xte = test.data.numpy().reshape(-1, 784).astype(np.float64) / 255.0
+            yte = test.targets.numpy().astype(np.int64)
+        except Exception as e:  # no torchvision mirror access (e.g. a pod limited to HF/GitHub)
+            print(f"torchvision load failed ({type(e).__name__}); using the Hugging Face parquet mirror", flush=True)
+            xtr, ytr, xte, yte = _load_hf(dataset)
 
     rng = np.random.default_rng(seed)
     P = rng.standard_normal((784, dim)) / np.sqrt(784)

@@ -13,13 +13,15 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
 sys.path.insert(0, str(HERE))
 ap = argparse.ArgumentParser()
-ap.add_argument("--wd", type=float, required=True); ap.add_argument("--classes", type=int, nargs="+", required=True)
+ap.add_argument("--wd", type=float, nargs="+", required=True); ap.add_argument("--classes", type=int, nargs="+", default=[10])
+ap.add_argument("--task", default="gmm", choices=["gmm", "mnist", "fashion"]); ap.add_argument("--lr", type=float, default=3e-4)
 ap.add_argument("--seeds", type=int, nargs="+", required=True); ap.add_argument("--out", required=True)
 ap.add_argument("--weights-out"); ap.add_argument("--resume")
 ap.add_argument("--width", type=int, default=1024); ap.add_argument("--depth", type=int, default=16)
 ap.add_argument("--steps", type=int, default=20000); ap.add_argument("--truth-n", type=int, default=4_000_000)
 a = ap.parse_args()
-tag = ("%g" % a.wd).replace(".", "p").replace("-", "m")
+tg = lambda v: ("%g" % v).replace(".", "p").replace("-", "m").replace("+", "")
+DEFAULT = (a.task == "gmm" and a.width == 1024 and a.depth == 16 and a.lr == 3e-4 and a.steps == 20000)
 out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
 if a.resume and Path(a.resume).is_dir():
     src = Path(a.resume)
@@ -28,16 +30,17 @@ if a.resume and Path(a.resume).is_dir():
             dst = out / f.relative_to(src); dst.parent.mkdir(parents=True, exist_ok=True)
             if not dst.exists(): shutil.copy2(f, dst)
 from analyze_net import analyze
-for C in a.classes:
-    run_id = f"grid_wd{tag}_c{C}"
+for wd_, C in [(w, c) for w in a.wd for c in a.classes]:
+    run_id = (f"grid_wd{tg(wd_)}_c{C}" if DEFAULT else
+              f"grid_{a.task}_w{a.width}d{a.depth}_lr{tg(a.lr)}_s{a.steps}_wd{tg(wd_)}_c{C}")
     cell = out / run_id; cell.mkdir(parents=True, exist_ok=True)
     todo = [s for s in a.seeds if not (cell / f"net_{s:04d}.json").exists()]
     if not todo:
         print(f"[{run_id}] complete, skipping", flush=True); continue
     t0 = time.time()
-    cmd = [sys.executable, "-u", str(REPO / "train" / "train_mlp_batched.py"), "--run-id", run_id, "--task", "gmm",
-           "--width", str(a.width), "--depth", str(a.depth), "--classes", str(C), "--weight-decay", str(a.wd),
-           "--separation", "3.0", "--seeds", *map(str, todo), "--steps", str(a.steps), "--lr", "3e-4",
+    cmd = [sys.executable, "-u", str(REPO / "train" / "train_mlp_batched.py"), "--run-id", run_id, "--task", a.task,
+           "--width", str(a.width), "--depth", str(a.depth), "--classes", str(C), "--weight-decay", str(wd_),
+           "--separation", "3.0", "--seeds", *map(str, todo), "--steps", str(a.steps), "--lr", str(a.lr),
            "--eval-every", str(max(1, a.steps // 5))]
     print(f"[{run_id}] training {len(todo)} nets: {' '.join(cmd[2:])}", flush=True)
     subprocess.run(cmd, check=True, cwd=str(REPO))

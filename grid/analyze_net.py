@@ -13,6 +13,7 @@ import torch
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "train"))
 from gmm_task import make_gmm_task
 
+_TASKS = {}
 KS_ALL = [0, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
 
 
@@ -44,10 +45,17 @@ def analyze(npz, prov_path, dev="cuda", truth_n=4_000_000, val_n=20000):
     torch.backends.cuda.matmul.allow_tf32 = False
     prov = json.load(open(prov_path)); tr = prov["training"]
     W, W0, head, D = _load(npz, dev); width = W[0].shape[0]
-    C = prov["task"]["n_classes"]
-    task = make_gmm_task(dim=width, n_classes=C, separation=prov["task"]["separation"], seed=prov["task"]["task_seed"])
+    C = prov["task"]["n_classes"]; fam = prov["task"]["family"]
     val_seed = tr.get("val_seed", tr.get("data_seed", 0) + 500_000)
-    x, y = task.sample(val_n, np.random.default_rng(val_seed))
+    if fam == "gmm":
+        task = make_gmm_task(dim=width, n_classes=C, separation=prov["task"]["separation"], seed=prov["task"]["task_seed"])
+        x, y = task.sample(val_n, np.random.default_rng(val_seed))
+    else:                                              # whitened MNIST / Fashion-MNIST (validation = held-out test split)
+        from mnist_task import make_mnist_task
+        key = (fam, width, prov["task"]["projection_seed"])
+        if key not in _TASKS: _TASKS[key] = make_mnist_task(dim=width, seed=key[2], dataset=fam.split("_")[0])
+        task = _TASKS[key]
+        x, y = task.sample_val(val_n, np.random.default_rng(val_seed))
     x = torch.tensor(x, device=dev); y = torch.tensor(y, device=dev)
 
     # --- decomposition (float64)
@@ -105,7 +113,9 @@ def analyze(npz, prov_path, dev="cuda", truth_n=4_000_000, val_n=20000):
            for kind in ("aligned_rerand", "aligned_zero", "random_rerand")}
 
     mean, se2 = mc_truth(W, truth_n, seed=7, dev=dev)
-    return dict(run_id=prov["run_id"], net=prov["net"], C=C, wd=prov["training"]["weight_decay"],
+    wd_, lr_, st_ = tr["weight_decay"], tr["lr"], tr["steps"]
+    return dict(run_id=prov["run_id"], net=prov["net"], C=C, wd=wd_, lr=lr_, steps=st_, task=fam,
+                pred_alpha=float(np.exp(-lr_ * wd_ * max(st_ - 250, 0))),
                 outcome=prov["outcome"], final_val_acc=prov["final_val_acc"], bayes=prov["task"]["bayes_accuracy"],
-                chance=1.0 / C, width=width, depth=D, val_n=val_n, truth_n=truth_n, decomposition=dec,
+                chance=1.0 / C, width=width, depth=D, truth_n=truth_n, val_n=len(y), decomposition=dec,
                 ablation=abl, split=split, slice=slc), mean, se2
