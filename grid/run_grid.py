@@ -16,7 +16,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--wd", type=float, nargs="+", required=True); ap.add_argument("--classes", type=int, nargs="+", default=[10])
 ap.add_argument("--task", default="gmm", choices=["gmm", "mnist", "fashion"]); ap.add_argument("--lr", type=float, default=3e-4)
 ap.add_argument("--seeds", type=int, nargs="+", required=True); ap.add_argument("--out", required=True)
-ap.add_argument("--weights-out"); ap.add_argument("--resume")
+ap.add_argument("--weights-out"); ap.add_argument("--weights-all", action="store_true", help="save every net's weights (default: first seed per cell)"); ap.add_argument("--resume")
 ap.add_argument("--width", type=int, default=1024); ap.add_argument("--depth", type=int, default=16)
 ap.add_argument("--steps", type=int, default=20000); ap.add_argument("--truth-n", type=int, default=4_000_000)
 a = ap.parse_args()
@@ -52,7 +52,7 @@ for wd_, C in [(w, c) for w in a.wd for c in a.classes]:
         res, mean, se2 = analyze(npz, js, truth_n=a.truth_n)
         np.savez(cell / f"net_{s:04d}_truth.npz", mean=mean.astype(np.float32), se2=se2.astype(np.float32), N=a.truth_n)
         (cell / f"net_{s:04d}.json").write_text(json.dumps(res))        # written last: marks the net complete
-        if a.weights_out and s == a.seeds[0]:
+        if a.weights_out and (a.weights_all or s == a.seeds[0]):
             wd = Path(a.weights_out) / run_id; wd.mkdir(parents=True, exist_ok=True)
             z = np.load(npz)
             np.savez(wd / f"net_{s:04d}.npz", head_w=z["head_w"], **{f"w{l}": z[f"w{l}"] for l in range(a.depth)})
