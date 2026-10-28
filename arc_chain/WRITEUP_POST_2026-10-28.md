@@ -1,6 +1,6 @@
 # [Phase 2 write-up] What the cumulant chain does on trained weights: a preregistered study of ~570 trained 1024 × 16 nets (submission #331937)
 
-*Written: 2026-10-28 19:10 UTC. Forum post text, paste as-is. One placeholder remains: `[LINK: estimator release]`.*
+*Written: 2026-10-28 18:45 UTC, figures added 18:55 UTC. Forum post text, paste as-is. One placeholder remains: `[LINK: estimator release]`. Figures are in `phase2/figures/writeup_2026-10-28/` (and `arc_chain/figures/` in the public MZC repo); upload each PNG where its `[Figure n]` line sits.*
 
 Submission ID: #331937 (jamesrahenry; adjusted 7.04e-9, final-layer MSE 2.18e-8 at 32.3 % of budget, 0/100 failures; regraded unchanged under flopscope 0.12.3 as #337164). The estimator is not the contribution of this write-up, and we say so in the first section. Everything else here is about what that estimator does when the weights are not random.
 
@@ -41,11 +41,17 @@ After the board's method space had closed, we turned the estimator around. The c
 
 Pilot (45 trained nets, 14 paired inits, chain unchanged): on the 14 He initialisations the final-layer MSE is 2.1e-8, the error share along the prediction direction 0.012, held-out coherent share ≈ 0 from layer 8 on. On 30 nets trained with weight decay 0.3 the final-layer MSE is 8.6e-3, 0.89 of it along the prediction, held-out coherent share 0.88. The error is a same-signed multiplicative shortfall, truth ≈ 1.09–1.16 × prediction at the output, tight within a task family. A per-layer scale-and-shift fitted on the *other* task families cuts a held-out family's last-layer MSE to 0.07–0.27 ×. Grid 4 (72 fresh nets, every cell finite) reproduces it: 7 of 9 cells have coherent share 0.52–0.92; the two exceptions are the undecayed nets trained 20 000 and 60 000 steps (0.006 and 0.16; table in §4.3).
 
+[Figure 1: `fig1_scatter_layer15.png`]
+*Figure 1. Per-neuron layer-15 mean activation, Monte Carlo truth against the frozen chain's prediction, for a He-Gaussian initialisation, a trained undecayed net and a trained decayed net (same task and training length); the dashed line is the fitted slope. Right: relative error by layer, median and range over 8 nets per cell. On the decayed net the error is a same-signed shortfall along the prediction; on the undecayed net a cloud about the diagonal; on the initialisation it is invisible at this scale.*
+
 This is the same object as the "errors along the mean barely fade" clause of megan_park's survival law (18282, confirmed by dogus_ozel 18281 and AndreasHad04 18292). On random weights that direction carries ~1 % of the chain's error (our 10-20 measurement on 24 public nets: prediction-aligned share 0.011 at layer 15, held-out coherent share 0.000). On trained weights it carries nearly all of it.
 
 ### 4.2 How much of a trained net is still its initialisation
 
 The init survives at amplitude α = exp(−lr·wd·(t − 250)): grid 2, Q1, 108 of 108 nets with decay within 0.03 of the closed form (max error 0.019), 54 of 54 undecayed nets at α ≥ 0.97, across widths 512 and 1024, depths 8, 16 and 24, GMM, MNIST and Fashion-MNIST. The update Δ is low-rank (participation ratio 8–29, about half its energy in the top 8 directions per layer). At wd 0.3 the random part still holds 0.60–0.67 of the weight energy in the middle layers; at wd 0, 0.91. So a closure that treats the weights as random can be mostly right in energy and still wrong coherently: the update sits in the signal directions.
+
+[Figure 2: `fig3_alpha_closed_form.png`]
+*Figure 2. Surviving init amplitude α measured at layer 8 against exp(−lr·wd·(steps − 250)), 444 nets from grids 1–3 (widths 512/1024, depths 8/16/24, GMM/MNIST/Fashion-MNIST). Grid 2's Q1 preregistered this to within 0.03; the worst net is 0.019 off.*
 
 ### 4.3 What the chain's coherence tracks: decay, not update size
 
@@ -59,11 +65,17 @@ For **the chain's coherence** the order reverses. Grid 4 (same nine cells, fresh
 | 20 000 | 0.006 (ρ 0.29) | 0.68 (ρ 0.32) | 0.92 (ρ 0.66) |
 | 60 000 | 0.16 (ρ 0.36) | 0.52 (ρ 0.39) | 0.88 (ρ 0.65) |
 
+[Figure 3: `fig2_two_variables.png`]
+*Figure 3. The same nine (training length, α) cells read two ways. Left: how much of the function survives re-randomising the remnant (grid 3), which orders by ρ. Right: how coherent the chain's error is (grid 4, fresh seeds), which orders by α. The one cell that breaks both patterns is short undecayed training (top left).*
+
 Cell entries: held-out coherent share at layer 15 (8 nets per cell, bootstrap CIs ±0.01–0.06). K1: Spearman(share, −ln α) 0.85 vs Spearman(share, ρ) 0.37. K3: every α ≈ 0.17 cell ≥ 0.83. K2 failed on the bold cell. Per-cell slopes a run from −0.07 (3 000 / wd 0) to −0.14 (20 000 / wd 0.3): the shortfall grows with decay. Reading, kept to what this shows: the function's dependence on its random draw and the chain's coherent error are governed by different variables, which is why we found no per-net relationship between them earlier (18 nets, |ρ| ≤ 0.49, n.s.). We do not have the law for the undecayed short-training cell.
 
 ### 4.4 The load-bearing part of the random remnant is small, but nothing is inert at the chain's resolution
 
 Keeping only the slice of α·W0 that touches the rank-k input/output subspaces of the net's own Δ, and re-randomising the rest, restores ≥ 95 % of accuracy at k = 16–64 directions per layer (grid 1, median k_crit 16 / 16 / 64 / 128 for C = 5 / 10 / 25 / 50, Spearman with C 0.92); a random subspace of the same rank needs 4–32 × more in every grid 2 row that passed, and 2.7 × on Fashion-MNIST, the row that did not. That is accuracy. In ARC's currency (I3: ε = relative squared error of the rebuilt net's final-layer mean against the original, on N(0, I) inputs, compared with the chain's own relative error on the same net), 97 % of dependent nets lose more at their 95 %-accuracy rank than the chain's error; fidelity needs a median 64 × the rank accuracy does; and in the high-decay nets whose remnant is "inert" by accuracy (re-randomising costs ≤ 0.014), replacing the remnant costs ε = 0.68 against a chain error of 0.0135, so 100 % of them fail the inertness test, though k = 16 aligned directions bring ε to 0.0031.
+
+[Figure 4: `fig4_slice_vs_fidelity.png`]
+*Figure 4. (a) Task accuracy against the number of remnant directions per layer kept, for the slice aligned with the net's own update and for a random subspace of the same rank (grid 2, 52 draw-dependent nets, median and IQR). (b) The same kind of curve in ARC's currency: relative squared error ε of the rebuilt net's layer-15 mean, for the init-based slice and the two weights-only extractors, against the chain's own error on these nets (I3, 58 nets, medians). Accuracy is restored at k ≈ 16; the chain's error level is not reached before k = 1024 by any method.*
 
 ### 4.5 Trained structure is not recoverable from the weights alone, at this resolution
 
