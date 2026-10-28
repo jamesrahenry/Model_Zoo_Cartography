@@ -1,0 +1,52 @@
+{
+ "n_nets": 137,
+ "P": {
+  "P1": {
+   "frac_within_0p03": 0.8503649635036497,
+   "n_pairs": 2192,
+   "max_err": 0.7344055500669981,
+   "passed": false
+  },
+  "P2": {
+   "n": 11,
+   "success_rate": 0.18181818181818182,
+   "evaluable": true,
+   "passed": false
+  },
+  "P3": {
+   "n": 43,
+   "success_rate": 0.0,
+   "evaluable": true,
+   "passed": true
+  },
+  "P4": {
+   "n": 64,
+   "spearman": 0.26100451661895746,
+   "evaluable": true,
+   "passed": false
+  },
+  "P5": {
+   "n": 3,
+   "median_k_free": 16.0,
+   "median_k_random": 1024.0,
+   "evaluable": false,
+   "passed": false
+  }
+ },
+ "n_dependent": 64,
+ "by_alpha_group": {
+  "alpha<=0.6": {
+   "n": 11,
+   "success": 0.18181818181818182
+  },
+  "0.6<alpha<0.95": {
+   "n": 10,
+   "success": 0.1
+  },
+  "alpha>=0.95": {
+   "n": 43,
+   "success": 0.0
+  }
+ },
+ "post_hoc_notes": "P1 by layer: layer 0 median error 0.111 (25% within 0.03), layer 1 72%, layers 2-15 85-93% within 0.03 (excluding layers 0-1 the 90% bar is roughly met; post hoc, NOT the preregistered verdict). P2 detail: the 11 decayed dependent nets need k_free = 64 (8 nets) or 16 (2 nets) vs k_init = 16; k=64 restores >= 0.95 x full accuracy, i.e. extraction works at ~4x the init-based minimal rank, failing the preregistered max(2*k_init,32)=32 criterion. Undecayed dependent nets (43): k_free median 256-512 vs k_init 16-32 despite r_hat 6-12 outliers; outlier count does not predict extraction (P4 rho 0.26)."
+}

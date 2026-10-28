@@ -1,0 +1,39 @@
+{
+ "P1": {
+  "n": 51,
+  "frac_S_ge_0p156": 0.9215686274509803,
+  "max_S_init": 0.01596486959606409,
+  "passed": true
+ },
+ "P2": {
+  "n_hi": 11,
+  "median_capture_hi": 0.4467095136642456,
+  "n_lo": 38,
+  "median_capture_lo": 0.7732497453689575,
+  "evaluable": true,
+  "passed": false
+ },
+ "P3": {
+  "n_lo": 11,
+  "rate_lo": 0.0,
+  "n_hi": 43,
+  "rate_hi": 0.0,
+  "evaluable": true,
+  "passed": false
+ },
+ "P4": {
+  "rate_I2": 0.0,
+  "rate_I1": 0.046875,
+  "difference": -0.046875,
+  "n": 64,
+  "passed": false
+ },
+ "P5": {
+  "n": 0,
+  "median_k_q": null,
+  "median_k_rnd": null,
+  "evaluable": false,
+  "passed": false
+ },
+ "note": "Detection works (P1: 92% of 51 corpus nets have chain score S >= 10x chance; their inits <= 0.016). Recovery of the shared subspace is partial (P2: median capture 0.45 undecayed n=11, 0.77 decayed n=38). Function-preserving extraction from weights alone fails (P3 0/54, P4 -0.05 vs I1; P5 not evaluable). One simple estimator tested (top-16 singular subspaces per layer, projector-sum eigenspace); others untested. Crash note: first full run died at the first 512-wide net (hard-coded width) and was rerun after making the script width-generic; no result was seen before the fix."
+}

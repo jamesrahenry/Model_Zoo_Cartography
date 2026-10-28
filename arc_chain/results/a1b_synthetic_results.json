@@ -1,0 +1,54 @@
+{
+ "settings": {
+  "S0": {
+   "n": 3,
+   "nonfinite": 0,
+   "rel_err_L15": 2.6025925472937223e-08,
+   "slope_a_L15": -2.734892450252807e-05,
+   "loo_coherent_L15": 0.002478561800540402
+  },
+  "S1": {
+   "n": 3,
+   "nonfinite": 0,
+   "rel_err_L15": 5.054124365681312e-05,
+   "slope_a_L15": 0.003953993975329438,
+   "loo_coherent_L15": 0.700409407507181
+  },
+  "S2": {
+   "n": 3,
+   "nonfinite": 0,
+   "rel_err_L15": 5.588865776039397e-06,
+   "slope_a_L15": 0.00013343169255912316,
+   "loo_coherent_L15": -0.0016353136409068547
+  },
+  "S3": {
+   "n": 3,
+   "nonfinite": 0,
+   "rel_err_L15": 1.1208006620341875e-05,
+   "slope_a_L15": 0.001671371835379873,
+   "loo_coherent_L15": 0.7393089369701036
+  },
+  "S4": {
+   "n": 3,
+   "nonfinite": 0,
+   "rel_err_L15": 0.0003369493124838018,
+   "slope_a_L15": 0.012787994679394562,
+   "loo_coherent_L15": 0.18153197278834732
+  },
+  "S5": {
+   "n": 3,
+   "nonfinite": 0,
+   "rel_err_L15": 2.2482719735297683e-05,
+   "slope_a_L15": 0.0014712444216603178,
+   "loo_coherent_L15": 0.11814011626127108
+  }
+ },
+ "verdict": {
+  "P1": false,
+  "P2": false,
+  "P3": false,
+  "P4_direction": "decreasing in r"
+ },
+ "gated_out": [],
+ "note": "P3 ratio detail: S2/S1 relative error = 0.111 (threshold <= 0.1); S2 coherent share -0.002 (< 0.3 ok). P2 detail: S1 coherent share 0.70 ok, slope a +0.004 outside [-0.20,-0.05]."
+}

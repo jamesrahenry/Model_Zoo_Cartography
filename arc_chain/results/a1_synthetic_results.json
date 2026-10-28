@@ -1,0 +1,41 @@
+{
+ "settings": {
+  "S0": {
+   "n": 3,
+   "nonfinite": 0,
+   "rel_err_L15": 1.9183645662244135e-08,
+   "slope_a_L15": -1.6023656966977383e-05,
+   "loo_coherent_L15": 0.009646761377874569
+  },
+  "S1": {
+   "n": 0,
+   "nonfinite": 3
+  },
+  "S2": {
+   "n": 0,
+   "nonfinite": 3
+  },
+  "S3": {
+   "n": 1,
+   "nonfinite": 2,
+   "rel_err_L15": 1454979966.6584568,
+   "slope_a_L15": 0.999999668313931,
+   "loo_coherent_L15": null
+  },
+  "S4": {
+   "n": 0,
+   "nonfinite": 3
+  },
+  "S5": {
+   "n": 0,
+   "nonfinite": 3
+  }
+ },
+ "verdict": {
+  "P1": false,
+  "P2": false,
+  "P3": false,
+  "P4_direction": "incomplete"
+ },
+ "status": "A1 INCONCLUSIVE: chain non-finite on 14/15 nets with an update; synthetic nets' activations collapse with depth (see A1b_PREREG); P1-P3 not evaluable"
+}
