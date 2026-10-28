@@ -16,6 +16,7 @@ def fig(m):
     return f"![{cap}]({os.path.join(figdir, fn)}){{width={w}}}\n"
 src = re.sub(r"^\[Figure (\d): `([^`]+)`\]\n\*(.*?)\*\n", fig, src, flags=re.M | re.S)
 src = src.replace("`[LINK: estimator release]`", "[LINK: estimator release]")
+src = src.replace("https://github.com/jamesrahenry/Model_Zoo_Cartography (MIT", "[the Model Zoo Cartography repository](https://github.com/jamesrahenry/Model_Zoo_Cartography) (MIT")
 src = src.replace("| id | prediction | result |\n|---|---|---|", "| id | prediction | result |\n|:--------|:----------------------|:----------------------------------------------------|")
 src = src.replace("| file | commit | sha256 (prefix) | written (UTC) |\n|---|---|---|---|", "| file | commit | sha256 (prefix) | written (UTC) |\n|:----------------------|:--------------|:------------------------|:----------------------|")
 hdr = r"""
