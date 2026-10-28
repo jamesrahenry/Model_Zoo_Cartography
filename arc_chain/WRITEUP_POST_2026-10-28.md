@@ -1,6 +1,6 @@
 # [Phase 2 write-up] After random MLPs, trained ones: what structure training leaves in a 1024 × 16 net, seen through the cumulant chain (submission #331937)
 
-*Written: 2026-10-28 20:25 UTC (third cut: results only, forum voice). Paste as-is. One placeholder remains: `[LINK: estimator release]`. Figures are in `phase2/figures/writeup_2026-10-28/` and in `arc_chain/figures/` of the public MZC repo; upload each PNG where its `[Figure n]` line sits.*
+*Written: 2026-10-28 20:05 UTC (third cut: results only, forum voice). Paste as-is. One placeholder remains: `[LINK: estimator release]`. Figures are in `phase2/figures/writeup_2026-10-28/` and in `arc_chain/figures/` of the public MZC repo; upload each PNG where its `[Figure n]` line sits.*
 
 Submission #331937 (jamesrahenry): adjusted 7.04e-9, final-layer MSE 2.18e-8 at 32 % of budget, 0/100 failures, regraded bit-identical under flopscope 0.12.3 as #337164. It is a clean-room port of ARC's factorized K=3 chain, built from the paper and the reference code without reading any participant's estimator. It reached the V18 band and nothing in it is new. Release and the list of levers we tried and closed: `[LINK: estimator release]`. This post is about what we did with it afterwards.
 
