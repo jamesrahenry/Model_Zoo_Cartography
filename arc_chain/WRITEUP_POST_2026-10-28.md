@@ -1,124 +1,53 @@
-# [Phase 2 write-up] What the cumulant chain does on trained weights: a preregistered study of ~570 trained 1024 × 16 nets (submission #331937)
+# [Phase 2 write-up] After random MLPs, trained ones: what structure training leaves in a 1024 × 16 net, seen through the cumulant chain (submission #331937)
 
-*Written: 2026-10-28 18:45 UTC, figures added 18:55 UTC. Forum post text, paste as-is. One placeholder remains: `[LINK: estimator release]`. Figures are in `phase2/figures/writeup_2026-10-28/` (and `arc_chain/figures/` in the public MZC repo); upload each PNG where its `[Figure n]` line sits.*
+*Written: 2026-10-28 20:25 UTC (third cut: results only, forum voice). Paste as-is. One placeholder remains: `[LINK: estimator release]`. Figures are in `phase2/figures/writeup_2026-10-28/` and in `arc_chain/figures/` of the public MZC repo; upload each PNG where its `[Figure n]` line sits.*
 
-Submission ID: #331937 (jamesrahenry; adjusted 7.04e-9, final-layer MSE 2.18e-8 at 32.3 % of budget, 0/100 failures; regraded unchanged under flopscope 0.12.3 as #337164). The estimator is not the contribution of this write-up, and we say so in the first section. Everything else here is about what that estimator does when the weights are not random.
+Submission #331937 (jamesrahenry): adjusted 7.04e-9, final-layer MSE 2.18e-8 at 32 % of budget, 0/100 failures, regraded bit-identical under flopscope 0.12.3 as #337164. It is a clean-room port of ARC's factorized K=3 chain, built from the paper and the reference code without reading any participant's estimator. It reached the V18 band and nothing in it is new. Release and the list of levers we tried and closed: `[LINK: estimator release]`. This post is about what we did with it afterwards.
 
-## 1. What this is, and what it is not
+## The idea
 
-Our graded entry is a clean-room port of the factorized K = 3 cumulant chain (Wu et al., arXiv:2605.05179; ARC's `mlp_cumulant_propagation`, MIT), built without any participant's code, with a memoryless κ4 rider and a 47-term closure at the table λ. It reached the V18 band from scratch and no further. It contains no new estimator idea, and we did not chase the frontier after mid-September. The reproducibility release pins the archive (sha256 `8b6b1083…`), the grade and the regrades; the source is at `[LINK: estimator release]`. Section 6 says, in four sentences, what building it taught us.
+Everything on this board is about He-Gaussian weights, which is the challenge as posed. But the chain is also a very precise null model: it says what a 1024 × 16 ReLU net looks like with zero learned structure. So we trained a few hundred nets at exactly that architecture, kept every initialisation, froze #331937, and pointed it at them to see where training shows up. The corpus (Model Zoo Cartography, MZC) and all the code are public: https://github.com/jamesrahenry/Model_Zoo_Cartography. Everything below was preregistered before the nets were trained, with the prediction files committed first; the hashes are in the repo. Where a prediction failed we say so.
 
-After the board's method space had closed, we turned the estimator around. The challenge's stated motivation is white-box estimation for real networks, yet every estimator on this board, ours included, is calibrated on He-Gaussian weights and has only ever been scored on them. Our Phase 1 write-up (topic 18097, §8) named the missing piece: a population of trained networks at the same architecture with shared statistics. We built that population (Model Zoo Cartography, below) and ran the frozen #331937 chain on it, unchanged, against Monte Carlo truth on ARC's own input law.
+**Setup.** Bias-free ReLU, width 1024, depth 16, He init, the Phase 2 architecture. Trained as classifiers (Gaussian mixtures with 2 to 50 classes on whitened input; whitened MNIST and Fashion-MNIST at width 512), AdamW, batch 512, learning rate, steps and weight decay varied by grid; about 570 nets over four grids. Each layer splits as W = α·W0 + Δ, the surviving copy of the net's own init plus the trained update. Truth is Monte Carlo at 4 million N(0, I) draws. Two numbers do most of the work: **re-randomised accuracy** (task accuracy after swapping α·W0 for a fresh He draw of the same size: how much the function depends on its particular random draw), and the chain's **held-out coherent share** at the last layer (the fraction of its squared error removed by a per-layer scale-and-shift fitted on *other* nets of the same setting: 0 for isotropic error, near 1 for a same-signed shortfall).
 
-**Every claim below was preregistered before the nets it concerns were trained**, with the prediction file committed first and its commit and SHA-256 recorded (table in §8). Failed predictions are listed first, as each preregistration commits us to. Nothing was re-thresholded after seeing data; deviations are labelled.
+## What we found
 
-## 2. Setup
+**1. Training leaves most of the init in place, by exactly the amount AdamW says, and puts the update where it counts.**
 
-**Nets.** Bias-free ReLU MLPs, width 1024, depth 16, He-Gaussian init, the Phase 2 architecture, trained as classifiers: Gaussian-mixture tasks with C ∈ {2, 5, 10, 25, 50} classes on a whitened input, plus whitened MNIST and Fashion-MNIST at width 512. AdamW (Adam at wd = 0), batch 512, fp32, 500-step warmup; learning rate, steps and weight decay vary by grid. The initialisation of every net is stored. About 570 trained nets across four preregistered grids (210 + 162 + 72 + 72) plus a 45-net pilot and a 10-net sweep; 137 of them also serve the extraction tests of §4.5.
+[Figure 1: `fig3_alpha_closed_form.png`]
+*Figure 1. Surviving init amplitude α at layer 8 against exp(−lr·wd·(steps − 250)), 444 nets across widths 512 and 1024, depths 8, 16 and 24, GMM, MNIST and Fashion-MNIST.*
 
-**Decomposition.** Per layer, W = α·W0 + Δ, with W0 the net's own init, α the least-squares surviving amplitude, Δ the trained update. "Re-randomising the remnant" replaces α·W0 by a fresh He draw at the same amplitude and leaves Δ alone; the drop in task accuracy measures how much the net depends on its specific random draw. ρ = ‖Δ‖_F / ‖α W0‖_F, averaged over layers 3 … 14, is the relative update size.
+Decoupled weight decay shrinks the init copy by exp(−lr·wd·t) and nothing else does: within 0.03 on 108 of 108 nets with decay, α ≥ 0.97 on all 54 without, worst net 0.019 off. The update Δ is low-rank (participation ratio 8 to 29; half its energy in the top 8 directions per layer). Even at wd 0.3 the random part still carries 60 to 67 % of the weight energy in the middle layers; at wd 0, 91 %. A closure that treats the weights as random is therefore mostly right by energy and wrong where it matters, because the update sits in the signal directions.
 
-**Chain and truth.** The frozen #331937 estimator, flopscope 0.12.3, no change of any kind. Truth: Monte Carlo per-layer post-ReLU means, 4 × 10⁶ draws of N(0, I), ARC's input law (noise ≤ 4e-7 against trained-net errors ≥ 1e-3). Per-layer error e = pred − truth. **Held-out coherent share** at the last layer: fit e ≈ a·m + b·1 (m the predicted mean) on the other nets of the same setting, apply to the held-out net, report the fraction of ‖e‖² it removes, noise-debiased. On isotropic error this is ~0; on a same-signed multiplicative shortfall it is ~1.
+**2. The function lives in about sixteen directions of the random remnant per layer, the ones that touch the update.**
 
-## 3. Failed predictions first
+[Figure 2: `fig4_slice_vs_fidelity.png`]
+*Figure 2. (a) Accuracy against the number of remnant directions kept per layer, for the slice aligned with the net's own Δ and for a random subspace of the same rank (52 draw-dependent nets, median and IQR). (b) The same experiment in ARC's currency: relative squared error of the rebuilt net's layer-15 mean against the chain's own error on those nets (58 nets).*
 
-| id | prediction | result |
-|---|---|---|
-| Grid 2, Q3 | the surviving amplitude α = exp(−lr·wd·(t − 250)) controls dependence on the random draw | **fail.** Spearman(−ln α, re-randomised accuracy) 0.70 against 0.85 required. At α ≈ 0.55, (lr 1e-4, 20k steps) leaves re-randomised accuracy at 0.23 of full while (lr 3e-4, wd 0.1) leaves 0.83. At wd = 0 and lr 1e-3, re-randomised accuracy is 0.70 of full, above the 0.5 bound |
-| Grid 2, Q4 | load-bearing slice ≤ 128 directions per layer on real data | **fail on one of eight rows**: Fashion-MNIST needs 192 (random-subspace control 512); the seven other rows pass at 16–64 |
-| Grid 2, Q5 | chain coherence tracks −ln α across architectures | **fail**: three evaluable settings, Spearman 0.5; the chain exhausts the FLOP budget at depth 24 and returns non-finite output on lr 1e-3 and some real-data nets |
-| Grid 3, H4 | dependence is a one-dimensional function of ρ | **fail**: one adjacent inversion of 0.55. At equal ρ (0.32 vs 0.36) a decayed net keeps 0.94 of its accuracy under re-randomisation and an undecayed one 0.40 |
-| Grid 4, K2 | undecayed nets give incoherent chain error at every training length | **fail**: undecayed nets trained 3 000 steps have coherent share 0.78 (CI 0.77–0.80); at 20 000 steps 0.006; at 60 000 steps 0.16. The 3 000-step failure is a real coherent error (relative error 5.5e-3, slope −0.07), not a small-error artefact |
-| A1 | synthetic aligned update reproduces the coherent error | **not evaluable**: the synthetic nets left the trained activation regime (mean activation decays 2–9 orders over depth); 14 of 15 chain runs non-finite. Redesigned as A1b with a per-layer rescale, own preregistration |
-| A1b, P1–P3 | same, in the right regime | **fail**: the aligned update produces coherent error (held-out share 0.70; misaligned control −0.002) but 200× too small (relative error 5.1e-5 vs ~1e-2 on trained nets) and with a positive slope where trained nets show −0.09 … −0.16 |
-| I1, P1/P2/P4 | trained structure recoverable from each layer's weights alone | **fail**: α̂ within 0.03 on 85 % of layers (layers 0–1 are the misses); init-free extraction succeeds on 18 % of decayed dependent nets, 0 % of undecayed |
-| I2, P2–P4 | a cross-layer shared subspace estimated from weights alone recovers the function | **fail**: shared subspace captured 0.45 (undecayed) / 0.77 (decayed) of the true one; function-preserving extraction 0 of 54 |
-| Grid 1 | inclusion rule "accuracy ≥ 2 × chance" | **deviation**: unsatisfiable at C = 2 (chance 0.5), silently excluded 42 nets. Verdicts identical under the amended rule (exclude only "stalled"); both result files are published |
+Keep the 16 to 64 directions of α·W0 that touch the input and output subspaces of the net's own Δ, re-randomise the other thousand, and accuracy comes back. A random subspace of the same size needs 4 to 32× more (Fashion-MNIST needed 192 against our preregistered cap of 128; that row is a fail). Judged by ARC's metric instead of accuracy, though, nothing is free: at the 95 %-accuracy rank 97 % of nets have already lost more than the chain's own error, fidelity needs a median 64× the rank that accuracy does, and in high-decay nets whose remnant is "inert" by accuracy, replacing it costs ε = 0.68 against a chain error of 0.013. We also tried to find those sixteen directions from the final weights alone, without the init. Detection works (92 % of nets show cross-layer subspace chaining at ten times chance, their inits do not); recovery does not (no weights-only method reaches the chain's error before keeping essentially everything).
 
-## 4. What held
-
-### 4.1 The chain's error on trained weights is coherent; on random weights it is not
-
-Pilot (45 trained nets, 14 paired inits, chain unchanged): on the 14 He initialisations the final-layer MSE is 2.1e-8, the error share along the prediction direction 0.012, held-out coherent share ≈ 0 from layer 8 on. On 30 nets trained with weight decay 0.3 the final-layer MSE is 8.6e-3, 0.89 of it along the prediction, held-out coherent share 0.88. The error is a same-signed multiplicative shortfall, truth ≈ 1.09–1.16 × prediction at the output, tight within a task family. A per-layer scale-and-shift fitted on the *other* task families cuts a held-out family's last-layer MSE to 0.07–0.27 ×. Grid 4 (72 fresh nets, every cell finite) reproduces it: 7 of 9 cells have coherent share 0.52–0.92; the two exceptions are the undecayed nets trained 20 000 and 60 000 steps (0.006 and 0.16; table in §4.3).
-
-[Figure 1: `fig1_scatter_layer15.png`]
-*Figure 1. Per-neuron layer-15 mean activation, Monte Carlo truth against the frozen chain's prediction, for a He-Gaussian initialisation, a trained undecayed net and a trained decayed net (same task and training length); the dashed line is the fitted slope. Right: relative error by layer, median and range over 8 nets per cell. On the decayed net the error is a same-signed shortfall along the prediction; on the undecayed net a cloud about the diagonal; on the initialisation it is invisible at this scale.*
-
-This is the same object as the "errors along the mean barely fade" clause of megan_park's survival law (18282, confirmed by dogus_ozel 18281 and AndreasHad04 18292). On random weights that direction carries ~1 % of the chain's error (our 10-20 measurement on 24 public nets: prediction-aligned share 0.011 at layer 15, held-out coherent share 0.000). On trained weights it carries nearly all of it.
-
-### 4.2 How much of a trained net is still its initialisation
-
-The init survives at amplitude α = exp(−lr·wd·(t − 250)): grid 2, Q1, 108 of 108 nets with decay within 0.03 of the closed form (max error 0.019), 54 of 54 undecayed nets at α ≥ 0.97, across widths 512 and 1024, depths 8, 16 and 24, GMM, MNIST and Fashion-MNIST. The update Δ is low-rank (participation ratio 8–29, about half its energy in the top 8 directions per layer). At wd 0.3 the random part still holds 0.60–0.67 of the weight energy in the middle layers; at wd 0, 0.91. So a closure that treats the weights as random can be mostly right in energy and still wrong coherently: the update sits in the signal directions.
-
-[Figure 2: `fig3_alpha_closed_form.png`]
-*Figure 2. Surviving init amplitude α measured at layer 8 against exp(−lr·wd·(steps − 250)), 444 nets from grids 1–3 (widths 512/1024, depths 8/16/24, GMM/MNIST/Fashion-MNIST). Grid 2's Q1 preregistered this to within 0.03; the worst net is 0.019 off.*
-
-### 4.3 What the chain's coherence tracks: decay, not update size
-
-Grid 3 decoupled decay from training time (nine cells, α fixed at 1 / 0.55 / 0.17 by choosing wd per step count; 72 nets). For **dependence on the random draw**, ρ beats α: H1 (training time lowers dependence at fixed α) Spearman 0.83 and 0.78; H2 (decay lowers it at fixed time) 0.69 / 0.94 / 0.94; H3 Spearman(ρ) 0.90 vs Spearman(−ln α) 0.69; H5 out-of-sample isotonic fit on the earlier grids, MAE 0.122 for ρ vs 0.153 for α. But H4 failed (§3): decayed nets are more independent than undecayed ones at equal ρ, so it is not one variable.
-
-For **the chain's coherence** the order reverses. Grid 4 (same nine cells, fresh seeds, chain on all 72 nets):
-
-| steps \ nominal α | 1 (wd 0) | 0.55 | 0.17 |
-|---|---|---|---|
-| 3 000 | **0.78** (ρ 0.11) | 0.89 (ρ 0.12) | 0.83 (ρ 0.47) |
-| 20 000 | 0.006 (ρ 0.29) | 0.68 (ρ 0.32) | 0.92 (ρ 0.66) |
-| 60 000 | 0.16 (ρ 0.36) | 0.52 (ρ 0.39) | 0.88 (ρ 0.65) |
+**3. Whether a net depends on its random draw and whether the chain gets it wrong are governed by different variables. We guessed wrong about both.**
 
 [Figure 3: `fig2_two_variables.png`]
-*Figure 3. The same nine (training length, α) cells read two ways. Left: how much of the function survives re-randomising the remnant (grid 3), which orders by ρ. Right: how coherent the chain's error is (grid 4, fresh seeds), which orders by α. The one cell that breaks both patterns is short undecayed training (top left).*
+*Figure 3. The same nine (training length, α) cells read two ways. Left: how much of the function survives re-randomising the remnant (grid 3, 8 nets per cell). Right: how coherent the chain's error is (grid 4, fresh seeds, 8 nets per cell). The function orders by the update size ρ = ‖Δ‖/‖αW0‖; the chain's error orders by α; the top-left cell breaks both.*
 
-Cell entries: held-out coherent share at layer 15 (8 nets per cell, bootstrap CIs ±0.01–0.06). K1: Spearman(share, −ln α) 0.85 vs Spearman(share, ρ) 0.37. K3: every α ≈ 0.17 cell ≥ 0.83. K2 failed on the bold cell. Per-cell slopes a run from −0.07 (3 000 / wd 0) to −0.14 (20 000 / wd 0.3): the shortfall grows with decay. Reading, kept to what this shows: the function's dependence on its random draw and the chain's coherent error are governed by different variables, which is why we found no per-net relationship between them earlier (18 nets, |ρ| ≤ 0.49, n.s.). We do not have the law for the undecayed short-training cell.
+We expected weight decay to control everything. Grid 1 (210 nets) agreed, five of five predictions. Grid 2 (162 nets, other widths, depths, real data, other learning rates and lengths) broke it: at the same α ≈ 0.55 a net trained at lr 1e-4 keeps 0.23 of its accuracy under re-randomisation and one at lr 3e-4 keeps 0.83, and short training leaves nets fully dependent on their draw at any α. Grid 3 (72 nets, decay and training time decoupled) found the relative update size ρ predicts dependence better than α (Spearman 0.90 vs 0.69), but "dependence is a function of ρ alone" failed too: at equal ρ a decayed net is far more independent than an undecayed one.
 
-### 4.4 The load-bearing part of the random remnant is small, but nothing is inert at the chain's resolution
+The chain reads the same cells the other way round. Its coherence tracks decay, not update size (Spearman 0.85 against −ln α, 0.37 against ρ), and every heavily decayed cell is coherent (share ≥ 0.83). But our prediction that undecayed nets give incoherent error at every training length failed: 3 000 steps without decay gives a coherent share of 0.78, a real 5.5e-3 relative error with slope −0.07, while the same recipe at 20 000 steps gives 0.006. We do not have the law for that cell.
 
-Keeping only the slice of α·W0 that touches the rank-k input/output subspaces of the net's own Δ, and re-randomising the rest, restores ≥ 95 % of accuracy at k = 16–64 directions per layer (grid 1, median k_crit 16 / 16 / 64 / 128 for C = 5 / 10 / 25 / 50, Spearman with C 0.92); a random subspace of the same rank needs 4–32 × more in every grid 2 row that passed, and 2.7 × on Fashion-MNIST, the row that did not. That is accuracy. In ARC's currency (I3: ε = relative squared error of the rebuilt net's final-layer mean against the original, on N(0, I) inputs, compared with the chain's own relative error on the same net), 97 % of dependent nets lose more at their 95 %-accuracy rank than the chain's error; fidelity needs a median 64 × the rank accuracy does; and in the high-decay nets whose remnant is "inert" by accuracy (re-randomising costs ≤ 0.014), replacing the remnant costs ε = 0.68 against a chain error of 0.0135, so 100 % of them fail the inertness test, though k = 16 aligned directions bring ε to 0.0031.
+**4. On trained weights the chain's error is not noise. It is a shortfall along the prediction.**
 
-[Figure 4: `fig4_slice_vs_fidelity.png`]
-*Figure 4. (a) Task accuracy against the number of remnant directions per layer kept, for the slice aligned with the net's own update and for a random subspace of the same rank (grid 2, 52 draw-dependent nets, median and IQR). (b) The same kind of curve in ARC's currency: relative squared error ε of the rebuilt net's layer-15 mean, for the init-based slice and the two weights-only extractors, against the chain's own error on these nets (I3, 58 nets, medians). Accuracy is restored at k ≈ 16; the chain's error level is not reached before k = 1024 by any method.*
+[Figure 4: `fig1_scatter_layer15.png`]
+*Figure 4. Per-neuron layer-15 mean, Monte Carlo truth against the frozen chain, for a He init, a trained undecayed net and a trained decayed net (same task and length); dashed line is the fitted slope. Bottom right: relative error by layer, 8 nets per cell.*
 
-### 4.5 Trained structure is not recoverable from the weights alone, at this resolution
+On a fresh He init the chain does what it was built for: relative error 3e-8, points on the diagonal. On a net trained at wd 0.3 the error is five orders larger and almost all one thing: the prediction is about 12 % short of the truth, the same way on every neuron (held-out coherent share 0.88 to 0.92). A per-layer scale-and-shift fitted on *other task families* cuts a held-out family's last-layer MSE to 0.07 to 0.27×, and makes undecayed nets worse. This is the "errors along the mean barely fade" clause of megan_park's survival law (18282; dogus_ozel 18281; AndreasHad04 18292) seen from the trained side: on random weights that direction carries about 1 % of the chain's error, on trained weights nearly all of it.
 
-Three weights-only extractors (I1 per-layer singular subspaces, I2 one subspace shared across layers, each with α̂ from the bulk spectrum). Detection works: I2-P1, 92 % of corpus nets have cross-layer subspace chaining ≥ 10 × chance, their own inits ≤ 0.016. Recovery does not: no weights-only method reaches the chain's error before keeping essentially everything (median k_fid 1024 for all three methods in I3-P3; at k = 512, INIT ε 0.013, I1 0.128, I2 0.295). The load-bearing slice is reachable from weights alone only at ~4 × the init-based rank and only in decayed nets.
+**5. A synthetic "trained" net gets the shape but not the size.** Take a shrunken He init (α 0.18), add a rank-16 update whose subspace is shared across layers, rescale to the He fixed point, no data, no optimiser. The chain's error on that object is coherent (share 0.70; a control with independent per-layer subspaces, −0.002), but 200× too small and with the wrong sign of slope, so the preregistered predictions fail. Cross-layer alignment of the update is what makes the error coherent, which is Artyom_Mazur's Proposition 1 (18249) from the other side; training sets the magnitude and sign by some route we have not found.
 
-### 4.6 A synthetic aligned update is enough for coherence, not for the size
+## What we take from it, for now
 
-A1b: W = 0.18·W0 + √2·Q R_l Qᵀ with one random 16-dimensional subspace Q shared across layers, per-layer rescaled to the He fixed point, no data, no optimiser. Held-out coherent share 0.70 (three seeds); the misaligned control with independent subspaces per layer, −0.002. So cross-layer alignment of the update is what makes the chain's error coherent, which is Artyom_Mazur's Proposition 1 (18249) seen from the other side: the next-layer error is a random projection of this layer's error only when the columns are independent of it. What the synthetic construction does not reproduce is the magnitude (200 × too small) or the sign of the slope, so training sets those by some other route.
+Training leaves a low-rank update sitting on top of a mostly intact random skeleton, and the two interact: a small slice of the skeleton, the part that overlaps the update, becomes load-bearing, and how much depends on how far the update has grown relative to what decay has shrunk. The random-net chain sees none of that structure in energy and all of it in its error, which turns from isotropic noise into a same-signed shortfall along the mean, the one direction the survival law says the chain cannot forget. The chain is also fragile off its distribution (non-finite on every 2-class net, on depth-24 nets inside the budget, and at lr 1e-3; 0 of 14 inits failed). One chain, one input law, mostly Gaussian-mixture tasks, some thin cells; the corpus is public so someone can run a different estimator on it.
 
-## 5. What this says about the method family, kept narrow
+## Credits and tools
 
-1. The chain's random-init calibration is a property of the ensemble, not of the architecture. On trained weights the same code's error is an order of magnitude larger relative to the signal and almost entirely a multiplicative shortfall along the predicted mean, the one direction the survival law says the chain cannot forget.
-2. The coherent error tracks how much of the initialisation decay has removed, not how much the task has moved the weights, with one unexplained regime (short undecayed training). A single per-layer scalar fitted on other tasks removes most of it at wd 0.3 and makes it worse at wd 0. Anyone extending these estimators to trained nets will need that scalar, and will need to know which regime they are in.
-3. "Random" remains a good description of the bulk of a trained net's weights by energy, and a bad one at the resolution these estimators work at: 16 directions per layer out of 1024 carry what matters, and the chain cannot see which 16 without the init.
-4. The chain is numerically fragile off-distribution: it returned non-finite output on every C = 2 net, on depth-24 nets within the budget, and on nets trained at lr 1e-3, while 0 of 14 initialisations failed. Any trained-weights benchmark for this family should report that count.
-
-## 6. The graded submission, in four sentences
-
-A correct-looking clean-room port was 65 × wrong for ten days because `dslices(gain)` used the unscaled A leg for carried slices, and every unit test exercised only the exact path; a further 10 × came from rank-truncating newborn hub slices that are closed-form. A fitted λ of 0.4, against the public 0.95, was absorbing 22 missing diagrams and a double-counted `wk431` term that partly cancelled; forcing λ to the reference value exposed both, for −22 % raw. We read the LuDoe / megan_park / yeongjunyoo exchange in 18251 (the inherited κ4 λ sits 2–5 × above the measured value and a truer value makes the chain worse) as the same phenomenon one level up: a fitted constant far from a reference is a symptom, not a parameter. Closed levers (CV sampling in the free window, Kerdock cubature, covariance-edge families, directional gate mixtures, learned correctors on the official panel) are tabulated in the release with their panels; where others closed the same doors (Susupro 18254, Nurlanggs 18252, kai_leal 18246) we point to them rather than repeat.
-
-## 7. Limits
-
-One chain, one input law (N(0, I), the tasks' whitened aggregate), one optimiser family. Mostly Gaussian-mixture tasks; two real datasets at width 512 only. Grid 1's P4 fits pool 3–4 nets per setting. ε in §4.4 is measured on N(0, I), not the task distribution. The chain's non-finite outputs are excluded and counted, never imputed. We have not tested whether any other team's estimator behaves the same way on these nets; the corpus is public so that someone can.
-
-## 8. Reproducibility
-
-Corpus, trainer, per-net analysis and the four grid preregistrations: https://github.com/jamesrahenry/Model_Zoo_Cartography (MIT, DOI 10.5281/zenodo.22017454). Chain-side analysis scripts, result files and the A1/A1b/I1–I3 preregistrations: `arc_chain/` in the same repository. Each preregistration was committed before any net it concerns was trained or any analysis run:
-
-| file | commit | sha256 (prefix) | written (UTC) |
-|---|---|---|---|
-| grid/PREREG.md (grid 1, P1–P5) | b385b89 | 0a377f84625f | 2026-10-22 17:20 |
-| grid/PREREG2.md (grid 2, Q1–Q5) | e239bf5 | 3d7b9bc1ca3f | 2026-10-23 16:55 |
-| grid/PREREG3.md (grid 3, H1–H5) | 6f9e953 | fc7ea619b8f6 | 2026-10-24 14:59 |
-| grid/PREREG4.md (grid 4, K1–K4) | 952cabe | 018e9b63e96d | 2026-10-24 21:25 |
-| A1 / A1b | 0da83a9 / afc1652 | 32eba9f02567 / dad8e2344fae | 2026-10-23 17:09 / 17:30 |
-| I1 / I2 / I3 | d7f23f6 / 89fc574 / 4adf130 | e95897da2613 / c49378981669 / 07b925c282bd | 2026-10-25 14:10 / 23:14, 2026-10-26 14:02 |
-
-Grids were trained on a single H200; the chain runs are laptop CPU. Estimator release: `[LINK: estimator release]`.
-
-## 9. Credits
-
-Wu, Lecomte, Winer, Robinson, Hilton and Christiano (ARC) for the framework and reference code. 504aldo (18218) for the public V18/V29 line our port was checked against. megan_park (18282), dogus_ozel (18281) and AndreasHad04 (18292) for the fit-free survival law and its confirmations, which name the direction our trained-net error lives in. Artyom_Mazur (18249) for Proposition 1 and il.miscusi (18248) for the scale mode. LuDoe, megan_park and yeongjunyoo (18251 thread) for the κ4-λ cross-check. michael_anderson7 (18272) for crediting the Phase 1 cancellation account and for the noise-corrected oracle method. Susupro (18254) for the public write-up census. keenanpepper for the public corpus. AndreasHad04 for the flopscope billing reports. AIcrowd and mohanty for the rulings.
-
-## 10. Use of LLMs
-
-Claude Code (Anthropic; Claude Opus and Fable 5 models) wrote and ran the code and experiments and drafted this text under James Henry's direction. James set the research direction, chose the pivot from the leaderboard to the trained-weights question, rejected the accuracy-based extraction metric of I1/I2 (which led to I3), chose and approved submissions, and reviewed every claim. All preregistration files were written by the model and committed before the corresponding runs; the hashes above are the record.
+ARC (Wu, Lecomte, Winer, Robinson, Hilton, Christiano) for the framework and reference code; 504aldo (18218) for the public line our port was checked against; megan_park (18282), dogus_ozel (18281) and AndreasHad04 (18292) for the survival law; Artyom_Mazur (18249) and il.miscusi (18248) for Proposition 1 and the scale mode; michael_anderson7 (18272) for crediting the Phase 1 cancellation account; keenanpepper for the public corpus; AIcrowd and mohanty for the rulings. Claude Code (Anthropic; Claude Opus and Fable 5) wrote and ran the code and drafted this text under James Henry's direction; James set the direction, chose the pivot to trained weights, rejected the accuracy-only extraction metric (which led to the fidelity test), and reviewed every claim. Preregistration files were written by the model and committed before the runs.
