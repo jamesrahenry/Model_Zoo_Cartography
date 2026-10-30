@@ -53,3 +53,21 @@ def triage(Ws, k=16, detect_factor=10.0):
     return dict(n=n, depth=len(Ws), k=k, alpha_hat=ah, alpha_hat_trusted_mean=float(np.mean(ah[2:])) if len(ah) > 2 else None,
                 outliers=outl, chain_score=S, chance=chance, chain_over_chance=S / chance, structure_detected=bool(S >= detect_factor * chance),
                 note="alpha_hat is unreliable at layers 0-1; the chain score says that and roughly where structure exists, not what it is")
+
+
+def chained_subspaces(Ws, k=16):
+    """Weights-only cross-layer subspaces. V_l: top-k right singular vectors of the prefix product W_0...W_l (output-side directions that receive the most
+    accumulated gain); U_l: top-k left singular vectors of the suffix product W_l...W_{L-1} (input-side directions the remaining layers amplify most);
+    products are rescaled after every multiplication. In 64 low-/no-decay nets that depend on their random draw, rebuilding each layer from the part of W touching these
+    subspaces (rest replaced by a fresh He draw at alpha_hat) kept 95% of accuracy at k = 16 in 77% of nets (per-layer singular subspaces: 5%; random subspace: median k 1024),
+    but only 14% reached the fidelity of a cumulant estimator, and the subspaces do not coincide with the update's own (capture 0.47)."""
+    D = len(Ws); Wd = [np.asarray(W, dtype=np.float64) for W in Ws]
+    V, U = [], [None] * D; P = None
+    for l in range(D):
+        P = Wd[l] if P is None else P @ Wd[l]; P = P / np.linalg.norm(P)
+        V.append(np.linalg.svd(P)[2][:k].T)
+    S = None
+    for l in reversed(range(D)):
+        S = Wd[l] if S is None else Wd[l] @ S; S = S / np.linalg.norm(S)
+        U[l] = np.linalg.svd(S)[0][:, :k]
+    return U, V

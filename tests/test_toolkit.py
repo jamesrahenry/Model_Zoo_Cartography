@@ -1,7 +1,7 @@
 """mzc_toolkit on small synthetic nets (n = 256, depth 6): He random vs shrunken-remnant-plus-shared-update."""
 import numpy as np
 import pytest
-from mzc_toolkit import (alpha_hat, triage, decompose, rebuild_with_slice, fidelity_curve, he_reference, load_layers)
+from mzc_toolkit import (chained_subspaces, alpha_hat, triage, decompose, rebuild_with_slice, fidelity_curve, he_reference, load_layers)
 
 N, D, R = 256, 6, 8
 
@@ -53,3 +53,15 @@ def test_load_layers_requires_keys(tmp_path):
     p = tmp_path / "net.npz"; np.savez(p, w0=np.eye(3), w1=np.eye(3), init_w0=np.eye(3))
     assert len(load_layers(p)) == 2 and len(load_layers(p, "init_w")) == 1
     with pytest.raises(KeyError): load_layers(p, "nope")
+
+
+def test_chained_subspaces_find_the_shared_update_subspace():
+    rng = np.random.default_rng(7); Ws, _ = trained_like(8)
+    # the shared subspace Q used by trained_like: regenerate it with the same seed stream
+    rng = np.random.default_rng(8); he_net(8); Q = np.linalg.qr(rng.standard_normal((N, R)))[0]
+    U, V = chained_subspaces(Ws, k=R)
+    mid = range(2, D - 1)
+    cap = np.mean([np.sum((V[l].T @ Q) ** 2) / R for l in mid]); chance = R / N
+    assert cap > 0.5 and cap > 10 * chance, (cap, chance)
+    Wr = he_net(9); Ur, Vr = chained_subspaces(Wr, k=R)
+    assert np.mean([np.sum((Vr[l].T @ Q) ** 2) / R for l in mid]) < 0.2        # a random net has no preferred subspace

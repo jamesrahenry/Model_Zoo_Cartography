@@ -8,10 +8,10 @@ Measured accuracy and failure regimes of every instrument are in README.md.
 import os
 for _v in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):   # 1024 x 1024 SVDs are ~20x slower with one thread per visible core
     os.environ.setdefault(_v, "4")
-from .spectral import he_reference, alpha_hat, layer_subspaces, chain_score, outlier_count, triage
+from .spectral import he_reference, alpha_hat, layer_subspaces, chained_subspaces, chain_score, outlier_count, triage
 from .decompose import decompose, aligned_slice_layer, rebuild_with_slice
 from .verify import mean_activation, fidelity_curve, accuracy
 from .io import load_layers
 
-__all__ = ["he_reference", "alpha_hat", "layer_subspaces", "chain_score", "outlier_count", "triage",
+__all__ = ["he_reference", "alpha_hat", "layer_subspaces", "chained_subspaces", "chain_score", "outlier_count", "triage",
            "decompose", "aligned_slice_layer", "rebuild_with_slice", "mean_activation", "fidelity_curve", "accuracy", "load_layers"]
